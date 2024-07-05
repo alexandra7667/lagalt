@@ -35,15 +35,20 @@ public class User {
     private String password;
 
     /*
-    //Projects this user owns
+    //Projects this user owns. A user can own many projects. A project can have only one owner
     @OneToMany(mappedBy = "user")
     @JsonIgnoreProperties("user")
     private List<Project> ownedProjects;
 
     //Projects this user is a collaborator of
-    @OneToMany(mappedBy = "user")
+    @ManyToMany(mappedBy = "user")
     @JsonIgnoreProperties("user")
     private List<Project> collaborationProjects;
+
+    //Projects this user has applied to but not yet been accepted
+    @ManyToMany(mappedBy = "user")
+    @JsonIgnoreProperties("user")
+    private List<Project> appliedProjects;
      */
 
     public User(String email, String password) {
