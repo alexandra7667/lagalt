@@ -1,6 +1,7 @@
 package com.lagaltcase.lagalt_be.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.lagaltcase.lagalt_be.project.Project;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -8,6 +9,8 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -34,22 +37,21 @@ public class User {
     @Column
     private String password;
 
-    /*
     //Projects this user owns. A user can own many projects. A project can have only one owner
     @OneToMany(mappedBy = "user")
     @JsonIgnoreProperties("user")
-    private List<Project> ownedProjects;
+    private List<Project> ownedProjects  = new ArrayList<>();
 
     //Projects this user is a collaborator of
-    @ManyToMany(mappedBy = "user")
-    @JsonIgnoreProperties("user")
-    private List<Project> collaborationProjects;
+    @ManyToMany(mappedBy = "collaborators")
+    @JsonIgnoreProperties("collaborators")
+    private List<Project> collaborationProjects = new ArrayList<>();
 
     //Projects this user has applied to but not yet been accepted
-    @ManyToMany(mappedBy = "user")
-    @JsonIgnoreProperties("user")
-    private List<Project> appliedProjects;
-     */
+    @ManyToMany(mappedBy = "applicants")
+    @JsonIgnoreProperties("applicants")
+    private List<Project> applicationProjects = new ArrayList<>();
+
 
     public User(String email, String password) {
         this.screenName = "john doe"; //Replace with randomly generated name

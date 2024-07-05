@@ -1,6 +1,7 @@
 package com.lagaltcase.lagalt_be.project;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.lagaltcase.lagalt_be.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -33,7 +34,7 @@ public class Project {
 
     //A project can have many messages
     //A message belongs to one project
-    //mappedBy = "project_id" means that Project is the owning side of the relationship
+    //mappedBy = "project" means that Project is the owning side of the relationship
     //cascade means to delete all messages if the project is deleted
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<Message> messageBoard = new ArrayList<>();
@@ -43,13 +44,25 @@ public class Project {
     @JsonIgnore //Do not include user's details when returning a project as JSON file. Can be removed if we use DTOs
     private User user;
 
-    @ManyToMany //A project can have many collaborators. A user can be a collaborator of many projects
-    @JoinColumn(name = "user_id", nullable = false)
-    private List<User> collaborators;
+    //Create an in-between table for a many to many relationship
+    @ManyToMany
+    @JoinTable(
+            name = "user_collaboration_projects",
+            joinColumns = @JoinColumn(name = "project_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    @JsonIgnoreProperties("collaborationProjects")
+    private List<User> collaborators = new ArrayList<>();
 
-    @ManyToMany //A project can have many applicants. A user can be an applicant of many projects
-    @JoinColumn(name = "user_id", nullable = false)
-    private List<User> applicants;
+    @ManyToMany
+    @JoinTable(
+            name = "user_application_projects",
+            joinColumns = @JoinColumn(name = "project_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    @JsonIgnoreProperties("applicationProjects")
+    private List<User> applicants = new ArrayList<>();
+
 
     public Project(String title, String description, String websiteUrl) {
         this.title = title;
