@@ -8,6 +8,6 @@ public class LagaltBeApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(LagaltBeApplication.class, args);
+		//System.out.println("Hello from app");
 	}
-
 }
