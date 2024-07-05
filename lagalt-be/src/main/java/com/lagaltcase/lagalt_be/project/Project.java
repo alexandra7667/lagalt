@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -30,7 +31,12 @@ public class Project {
     @Column
     private String websiteUrl;
 
-    //Add message board
+    //A project can have many messages
+    //A message belongs to one project
+    //mappedBy = "project_id" indicates that the Project entity is the owning side of the relationship
+    //cascade means to delete all messages if the project is deleted
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    private List<Message> messageBoard = new ArrayList<>();
 
     @ManyToOne  //A project has only one owner. One user can own many projects
     @JoinColumn(name = "user_id", nullable = false)
