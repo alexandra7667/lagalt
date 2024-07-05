@@ -33,7 +33,7 @@ public class Project {
 
     //A project can have many messages
     //A message belongs to one project
-    //mappedBy = "project_id" indicates that the Project entity is the owning side of the relationship
+    //mappedBy = "project_id" means that Project is the owning side of the relationship
     //cascade means to delete all messages if the project is deleted
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<Message> messageBoard = new ArrayList<>();
