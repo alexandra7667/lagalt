@@ -1,6 +1,7 @@
 package com.lagaltcase.lagalt_be.user;
 
 
+import com.lagaltcase.lagalt_be.project.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +17,9 @@ public class UserController {
     private UserRepository userRepository;
 
     //Lägg till Project Repo
+    @Autowired
+    private ProjectRepository projectRepository;
 
-    @GetMapping
-    public String sayHi() {
-        return "Hi";
-    }
 
     @PostMapping
     public ResponseEntity<?> createUser(@RequestBody User user) {
