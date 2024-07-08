@@ -9,6 +9,8 @@ servers:
   - url: http://localhost:4000
 tags:
   - name: users
+  - name: projects
+
 paths:
   /users:
     post:
@@ -66,6 +68,63 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
 
+  /projects:
+    post:
+      tags:
+        - projects
+      summary: Create a project
+      description: Create a new project
+      operationId: createProject
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProjectRequest'
+      responses:
+        '201':
+          description: Successfully created a new project
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+    get:
+      tags:
+        - projects
+      summary: Get all projects
+      description: Get a list of all projects
+      operationId: getProjects
+      responses:
+        '200':
+          description: A list of all projects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllProjectsResponse'
+
+  /projects/{projectId}:
+    get:
+      tags:
+        - projects
+      summary: Get a project by id
+      description: Get a project by id
+      operationId: getProjectById
+      parameters:
+        - name: projectId
+          in: path
+          description: The ID of the project
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A project
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+
+
 components:
   schemas:
     CreateUserRequest:
@@ -96,3 +155,51 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/User'
+
+    CreateProjectRequest:
+      type: object
+      required: [ userId, title, description, category, websiteUrl ] ### necessary fields when creating a new project
+      properties:
+        userId:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: "Fun project"
+        description:
+          type: string
+          example: "This is a description of the project."
+        category:
+          type: string
+          example: "Web development"
+        websiteUrl:
+          type: string
+          example: "https://github.com/action"
+
+
+    Project:  ### the fields that will be in the return response when sending get request. maybe include lists of collaborators etc.
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: "Fun project"
+        description:
+          type: string
+          example: "A fun project for web development"
+        category:
+          type: string
+          example: "Web Development"
+        websiteUrl:
+          type: string
+          example: "https://github.com/boxinator"
+        status:
+          type: string
+          example: "Founding"
+
+    AllProjectsResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/Project'

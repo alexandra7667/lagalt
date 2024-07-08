@@ -30,7 +30,13 @@ public class Project {
     private String description;
 
     @Column
+    private String category;
+
+    @Column
     private String websiteUrl;
+
+    @Column
+    private String status;
 
     //A project can have many messages
     //A message belongs to one project
@@ -41,7 +47,7 @@ public class Project {
 
     @ManyToOne  //A project has only one owner. One user can own many projects
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnore //Do not include user's details when returning a project as JSON file. Can be removed if we use DTOs
+    @JsonIgnore //Do not include user's details when returning a project as JSON file. Can be removed if we use DTO that exclude User
     private User user;
 
     //Create an in-between table for a many to many relationship
@@ -51,7 +57,7 @@ public class Project {
             joinColumns = @JoinColumn(name = "project_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    @JsonIgnoreProperties("collaborationProjects")
+    @JsonIgnoreProperties("collaborationProjects") //Ignore the user's projects to avoid looping. List of collaborators will be returned
     private List<User> collaborators = new ArrayList<>();
 
     @ManyToMany
