@@ -71,9 +71,12 @@ public class Project {
     private List<User> applicants = new ArrayList<>();
 
 
-    public Project(String title, String description, String websiteUrl) {
+    public Project(String title, String description, String category, String websiteUrl, User user) {
         this.title = title;
         this.description = description;
+        this.category = category;
         this.websiteUrl = websiteUrl;
+        this.user = user;
+        this.status = "Founding";
     }
 }
