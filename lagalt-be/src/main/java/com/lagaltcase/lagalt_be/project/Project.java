@@ -2,6 +2,7 @@ package com.lagaltcase.lagalt_be.project;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.lagaltcase.lagalt_be.message.Message;
 import com.lagaltcase.lagalt_be.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;

@@ -10,6 +10,7 @@ servers:
 tags:
   - name: users
   - name: projects
+  - name: messages
 
 paths:
   /users:
@@ -124,6 +125,39 @@ paths:
               schema:
                 $ref: '#/components/schemas/Project'
 
+  /messages:
+    post:
+      tags:
+        - messages
+      summary: Create a message
+      description: Create a new message associated with a project
+      operationId: createMessage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMessageRequest'
+      responses:
+        '201':
+          description: Successfully created a new message
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+    get:
+      tags:
+        - messages
+      summary: Get all messages
+      description: Get a list of all messages
+      operationId: getMessages
+      responses:
+        '200':
+          description: A list of all messages
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllMessagesResponse'
 
 components:
   schemas:
@@ -176,7 +210,6 @@ components:
           type: string
           example: "https://github.com/action"
 
-
     Project:  ### the fields that will be in the return response when sending get request. maybe include lists of collaborators etc.
       type: object
       properties:
@@ -203,3 +236,35 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/Project'
+
+    CreateMessageRequest:
+      type: object
+      required: [ projectId, userId, message ]
+      properties:
+        projectId:
+          type: integer
+          example: 1
+        userId:
+          type: integer
+          example: 1
+        message:
+          type: string
+          example: "This is a new message."
+
+    Message:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        userId:
+          type: integer
+          example: 1
+        message:
+          type: string
+          example: "This is a new message."
+
+    AllMessagesResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/Message'

@@ -1,6 +1,5 @@
 package com.lagaltcase.lagalt_be.project;
 
-import com.lagaltcase.lagalt_be.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,5 +20,4 @@ public class ProjectRequest {
     private int newApplicantId;
     private String neededSkill;
     private String tag;
-    private Message newMessage; //Should be its own request
 }
