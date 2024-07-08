@@ -1,5 +1,7 @@
-package com.lagaltcase.lagalt_be.project;
+package com.lagaltcase.lagalt_be.message;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.lagaltcase.lagalt_be.project.Project;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,12 +18,13 @@ public class Message {
     private int id;
 
     @Column
-    private String userId;
+    private int userId;
 
     @Column
     private String message;
 
     @ManyToOne
     @JoinColumn(name = "project_id", nullable = false)
+    @JsonIgnore
     private Project project;
 }
