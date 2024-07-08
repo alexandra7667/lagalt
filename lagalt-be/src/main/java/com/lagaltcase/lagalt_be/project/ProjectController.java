@@ -1,12 +1,17 @@
 package com.lagaltcase.lagalt_be.project;
 
 
+import com.lagaltcase.lagalt_be.response.ErrorResponse;
+import com.lagaltcase.lagalt_be.response.ProjectListResponse;
+import com.lagaltcase.lagalt_be.response.ProjectResponse;
 import com.lagaltcase.lagalt_be.user.User;
 import com.lagaltcase.lagalt_be.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin(origins = "*") //Ändra till localhost
 @RestController
@@ -21,18 +26,24 @@ public class ProjectController {
     @PostMapping
     public ResponseEntity<?> createProject(@RequestBody ProjectRequest projectRequest) { //User id is sent as part of the body, not as a parameter according to case requirements
         User user = userRepository.findById(projectRequest.getUserId()).orElse(null);
-        if(user == null) return new ResponseEntity<>("No user found with that id", HttpStatus.NOT_FOUND);
 
-        //Do null check on projectRequest's properties. Also do sanitation
+        if (user == null) {
+            ErrorResponse errorResponse = new ErrorResponse();
+            errorResponse.set("No user with that id found.");
 
-        Project newProject = new Project(); //Non-null fields need to be set before saving to database
-        newProject.setTitle(projectRequest.getTitle());
-        newProject.setDescription(projectRequest.getDescription());
-        newProject.setCategory(projectRequest.getCategory());
-        newProject.setWebsiteUrl(projectRequest.getWebsiteUrl());
-        newProject.setUser(user);
-        final String initialStatus = "Founding";
-        newProject.setStatus(initialStatus);
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+        }
+
+        //TODO: Do null check on projectRequest's properties. Also do sanitation
+
+        //Create via Project's constructor
+        Project newProject = new Project(
+                projectRequest.getTitle(),
+                projectRequest.getDescription(),
+                projectRequest.getCategory(),
+                projectRequest.getWebsiteUrl(),
+                user
+        );
 
         Project savedProject = projectRepository.save(newProject);
 
@@ -41,25 +52,37 @@ public class ProjectController {
         //Update user to link the user-project relationship in the database
         userRepository.save(user);
 
-        return new ResponseEntity<>(savedProject, HttpStatus.CREATED);
+        ProjectResponse projectResponse = new ProjectResponse();
+        projectResponse.set(savedProject);
+
+        return new ResponseEntity<>(projectResponse, HttpStatus.CREATED);
     }
 
-//    @GetMapping
-//    public ResponseEntity<ProjectListResponse> getAllProjects() {
-//        List<Project> allProjects = this.projectRepository.findAll();
-//
-//        ProjectListResponse projectListResponse = new ProjectListResponse();
-//        projectListResponse.set(allUsers);
-//
-//        return ResponseEntity.ok(projectListResponse);
-//    }
+    @GetMapping
+    public ResponseEntity<ProjectListResponse> getAllProjects() {
+        List<Project> allProjects = this.projectRepository.findAll();
+
+        ProjectListResponse projectListResponse = new ProjectListResponse();
+        projectListResponse.set(allProjects);
+
+        return ResponseEntity.ok(projectListResponse);
+    }
 
     @GetMapping("/{projectId}")
     public ResponseEntity<?> getProject(@PathVariable int projectId) {
         Project project = projectRepository.findById(projectId).orElse(null);
-        if(project == null) return new ResponseEntity<>("No project found with that id", HttpStatus.NOT_FOUND);
 
-        return new ResponseEntity<>(project, HttpStatus.OK);
+        if (project == null) {
+            ErrorResponse errorResponse = new ErrorResponse();
+            errorResponse.set("No project with that id found.");
+
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+        }
+
+        ProjectResponse projectResponse = new ProjectResponse();
+        projectResponse.set(project);
+
+        return ResponseEntity.ok(projectResponse);
     }
 
     @PutMapping
@@ -74,7 +97,12 @@ public class ProjectController {
         if(projectRequest.getNewApplicantId() > 0) {
             User applicant = userRepository.findById(projectRequest.getNewApplicantId()).orElse(null);
 
-            if(applicant == null) return new ResponseEntity<>("No applicant user found with that id", HttpStatus.NOT_FOUND);
+            if (applicant == null) {
+                ErrorResponse errorResponse = new ErrorResponse();
+                errorResponse.set("No applicant user with that id found.");
+
+                return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+            }
 
             project.getApplicants().add(applicant);
             //Add project to applicant's list
@@ -86,7 +114,12 @@ public class ProjectController {
         if(projectRequest.getNewCollaboratorId() > 0) {
             User collaborator = userRepository.findById(projectRequest.getNewCollaboratorId()).orElse(null);
 
-            if(collaborator == null) return new ResponseEntity<>("No collaborator user found with that id", HttpStatus.NOT_FOUND);
+            if (collaborator == null) {
+                ErrorResponse errorResponse = new ErrorResponse();
+                errorResponse.set("No collaborator user with that id found.");
+
+                return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+            }
 
             project.getCollaborators().add(collaborator);
             collaborator.getCollaborationProjects().add(project);
@@ -98,12 +131,13 @@ public class ProjectController {
             userRepository.save(collaborator);
         }
 
-
-        //Add needed skill and tag
-
+        //TODO: Add needed skill and tag
 
         Project updatedProject = projectRepository.save(project);
 
-        return new ResponseEntity<>(updatedProject, HttpStatus.CREATED);
+        ProjectResponse projectResponse = new ProjectResponse();
+        projectResponse.set(updatedProject);
+
+        return new ResponseEntity<>(projectResponse, HttpStatus.CREATED);
     }
 }
