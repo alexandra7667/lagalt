@@ -61,6 +61,9 @@ public class Project {
     @JsonIgnore //Do not include user's details when returning a project as JSON file. Can be removed if we use DTO that exclude User
     private User user;
 
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    private List<Application> applications = new ArrayList<>();
+
     //Create an in-between table for a many to many relationship
     @ManyToMany
     @JoinTable(
@@ -70,15 +73,6 @@ public class Project {
     )
     @JsonIgnoreProperties("collaborationProjects") //Ignore the user's projects to avoid looping. List of collaborators will be returned
     private List<User> collaborators = new ArrayList<>();
-
-    @ManyToMany
-    @JoinTable(
-            name = "user_application_projects",
-            joinColumns = @JoinColumn(name = "project_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    @JsonIgnoreProperties("applicationProjects")
-    private List<User> applicants = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(

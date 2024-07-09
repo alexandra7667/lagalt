@@ -17,7 +17,7 @@ public class ProjectRequest {
     private int projectId;
     private String status;
     private int newCollaboratorId;
-    private int newApplicantId;
+    private String motivationalLetter;
     private String neededSkill;
     private String tag;
 }
