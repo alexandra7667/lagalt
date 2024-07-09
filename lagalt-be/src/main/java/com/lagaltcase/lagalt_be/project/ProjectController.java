@@ -1,6 +1,7 @@
 package com.lagaltcase.lagalt_be.project;
 
 
+import com.lagaltcase.lagalt_be.application.Application;
 import com.lagaltcase.lagalt_be.response.ErrorResponse;
 import com.lagaltcase.lagalt_be.response.ProjectListResponse;
 import com.lagaltcase.lagalt_be.response.ProjectResponse;
@@ -21,7 +22,6 @@ public class ProjectController {
     private ProjectRepository projectRepository;
     @Autowired
     private UserRepository userRepository;
-
 
     @PostMapping
     public ResponseEntity<?> createProject(@RequestBody ProjectRequest projectRequest) { //User id is sent as part of the body, not as a parameter according to case requirements
@@ -107,55 +107,6 @@ public class ProjectController {
             }
         }
 
-        if(projectRequest.getMotivationalLetter() != null) {
-            User applicant = userRepository.findById(projectRequest.getUserId()).orElse(null);
-
-            if (applicant == null) {
-                ErrorResponse errorResponse = new ErrorResponse();
-                errorResponse.set("No applicant user with that id found.");
-
-                return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
-            }
-
-            Application newApplication = new Application(
-                    applicant,
-                    project,
-                    projectRequest.getMotivationalLetter()
-            );
-
-            project.getApplications().add(newApplication);
-            //Add application to applicant's list
-            applicant.getApplications().add(newApplication);
-
-            userRepository.save(applicant);
-        }
-
-        //If a project owner accepts an application
-        if(projectRequest.getNewCollaboratorId() > 0) {
-            User collaborator = userRepository.findById(projectRequest.getNewCollaboratorId()).orElse(null);
-
-            if (collaborator == null) {
-                ErrorResponse errorResponse = new ErrorResponse();
-                errorResponse.set("No collaborator user with that id found.");
-
-                return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
-            }
-
-            project.getCollaborators().add(collaborator);
-            collaborator.getCollaborationProjects().add(project);
-
-            //Remove user as an applicant and remove application from user's list
-            List<Application> applications = project.getApplications();
-            for(Application application : applications) {
-                if(application.getUser() == collaborator) {
-                    applications.remove(application);
-                    collaborator.getApplications().remove(application);
-                }
-            }
-
-            userRepository.save(collaborator);
-        }
-
 
 
         //TODO: Add needed skill and tag
@@ -167,4 +118,6 @@ public class ProjectController {
 
         return new ResponseEntity<>(projectResponse, HttpStatus.CREATED);
     }
+
+
 }

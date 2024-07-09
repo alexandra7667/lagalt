@@ -1,7 +1,7 @@
 package com.lagaltcase.lagalt_be.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.lagaltcase.lagalt_be.project.Application;
+import com.lagaltcase.lagalt_be.application.Application;
 import com.lagaltcase.lagalt_be.project.Project;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -55,7 +55,7 @@ public class User {
     private List<Project> ownedProjects  = new ArrayList<>();
 
     //Projects this user has applied to but not yet been accepted to
-    @OneToMany(mappedBy = "user") //Add , cascade = CascadeType.ALL
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) //Updates in the Application repository will update user automatically
     private List<Application> applications = new ArrayList<>();
 
     //Projects this user is a collaborator of

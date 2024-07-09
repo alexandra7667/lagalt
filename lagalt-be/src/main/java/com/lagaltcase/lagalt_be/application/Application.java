@@ -1,6 +1,7 @@
-package com.lagaltcase.lagalt_be.project;
+package com.lagaltcase.lagalt_be.application;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.lagaltcase.lagalt_be.project.Project;
 import com.lagaltcase.lagalt_be.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
