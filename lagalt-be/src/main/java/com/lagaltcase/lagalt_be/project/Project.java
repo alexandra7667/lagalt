@@ -89,6 +89,15 @@ public class Project {
     @JsonIgnoreProperties("visitedProjects")
     private List<User> visitors = new ArrayList<>();
 
+    @ManyToMany
+    @JoinTable(
+            name = "user_contributed_projects",
+            joinColumns = @JoinColumn(name = "project_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    @JsonIgnoreProperties("contributedProjects")
+    private List<User> contributors = new ArrayList<>();
+
 
     public Project(String title, String description, String category, String websiteUrl, User user) {
         this.title = title;
