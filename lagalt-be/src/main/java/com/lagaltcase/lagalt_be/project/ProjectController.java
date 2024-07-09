@@ -107,8 +107,8 @@ public class ProjectController {
             }
         }
 
-        if(projectRequest.getNewApplicantId() > 0) {
-            User applicant = userRepository.findById(projectRequest.getNewApplicantId()).orElse(null);
+        if(projectRequest.getMotivationalLetter() != null) {
+            User applicant = userRepository.findById(projectRequest.getUserId()).orElse(null);
 
             if (applicant == null) {
                 ErrorResponse errorResponse = new ErrorResponse();
@@ -117,13 +117,20 @@ public class ProjectController {
                 return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
             }
 
-            project.getApplicants().add(applicant);
-            //Add project to applicant's list
-            applicant.getApplicationProjects().add(project);
+            Application newApplication = new Application(
+                    applicant,
+                    project,
+                    projectRequest.getMotivationalLetter()
+            );
+
+            project.getApplications().add(newApplication);
+            //Add application to applicant's list
+            applicant.getApplications().add(newApplication);
 
             userRepository.save(applicant);
         }
 
+        //If a project owner accepts an application
         if(projectRequest.getNewCollaboratorId() > 0) {
             User collaborator = userRepository.findById(projectRequest.getNewCollaboratorId()).orElse(null);
 
@@ -137,9 +144,14 @@ public class ProjectController {
             project.getCollaborators().add(collaborator);
             collaborator.getCollaborationProjects().add(project);
 
-            //Remove user as an applicant
-            project.getApplicants().remove(collaborator);
-            collaborator.getApplicationProjects().remove(project);
+            //Remove user as an applicant and remove application from user's list
+            List<Application> applications = project.getApplications();
+            for(Application application : applications) {
+                if(application.getUser() == collaborator) {
+                    applications.remove(application);
+                    collaborator.getApplications().remove(application);
+                }
+            }
 
             userRepository.save(collaborator);
         }

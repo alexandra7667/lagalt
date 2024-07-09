@@ -1,6 +1,7 @@
 package com.lagaltcase.lagalt_be.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.lagaltcase.lagalt_be.project.Application;
 import com.lagaltcase.lagalt_be.project.Project;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -53,22 +54,21 @@ public class User {
     @JsonIgnoreProperties("user")
     private List<Project> ownedProjects  = new ArrayList<>();
 
+    //Projects this user has applied to but not yet been accepted to
+    @OneToMany(mappedBy = "user") //Add , cascade = CascadeType.ALL
+    private List<Application> applications = new ArrayList<>();
+
     //Projects this user is a collaborator of
     @ManyToMany(mappedBy = "collaborators")
     @JsonIgnoreProperties("collaborators")
     private List<Project> collaborationProjects = new ArrayList<>();
-
-    //Projects this user has applied to but not yet been accepted to
-    @ManyToMany(mappedBy = "applicants")
-    @JsonIgnoreProperties("applicants")
-    private List<Project> applicationProjects = new ArrayList<>();
 
     //Projects this user has visited (clicked on)
     @ManyToMany(mappedBy = "visitors")
     @JsonIgnoreProperties("visitors")
     private List<Project> visitedProjects = new ArrayList<>();
 
-    //Projects this user has collaborated on that have status "Completed"
+    //Projects this user has collaborated on that have status "Completed" aka user's portfolio
     @ManyToMany(mappedBy = "contributors")
     @JsonIgnoreProperties("contributors")
     private List<Project> contributedProjects = new ArrayList<>();
