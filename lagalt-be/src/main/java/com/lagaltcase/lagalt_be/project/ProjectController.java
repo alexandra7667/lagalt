@@ -91,8 +91,21 @@ public class ProjectController {
         if(project == null) return new ResponseEntity<>("No project found with that id", HttpStatus.NOT_FOUND);
 
         if(projectRequest.getDescription() != null) project.setDescription(projectRequest.getDescription());
-        if(projectRequest.getStatus() != null) project.setStatus(projectRequest.getStatus());
         if(projectRequest.getWebsiteUrl() != null) project.setWebsiteUrl(projectRequest.getWebsiteUrl());
+
+        if(projectRequest.getStatus() != null) {
+            project.setStatus(projectRequest.getStatus());
+
+            if(projectRequest.getStatus().equalsIgnoreCase("Completed")) {
+                //Move all current collaborators to contributor list
+                List<User> collaborators = project.getCollaborators();
+                //project.getContributors().addAll(collaborators);
+                //Add project to users' portfolio
+                for(User user : collaborators) {
+                    user.getContributedProjects().add(project);
+                }
+            }
+        }
 
         if(projectRequest.getNewApplicantId() > 0) {
             User applicant = userRepository.findById(projectRequest.getNewApplicantId()).orElse(null);
@@ -130,6 +143,8 @@ public class ProjectController {
 
             userRepository.save(collaborator);
         }
+
+
 
         //TODO: Add needed skill and tag
 
