@@ -1,6 +1,7 @@
 package com.lagaltcase.lagalt_be.user;
 
 
+import com.lagaltcase.lagalt_be.project.Project;
 import com.lagaltcase.lagalt_be.project.ProjectRepository;
 import com.lagaltcase.lagalt_be.response.ErrorResponse;
 import com.lagaltcase.lagalt_be.response.UserResponse;
