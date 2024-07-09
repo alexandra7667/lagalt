@@ -2,6 +2,7 @@ package com.lagaltcase.lagalt_be.project;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.lagaltcase.lagalt_be.application.Application;
 import com.lagaltcase.lagalt_be.message.Message;
 import com.lagaltcase.lagalt_be.user.User;
 import jakarta.persistence.*;
@@ -64,7 +65,7 @@ public class Project {
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<Application> applications = new ArrayList<>();
 
-    //Create an in-between table for a many to many relationship
+    //Create an in-between table for a many to many relationship between two entities (existing tables)
     @ManyToMany
     @JoinTable(
             name = "user_collaboration_projects",
@@ -90,7 +91,7 @@ public class Project {
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     @JsonIgnoreProperties("contributedProjects")
-    private List<User> contributors = new ArrayList<>();
+    private List<User> contributors = new ArrayList<>(); //Not needed
 
 
     public Project(String title, String description, String category, String websiteUrl, User user) {
