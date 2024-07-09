@@ -44,6 +44,12 @@ public class User {
     @Column
     private boolean hidden;
 
+    @ManyToMany
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<Role> roles;
+
     @ElementCollection //To store a collection of strings in database (OneToMany is only for objects that are entities/tables)
     @CollectionTable(name = "user_skills", joinColumns = @JoinColumn(name = "user_id")) //Sets FK and names table and column
     @Column
