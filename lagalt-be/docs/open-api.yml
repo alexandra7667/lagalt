@@ -33,19 +33,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
-    get:
-      tags:
-        - users
-      summary: Get all users
-      description: Get a list of all users
-      operationId: getUsers
-      responses:
-        '200':
-          description: A list of all users
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AllUsersResponse'
 
   /users/{userId}:
     get:
@@ -184,11 +171,6 @@ components:
         password:
           type: string
           example: "password"
-
-    AllUsersResponse:
-      type: array
-      items:
-        $ref: '#/components/schemas/User'
 
     CreateProjectRequest:
       type: object
