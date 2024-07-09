@@ -26,7 +26,7 @@ public class User {
     private int id;
 
     @Column
-    private String screenName;
+    private String username;
 
     @Email(message = "Not valid email")
     @NotEmpty(message = "Email cannot be empty")
@@ -42,7 +42,7 @@ public class User {
     private String description;
 
     @Column
-    private boolean hidden;
+    private boolean hidden = false;
 
     @ManyToMany
     @JoinTable(name = "user_roles",
@@ -62,6 +62,7 @@ public class User {
 
     //Projects this user has applied to but not yet been accepted to
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) //Updates in the Application repository will update user automatically
+    @JsonIgnoreProperties("user")
     private List<Application> applications = new ArrayList<>();
 
     //Projects this user is a collaborator of
@@ -81,7 +82,7 @@ public class User {
 
 
     public User(String email, String password) { //Not needed. User is created directly by mapping the JSON object to this model's fields
-        this.screenName = "john doe"; //Replace with randomly generated name
+        //this.userName = "john doe"; //Replace with randomly generated name
         this.email = email;
         this.password = password;
     }

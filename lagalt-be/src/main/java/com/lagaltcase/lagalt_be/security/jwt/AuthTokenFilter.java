@@ -1,5 +1,6 @@
 package com.lagaltcase.lagalt_be.security.jwt;
 
+import com.lagaltcase.lagalt_be.security.UserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
