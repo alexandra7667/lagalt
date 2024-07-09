@@ -39,6 +39,16 @@ public class Project {
     @Column
     private String status;
 
+    @ElementCollection
+    @CollectionTable(name = "project_skills", joinColumns = @JoinColumn(name = "project_id"))
+    @Column
+    private List<String> neededSkills;
+
+    @ElementCollection
+    @CollectionTable(name = "project_tags", joinColumns = @JoinColumn(name = "project_id"))
+    @Column
+    private List<String> tags;
+
     //A project can have many messages
     //A message belongs to one project
     //mappedBy = "project" means that Project is the owning side of the relationship
