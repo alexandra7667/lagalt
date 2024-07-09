@@ -63,6 +63,11 @@ public class User {
     @JsonIgnoreProperties("applicants")
     private List<Project> applicationProjects = new ArrayList<>();
 
+    //Projects this user has visited (clicked on)
+    @ManyToMany(mappedBy = "visitors")
+    @JsonIgnoreProperties("visitors")
+    private List<Project> visitedProjects = new ArrayList<>();
+
 
     public User(String email, String password) { //Not needed. User is created directly by mapping the JSON object to this model's fields
         this.screenName = "john doe"; //Replace with randomly generated name
