@@ -2,6 +2,8 @@ package com.lagaltcase.lagalt_be.project;
 
 
 import com.lagaltcase.lagalt_be.application.Application;
+import com.lagaltcase.lagalt_be.dto.DtoMapper;
+import com.lagaltcase.lagalt_be.dto.ProjectDTO;
 import com.lagaltcase.lagalt_be.response.ErrorResponse;
 import com.lagaltcase.lagalt_be.response.ProjectListResponse;
 import com.lagaltcase.lagalt_be.response.ProjectResponse;
@@ -79,10 +81,13 @@ public class ProjectController {
             return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
         }
 
-        ProjectResponse projectResponse = new ProjectResponse();
-        projectResponse.set(project);
+        //DTO Test
+        ProjectDTO projectDTO = DtoMapper.toProjectDTO(project);
 
-        return ResponseEntity.ok(projectResponse);
+//        ProjectResponse projectResponse = new ProjectResponse();
+//        projectResponse.set(project);
+
+        return ResponseEntity.ok(projectDTO);
     }
 
     @PutMapping
