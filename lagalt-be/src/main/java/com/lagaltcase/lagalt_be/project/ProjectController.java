@@ -107,8 +107,6 @@ public class ProjectController {
             }
         }
 
-
-
         //TODO: Add needed skill and tag
 
         Project updatedProject = projectRepository.save(project);
@@ -119,5 +117,19 @@ public class ProjectController {
         return new ResponseEntity<>(projectResponse, HttpStatus.CREATED);
     }
 
+    @DeleteMapping("/leaveProject")
+    public ResponseEntity<?> leaveProject(@RequestBody ProjectRequest projectRequest) {
+        User user = userRepository.findById(projectRequest.getUserId()).orElse(null);
+        Project project = projectRepository.findById(projectRequest.getProjectId()).orElse(null);
 
+        //TODO: Null check & input sanitation
+
+        user.getCollaborationProjects().remove(project);
+        project.getCollaborators().remove(user);
+
+        ProjectResponse projectResponse = new ProjectResponse();
+        projectResponse.set(project);
+
+        return ResponseEntity.ok(projectResponse);
+    }
 }
