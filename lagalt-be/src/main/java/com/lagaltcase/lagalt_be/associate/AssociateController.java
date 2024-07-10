@@ -1,9 +1,11 @@
 package com.lagaltcase.lagalt_be.associate;
 
+import com.lagaltcase.lagalt_be.application.Application;
 import com.lagaltcase.lagalt_be.dto.AssociateDTO;
 import com.lagaltcase.lagalt_be.project.Project;
 import com.lagaltcase.lagalt_be.project.ProjectRepository;
-import com.lagaltcase.lagalt_be.project.ProjectRequest;
+import com.lagaltcase.lagalt_be.request.AssociateRequest;
+import com.lagaltcase.lagalt_be.request.ProjectRequest;
 import com.lagaltcase.lagalt_be.response.AssociateResponse;
 import com.lagaltcase.lagalt_be.user.User;
 import com.lagaltcase.lagalt_be.user.UserRepository;
@@ -25,9 +27,9 @@ public class AssociateController {
     private ProjectRepository projectRepository;
 
     @PutMapping
-    public ResponseEntity<?> updateAssociation(@RequestBody ProjectRequest projectRequest) { //Change to Associate request
-        User user = userRepository.findById(projectRequest.getUserId()).orElse(null);
-        Project project = projectRepository.findById(projectRequest.getProjectId()).orElse(null);
+    public ResponseEntity<?> updateAssociation(@RequestBody AssociateRequest associateRequest) {
+        User user = userRepository.findById(associateRequest.getUserId()).orElse(null);
+        Project project = projectRepository.findById(associateRequest.getProjectId()).orElse(null);
 
         //TODO: Null check & input sanitation
 
@@ -36,8 +38,8 @@ public class AssociateController {
         List<Associate> associatedProjects = user.getAssociatedProjects();
         for(Associate associate : associatedProjects) {
             if(associate.getProject() == project) {
-                //if associate is collaborator. make a switch?
-                associate.setCollaborator(false);
+
+
                 associateDTO = new AssociateDTO(associate);
                 break;
             }
@@ -53,4 +55,5 @@ public class AssociateController {
 
         return ResponseEntity.ok(associateResponse);
     }
+
 }

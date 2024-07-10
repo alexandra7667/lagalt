@@ -2,6 +2,7 @@ package com.lagaltcase.lagalt_be.message;
 
 import com.lagaltcase.lagalt_be.project.Project;
 import com.lagaltcase.lagalt_be.project.ProjectRepository;
+import com.lagaltcase.lagalt_be.request.MessageRequest;
 import com.lagaltcase.lagalt_be.response.ErrorResponse;
 import com.lagaltcase.lagalt_be.response.MessageListResponse;
 import com.lagaltcase.lagalt_be.response.MessageResponse;

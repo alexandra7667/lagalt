@@ -3,7 +3,7 @@ package com.lagaltcase.lagalt_be.application;
 
 import com.lagaltcase.lagalt_be.project.Project;
 import com.lagaltcase.lagalt_be.project.ProjectRepository;
-import com.lagaltcase.lagalt_be.project.ProjectRequest;
+import com.lagaltcase.lagalt_be.request.ApplicationRequest;
 import com.lagaltcase.lagalt_be.response.ApplicationResponse;
 import com.lagaltcase.lagalt_be.response.ErrorResponse;
 import com.lagaltcase.lagalt_be.user.User;
@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @CrossOrigin(origins = "*") //Ändra till localhost
 @RestController

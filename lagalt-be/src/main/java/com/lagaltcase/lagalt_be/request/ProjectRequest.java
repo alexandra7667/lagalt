@@ -1,4 +1,4 @@
-package com.lagaltcase.lagalt_be.project;
+package com.lagaltcase.lagalt_be.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
