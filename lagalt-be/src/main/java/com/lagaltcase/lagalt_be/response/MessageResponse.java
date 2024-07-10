@@ -1,6 +1,6 @@
 package com.lagaltcase.lagalt_be.response;
 
-import com.lagaltcase.lagalt_be.message.Message;
+import com.lagaltcase.lagalt_be.dto.MessageDTO;
 
-public class MessageResponse extends Response<Message> {
+public class MessageResponse extends Response<MessageDTO> {
 }

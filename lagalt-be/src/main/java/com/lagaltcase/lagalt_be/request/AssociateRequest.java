@@ -12,6 +12,5 @@ public class AssociateRequest {
     private int userId;
     private int applicantId;
     private boolean applicationAccepted;
-    private String type;
     private String motivationalLetter;
 }

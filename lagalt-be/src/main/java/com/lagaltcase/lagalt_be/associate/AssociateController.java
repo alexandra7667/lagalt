@@ -33,8 +33,7 @@ public class AssociateController {
 
         Associate associate = new Associate(user, project);
 
-        //Since both user and project is a parent of associate, both repos need to be updated
-        //Since cascade type is all, the associate (child) repo does not need to be updated
+        associateRepository.save(associate);
         userRepository.save(user);
         projectRepository.save(project);
 
@@ -58,7 +57,7 @@ public class AssociateController {
         List<Associate> associatedProjects = user.getAssociatedProjects();
         for(Associate associate : associatedProjects) {
             if(associate.getProject() == project) {
-                addApplication(associate, associate.getMotivationalLetter());
+                addApplication(associate, associateRequest.getMotivationalLetter());
                 associateDTO = new AssociateDTO(associate);
                 break;
             }
@@ -83,8 +82,9 @@ public class AssociateController {
         AssociateDTO associateDTO = null;
 
         List<Associate> associatedUsers = project.getAssociatedUsers();
+
         for(Associate associate : associatedUsers) {
-            if(associate.getApplicantId() == associateRequest.getApplicantId()) {
+            if(associate.getUser().getId() == associateRequest.getApplicantId()) {
                 if(associateRequest.isApplicationAccepted()) acceptApplication(associate);
                 else denyApplication(associate);
                 associateDTO = new AssociateDTO(associate);

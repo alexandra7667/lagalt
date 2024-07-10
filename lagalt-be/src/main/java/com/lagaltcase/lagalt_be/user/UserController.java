@@ -1,6 +1,7 @@
 package com.lagaltcase.lagalt_be.user;
 
 
+import com.lagaltcase.lagalt_be.dto.UserDTO;
 import com.lagaltcase.lagalt_be.project.Project;
 import com.lagaltcase.lagalt_be.project.ProjectRepository;
 import com.lagaltcase.lagalt_be.response.ErrorResponse;
@@ -27,8 +28,10 @@ public class UserController {
 
         //TODO: Try catch runt save?
 
+        UserDTO userDTO = new UserDTO(user);
+
         UserResponse userResponse = new UserResponse();
-        userResponse.set(newUser);
+        userResponse.set(userDTO);
 
         return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
     }
@@ -44,8 +47,10 @@ public class UserController {
             return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
         }
 
+        UserDTO userDTO = new UserDTO(user);
+
         UserResponse userResponse = new UserResponse();
-        userResponse.set(user);
+        userResponse.set(userDTO);
 
         return ResponseEntity.ok(userResponse);
     }
