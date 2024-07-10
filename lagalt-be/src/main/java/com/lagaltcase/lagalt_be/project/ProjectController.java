@@ -4,6 +4,7 @@ package com.lagaltcase.lagalt_be.project;
 import com.lagaltcase.lagalt_be.associate.Associate;
 import com.lagaltcase.lagalt_be.associate.AssociateRepository;
 import com.lagaltcase.lagalt_be.dto.ProjectDTO;
+import com.lagaltcase.lagalt_be.request.ProjectRequest;
 import com.lagaltcase.lagalt_be.response.ErrorResponse;
 import com.lagaltcase.lagalt_be.response.ProjectListResponse;
 import com.lagaltcase.lagalt_be.response.ProjectResponse;
