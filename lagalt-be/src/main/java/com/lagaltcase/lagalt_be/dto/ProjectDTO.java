@@ -1,9 +1,11 @@
 package com.lagaltcase.lagalt_be.dto;
 
+import com.lagaltcase.lagalt_be.project.Project;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -16,28 +18,27 @@ public class ProjectDTO {
     private String status;
     private List<String> neededSkills;
     private List<String> tags;
-    private List<AssociateDTO> collaborators;
+    private List<AssociateDTO> associates;
     private List<ApplicationDTO> applications;
 
-    public ProjectDTO(int id,
-                      String title,
-                      String description,
-                      String category,
-                      String websiteUrl,
-                      String status,
-                      List<String> neededSkills,
-                      List<String> tags,
-                      List<AssociateDTO> collaborators,
-                      List<ApplicationDTO> applications) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.category = category;
-        this.websiteUrl = websiteUrl;
-        this.status = status;
-        this.neededSkills = neededSkills;
-        this.tags = tags;
-        this.collaborators = collaborators;
-        this.applications = applications;
+    public ProjectDTO(Project project) {
+        List<AssociateDTO> associateDTOS = project.getAssociatedUsers().stream()
+                .map(AssociateDTO::new)
+                .collect(Collectors.toList());
+
+        List<ApplicationDTO> applicationDTOS = project.getApplications().stream()
+                .map(ApplicationDTO::new)
+                .collect(Collectors.toList());
+
+        this.id = project.getId();
+        this.title = project.getTitle();
+        this.description = project.getDescription();
+        this.category = project.getCategory();
+        this.websiteUrl = project.getWebsiteUrl();
+        this.status = project.getStatus();
+        this.neededSkills = project.getNeededSkills();
+        this.tags = project.getTags();
+        this.associates = associateDTOS;
+        this.applications = applicationDTOS;
     }
 }

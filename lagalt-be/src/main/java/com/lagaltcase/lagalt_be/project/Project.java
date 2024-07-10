@@ -3,6 +3,7 @@ package com.lagaltcase.lagalt_be.project;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.lagaltcase.lagalt_be.application.Application;
+import com.lagaltcase.lagalt_be.associate.Associate;
 import com.lagaltcase.lagalt_be.message.Message;
 import com.lagaltcase.lagalt_be.user.User;
 import jakarta.persistence.*;
@@ -50,52 +51,25 @@ public class Project {
     @Column
     private List<String> tags;
 
-    //A project can have many messages
-    //A message belongs to one project
+    //A project can have many messages. A message belongs to one project
     //mappedBy = "project" means that Project is the owning side of the relationship
     //cascade means to delete all messages if the project is deleted
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<Message> messageBoard = new ArrayList<>();
 
-    @ManyToOne  //A project has only one owner. One user can own many projects
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<Application> applications = new ArrayList<>();
 
-    //Create an in-between table for a many to many relationship between two entities (existing tables)
-    @ManyToMany
-    @JoinTable(
-            name = "user_collaboration_projects",
-            joinColumns = @JoinColumn(name = "project_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private List<User> collaborators = new ArrayList<>();
+    //Associated users this project has. A project can have many associated users. An associate object belongs to only one project
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    private List<Associate> associatedUsers  = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_visited_projects",
-            joinColumns = @JoinColumn(name = "project_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private List<User> visitors = new ArrayList<>();
-
-    @ManyToMany
-    @JoinTable(
-            name = "user_contributed_projects",
-            joinColumns = @JoinColumn(name = "project_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private List<User> contributors = new ArrayList<>(); //Not needed
-
-
-    public Project(String title, String description, String category, String websiteUrl, User user) {
+    public Project(String title, String description, String category, String websiteUrl) {
         this.title = title;
         this.description = description;
         this.category = category;
         this.websiteUrl = websiteUrl;
-        this.user = user;
+        //this.user = user;
         this.status = "Founding";
     }
 }

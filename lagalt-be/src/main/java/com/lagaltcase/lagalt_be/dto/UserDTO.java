@@ -1,31 +1,36 @@
 package com.lagaltcase.lagalt_be.dto;
 
+import com.lagaltcase.lagalt_be.user.User;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Getter
 @Setter
 public class UserDTO {
-    private int id;
+    private int userId;
     private String username;
     private String email;
     private String description;
-    private boolean hidden;
-    private List<ProjectDTO> ownedProjects;
+    private boolean isHidden;
+    private List<AssociateDTO> associatedProjects;
     private List<String> skills;
-    // other fields as needed
 
 
-    public UserDTO(int id, String username, String email, String description, boolean hidden, List<ProjectDTO> ownedProjects, List<String> skills) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.description = description;
-        this.hidden = hidden;
-        this.ownedProjects = ownedProjects;
-        this.skills = skills;
+    public UserDTO(User user) {
+        List<AssociateDTO> associatedProjectDTOs = user.getAssociatedProjects().stream()
+                .map(AssociateDTO::new)
+                .collect(Collectors.toList());
+
+        this.userId = user.getId();
+        this.username = user.getUsername();
+        this.email = user.getEmail();
+        this.description = user.getDescription();
+        this.isHidden = user.isHidden();
+        this.associatedProjects = associatedProjectDTOs;
+        this.skills = user.getSkills();
     }
 }
