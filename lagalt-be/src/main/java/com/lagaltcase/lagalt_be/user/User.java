@@ -1,6 +1,5 @@
 package com.lagaltcase.lagalt_be.user;
 
-import com.lagaltcase.lagalt_be.application.Application;
 import com.lagaltcase.lagalt_be.associate.Associate;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -57,10 +56,6 @@ public class User {
     //Associations this user has. A user has one associate per project that defines the user's role/s within that project
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Associate> associatedProjects  = new ArrayList<>();
-
-    //Projects this user has applied to but not yet been accepted to
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) //Updates in the Application repository will update user automatically
-    private List<Application> applications = new ArrayList<>();
 
     public User(String email, String password) { //Not needed. User is created directly by mapping the JSON object to this model's fields
         //this.userName = "john doe"; //Replace with randomly generated name

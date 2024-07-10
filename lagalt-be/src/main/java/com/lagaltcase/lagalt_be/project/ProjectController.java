@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -105,26 +106,28 @@ public class ProjectController {
     @PutMapping
     public ResponseEntity<?> updateProject(@RequestBody ProjectRequest projectRequest) {
         Project project = projectRepository.findById(projectRequest.getProjectId()).orElse(null);
-        if(project == null) return new ResponseEntity<>("No project found with that id", HttpStatus.NOT_FOUND);
+        if(project == null) return new ResponseEntity<>("No project found with that id", HttpStatus.NOT_FOUND); //Make error response
 
         if(projectRequest.getDescription() != null) project.setDescription(projectRequest.getDescription());
         if(projectRequest.getWebsiteUrl() != null) project.setWebsiteUrl(projectRequest.getWebsiteUrl());
+        if(projectRequest.getNeededSkill() != null) project.getNeededSkills().add(projectRequest.getNeededSkill());
+        if(projectRequest.getTag() != null) project.getTags().add(projectRequest.getTag());
 
         if(projectRequest.getStatus() != null) {
             project.setStatus(projectRequest.getStatus());
 
-//            if(projectRequest.getStatus().equalsIgnoreCase("Completed")) {
-//                //Move all current collaborators to contributor list
-//                List<User> collaborators = project.getCollaborators();
-//                //project.getContributors().addAll(collaborators);
-//                //Add project to users' portfolio
-//                for(User user : collaborators) {
-//                    user.getContributedProjects().add(project);
-//                }
-//            }
-        }
+            if(projectRequest.getStatus().equalsIgnoreCase("Completed")) {
+                //Add project to all associates portfolio
+                List<Associate> associatedUsers = project.getAssociatedUsers();
 
-        //TODO: Add needed skill and tag
+                for (Associate associate : associatedUsers) {
+                    if (associate.isCollaborator()) {
+                        associate.setPortfolioProject(true);
+                    }
+                }
+                //Update user repository?
+            }
+        }
 
         Project updatedProject = projectRepository.save(project);
 

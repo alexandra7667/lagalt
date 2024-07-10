@@ -19,15 +19,10 @@ public class ProjectDTO {
     private List<String> neededSkills;
     private List<String> tags;
     private List<AssociateDTO> associates;
-    private List<ApplicationDTO> applications;
 
     public ProjectDTO(Project project) {
         List<AssociateDTO> associateDTOS = project.getAssociatedUsers().stream()
                 .map(AssociateDTO::new)
-                .collect(Collectors.toList());
-
-        List<ApplicationDTO> applicationDTOS = project.getApplications().stream()
-                .map(ApplicationDTO::new)
                 .collect(Collectors.toList());
 
         this.id = project.getId();
@@ -39,6 +34,5 @@ public class ProjectDTO {
         this.neededSkills = project.getNeededSkills();
         this.tags = project.getTags();
         this.associates = associateDTOS;
-        this.applications = applicationDTOS;
     }
 }

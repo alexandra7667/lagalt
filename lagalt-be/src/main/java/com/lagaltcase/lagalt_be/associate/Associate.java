@@ -26,19 +26,32 @@ public class Associate {
     private Project project;
 
     @Column
-    private boolean isOwner;
+    private boolean isOwner; //In ProjectController
 
     @Column
     private boolean isVisitor;
 
     @Column
+    private boolean isApplicant;
+
+    @Column
+    private int applicantId;
+
+    @Column
+    private boolean applicationDenied;
+
+    @Column
+    private String motivationalLetter;
+
+    @Column
     private boolean isCollaborator;
 
     @Column
-    private boolean isPortfolioProject; //User==collaborator && project.status==Completed
+    private boolean isPortfolioProject; //In ProjectController. User==collaborator && project.status==Completed
 
     public Associate(User user, Project project) {
         this.user = user;
         this.project = project;
+        this.isVisitor = true;
     }
 }
