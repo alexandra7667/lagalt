@@ -33,7 +33,7 @@ public class AssociateController {
 
         Associate associate = new Associate(user, project);
 
-        associateRepository.save(associate);
+        associateRepository.save(associate); //Must add associate to repository because it is a new Associate object
         userRepository.save(user);
         projectRepository.save(project);
 

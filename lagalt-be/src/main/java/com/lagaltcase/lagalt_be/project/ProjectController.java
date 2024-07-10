@@ -56,11 +56,12 @@ public class ProjectController {
         associate.setOwner(true);
         associate.setVisitor(true);
         associate.setCollaborator(true);
+        associateRepository.save(associate);
+
         newProject.getAssociatedUsers().add(associate);
         user.getAssociatedProjects().add(associate);
 
         Project savedProject = projectRepository.save(newProject);
-        associateRepository.save(associate);
 
         ProjectDTO projectDTO = new ProjectDTO(savedProject);
 
