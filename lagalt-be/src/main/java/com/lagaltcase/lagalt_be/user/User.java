@@ -57,27 +57,22 @@ public class User {
 
     //Projects this user owns. A user can own many projects. A project can have only one owner
     @OneToMany(mappedBy = "user")
-    @JsonIgnoreProperties("user")
     private List<Project> ownedProjects  = new ArrayList<>();
 
     //Projects this user has applied to but not yet been accepted to
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) //Updates in the Application repository will update user automatically
-    @JsonIgnoreProperties("user")
     private List<Application> applications = new ArrayList<>();
 
     //Projects this user is a collaborator of
     @ManyToMany(mappedBy = "collaborators")
-    @JsonIgnoreProperties("collaborators")
     private List<Project> collaborationProjects = new ArrayList<>();
 
     //Projects this user has visited (clicked on)
     @ManyToMany(mappedBy = "visitors")
-    @JsonIgnoreProperties("visitors")
     private List<Project> visitedProjects = new ArrayList<>();
 
     //Projects this user has collaborated on that have status "Completed" aka user's portfolio
     @ManyToMany(mappedBy = "contributors")
-    @JsonIgnoreProperties("contributors")
     private List<Project> contributedProjects = new ArrayList<>();
 
 

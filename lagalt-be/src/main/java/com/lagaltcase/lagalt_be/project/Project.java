@@ -59,7 +59,6 @@ public class Project {
 
     @ManyToOne  //A project has only one owner. One user can own many projects
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnore //Do not include user's details when returning a project as JSON file. Can be removed if we use DTO that exclude User
     private User user;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
@@ -72,7 +71,6 @@ public class Project {
             joinColumns = @JoinColumn(name = "project_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    @JsonIgnoreProperties("collaborationProjects") //Ignore the user's projects to avoid looping. List of collaborators will be returned
     private List<User> collaborators = new ArrayList<>();
 
     @ManyToMany
@@ -81,7 +79,6 @@ public class Project {
             joinColumns = @JoinColumn(name = "project_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    @JsonIgnoreProperties("visitedProjects")
     private List<User> visitors = new ArrayList<>();
 
     @ManyToMany
@@ -90,7 +87,6 @@ public class Project {
             joinColumns = @JoinColumn(name = "project_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    @JsonIgnoreProperties("contributedProjects")
     private List<User> contributors = new ArrayList<>(); //Not needed
 
 
