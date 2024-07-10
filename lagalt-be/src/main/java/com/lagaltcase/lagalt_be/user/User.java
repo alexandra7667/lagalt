@@ -1,8 +1,7 @@
 package com.lagaltcase.lagalt_be.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.lagaltcase.lagalt_be.application.Application;
-import com.lagaltcase.lagalt_be.project.Project;
+import com.lagaltcase.lagalt_be.associate.Associate;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -55,26 +54,13 @@ public class User {
     @Column
     private List<String> skills;
 
-    //Projects this user owns. A user can own many projects. A project can have only one owner
-    @OneToMany(mappedBy = "user")
-    private List<Project> ownedProjects  = new ArrayList<>();
+    //Associations this user has. A user has one associate per project that defines the user's role/s within that project
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Associate> associatedProjects  = new ArrayList<>();
 
     //Projects this user has applied to but not yet been accepted to
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) //Updates in the Application repository will update user automatically
     private List<Application> applications = new ArrayList<>();
-
-    //Projects this user is a collaborator of
-    @ManyToMany(mappedBy = "collaborators")
-    private List<Project> collaborationProjects = new ArrayList<>();
-
-    //Projects this user has visited (clicked on)
-    @ManyToMany(mappedBy = "visitors")
-    private List<Project> visitedProjects = new ArrayList<>();
-
-    //Projects this user has collaborated on that have status "Completed" aka user's portfolio
-    @ManyToMany(mappedBy = "contributors")
-    private List<Project> contributedProjects = new ArrayList<>();
-
 
     public User(String email, String password) { //Not needed. User is created directly by mapping the JSON object to this model's fields
         //this.userName = "john doe"; //Replace with randomly generated name

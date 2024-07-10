@@ -51,13 +51,7 @@ public class ApplicationController {
         //Add application to applicant's list
         applicant.getApplications().add(newApplication);
 
-        //Save user to repository? Not needed when using cascade all?
-        //userRepository.save(applicant);
-
-        //Save project to repository?
-        //projectRepository.save(project);
-
-        //Save application to repository
+        //Save application to repository. cascade all updates User and Project repository automatically
         Application savedApplication = applicationRepository.save(newApplication);
 
         ApplicationResponse applicationResponse = new ApplicationResponse();
@@ -84,8 +78,8 @@ public class ApplicationController {
         collaborator.getApplications().remove(application);
 
         //Add collaborator
-        project.getCollaborators().add(collaborator);
-        collaborator.getCollaborationProjects().add(project);
+//        project.getCollaborators().add(collaborator);
+//        collaborator.getCollaborationProjects().add(project);
 
         applicationRepository.delete(application);
 

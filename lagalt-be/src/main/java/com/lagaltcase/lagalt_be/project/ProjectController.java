@@ -1,8 +1,8 @@
 package com.lagaltcase.lagalt_be.project;
 
 
-import com.lagaltcase.lagalt_be.application.Application;
-import com.lagaltcase.lagalt_be.dto.DtoMapper;
+import com.lagaltcase.lagalt_be.associate.Associate;
+import com.lagaltcase.lagalt_be.associate.AssociateRepository;
 import com.lagaltcase.lagalt_be.dto.ProjectDTO;
 import com.lagaltcase.lagalt_be.response.ErrorResponse;
 import com.lagaltcase.lagalt_be.response.ProjectListResponse;
@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*") //Ändra till localhost
 @RestController
@@ -24,6 +25,8 @@ public class ProjectController {
     private ProjectRepository projectRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private AssociateRepository associateRepository;
 
     @PostMapping
     public ResponseEntity<?> createProject(@RequestBody ProjectRequest projectRequest) { //User id is sent as part of the body, not as a parameter according to case requirements
@@ -43,19 +46,24 @@ public class ProjectController {
                 projectRequest.getTitle(),
                 projectRequest.getDescription(),
                 projectRequest.getCategory(),
-                projectRequest.getWebsiteUrl(),
-                user
+                projectRequest.getWebsiteUrl()
         );
 
-        Project savedProject = projectRepository.save(newProject);
+        //Set associate
+        Associate associate = new Associate(user, newProject);
+        associate.setOwner(true);
+        associate.setVisitor(true);
+        associate.setCollaborator(true);
+        newProject.getAssociatedUsers().add(associate);
+        user.getAssociatedProjects().add(associate);
 
-        //Add project to user's ownedProjects
-        user.getOwnedProjects().add(savedProject);
-        //Update user to link the user-project relationship in the database
-        userRepository.save(user);
+        Project savedProject = projectRepository.save(newProject);
+        associateRepository.save(associate);
+
+        ProjectDTO projectDTO = new ProjectDTO(savedProject);
 
         ProjectResponse projectResponse = new ProjectResponse();
-        projectResponse.set(savedProject);
+        projectResponse.set(projectDTO);
 
         return new ResponseEntity<>(projectResponse, HttpStatus.CREATED);
     }
@@ -64,8 +72,12 @@ public class ProjectController {
     public ResponseEntity<ProjectListResponse> getAllProjects() {
         List<Project> allProjects = this.projectRepository.findAll();
 
+        List<ProjectDTO> projectDTOS = allProjects.stream()
+                .map(ProjectDTO::new) //"method reference" same functionality as .map(project -> new ProjectDTO(project))
+                .collect(Collectors.toList());
+
         ProjectListResponse projectListResponse = new ProjectListResponse();
-        projectListResponse.set(allProjects);
+        projectListResponse.set(projectDTOS);
 
         return ResponseEntity.ok(projectListResponse);
     }
@@ -81,13 +93,12 @@ public class ProjectController {
             return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
         }
 
-        //DTO Test
-        ProjectDTO projectDTO = DtoMapper.toProjectDTO(project);
+        ProjectDTO projectDTO = new ProjectDTO(project);
 
-//        ProjectResponse projectResponse = new ProjectResponse();
-//        projectResponse.set(project);
+        ProjectResponse projectResponse = new ProjectResponse();
+        projectResponse.set(projectDTO);
 
-        return ResponseEntity.ok(projectDTO);
+        return ResponseEntity.ok(projectResponse);
     }
 
     @PutMapping
@@ -101,40 +112,26 @@ public class ProjectController {
         if(projectRequest.getStatus() != null) {
             project.setStatus(projectRequest.getStatus());
 
-            if(projectRequest.getStatus().equalsIgnoreCase("Completed")) {
-                //Move all current collaborators to contributor list
-                List<User> collaborators = project.getCollaborators();
-                //project.getContributors().addAll(collaborators);
-                //Add project to users' portfolio
-                for(User user : collaborators) {
-                    user.getContributedProjects().add(project);
-                }
-            }
+//            if(projectRequest.getStatus().equalsIgnoreCase("Completed")) {
+//                //Move all current collaborators to contributor list
+//                List<User> collaborators = project.getCollaborators();
+//                //project.getContributors().addAll(collaborators);
+//                //Add project to users' portfolio
+//                for(User user : collaborators) {
+//                    user.getContributedProjects().add(project);
+//                }
+//            }
         }
 
         //TODO: Add needed skill and tag
 
         Project updatedProject = projectRepository.save(project);
 
+        ProjectDTO projectDTO = new ProjectDTO(updatedProject);
+
         ProjectResponse projectResponse = new ProjectResponse();
-        projectResponse.set(updatedProject);
+        projectResponse.set(projectDTO);
 
         return new ResponseEntity<>(projectResponse, HttpStatus.CREATED);
-    }
-
-    @DeleteMapping("/leaveProject")
-    public ResponseEntity<?> leaveProject(@RequestBody ProjectRequest projectRequest) {
-        User user = userRepository.findById(projectRequest.getUserId()).orElse(null);
-        Project project = projectRepository.findById(projectRequest.getProjectId()).orElse(null);
-
-        //TODO: Null check & input sanitation
-
-        user.getCollaborationProjects().remove(project);
-        project.getCollaborators().remove(user);
-
-        ProjectResponse projectResponse = new ProjectResponse();
-        projectResponse.set(project);
-
-        return ResponseEntity.ok(projectResponse);
     }
 }
