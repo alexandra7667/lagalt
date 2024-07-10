@@ -25,6 +25,5 @@ public class Message {
 
     @ManyToOne
     @JoinColumn(name = "project_id", nullable = false)
-    @JsonIgnore
     private Project project;
 }
