@@ -10,11 +10,8 @@ import lombok.Setter;
 public class AssociateRequest {
     private int projectId;
     private int userId;
-    private int associateId;
+    private int applicantId;
+    private boolean applicationAccepted;
     private String type;
     private String motivationalLetter;
-    private boolean isOwner;
-    private boolean isVisitor;
-    private boolean isCollaborator;
-    private boolean isPortfolioProject;
 }
