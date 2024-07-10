@@ -1,5 +1,7 @@
 package com.lagaltcase.lagalt_be.message;
 
+import com.lagaltcase.lagalt_be.dto.MessageDTO;
+import com.lagaltcase.lagalt_be.dto.ProjectDTO;
 import com.lagaltcase.lagalt_be.project.Project;
 import com.lagaltcase.lagalt_be.project.ProjectRepository;
 import com.lagaltcase.lagalt_be.request.MessageRequest;
@@ -12,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*") //Ändra till localhost
 @RestController
@@ -42,8 +45,10 @@ public class MessageController {
 
         Message savedMessage = messageRepository.save(newMessage);
 
+        MessageDTO messageDTO = new MessageDTO(savedMessage);
+
         MessageResponse messageResponse = new MessageResponse();
-        messageResponse.set(savedMessage);
+        messageResponse.set(messageDTO);
 
         return new ResponseEntity<>(messageResponse, HttpStatus.CREATED);
     }
@@ -61,8 +66,12 @@ public class MessageController {
 
         List<Message> allMessages = project.getMessageBoard();
 
+        List<MessageDTO> messageDTOs = allMessages.stream()
+                .map(MessageDTO::new)
+                .collect(Collectors.toList());
+
         MessageListResponse messageListResponse = new MessageListResponse();
-        messageListResponse.set(allMessages);
+        messageListResponse.set(messageDTOs);
 
         return ResponseEntity.ok(messageListResponse);
     }

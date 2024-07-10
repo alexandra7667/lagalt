@@ -1,8 +1,10 @@
 package com.lagaltcase.lagalt_be.response;
 
-import com.lagaltcase.lagalt_be.message.Message;
+
+
+import com.lagaltcase.lagalt_be.dto.MessageDTO;
 
 import java.util.List;
 
-public class MessageListResponse extends Response<List<Message>> {
+public class MessageListResponse extends Response<List<MessageDTO>> {
 }

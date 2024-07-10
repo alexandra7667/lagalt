@@ -12,6 +12,7 @@ public class AssociateDTO {
     private int projectId;
     private boolean isOwner;
     private boolean isVisitor;
+    private boolean isApplicant;
     private boolean isCollaborator;
     private boolean isPortfolioProject;
 
@@ -21,6 +22,7 @@ public class AssociateDTO {
         this.projectId = associate.getProject().getId();
         this.isOwner = associate.isOwner();
         this.isVisitor = associate.isVisitor();
+        this.isApplicant = associate.isApplicant();
         this.isCollaborator = associate.isCollaborator();
         this.isPortfolioProject = associate.isPortfolioProject();
     }
