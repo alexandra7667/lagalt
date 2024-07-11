@@ -4,6 +4,7 @@ package com.lagaltcase.lagalt_be.project;
 import com.lagaltcase.lagalt_be.associate.Associate;
 import com.lagaltcase.lagalt_be.associate.AssociateRepository;
 import com.lagaltcase.lagalt_be.dto.ProjectDTO;
+import com.lagaltcase.lagalt_be.dto.UserDTO;
 import com.lagaltcase.lagalt_be.request.ProjectRequest;
 import com.lagaltcase.lagalt_be.response.ErrorResponse;
 import com.lagaltcase.lagalt_be.response.ProjectListResponse;
@@ -120,13 +121,12 @@ public class ProjectController {
             if(projectRequest.getStatus().equalsIgnoreCase("Completed")) {
                 //Add project to all associates portfolio
                 List<Associate> associatedUsers = project.getAssociatedUsers();
-
                 for (Associate associate : associatedUsers) {
                     if (associate.isCollaborator()) {
                         associate.setPortfolioProject(true);
+                        userRepository.save(associate.getUser());
                     }
                 }
-                //Update user repository?
             }
         }
 
