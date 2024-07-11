@@ -5,9 +5,11 @@ import com.lagaltcase.lagalt_be.project.Project;
 import com.lagaltcase.lagalt_be.project.ProjectRepository;
 import com.lagaltcase.lagalt_be.request.AssociateRequest;
 import com.lagaltcase.lagalt_be.response.AssociateResponse;
+import com.lagaltcase.lagalt_be.response.ErrorResponse;
 import com.lagaltcase.lagalt_be.user.User;
 import com.lagaltcase.lagalt_be.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,11 +31,18 @@ public class AssociateController {
         User user = userRepository.findById(associateRequest.getUserId()).orElse(null); //The user who makes the request
         Project project = projectRepository.findById(associateRequest.getProjectId()).orElse(null);
 
-        //TODO: Null check & input sanitation
+        if (user == null || project == null) {
+            ErrorResponse errorResponse = new ErrorResponse();
+            errorResponse.set("No user/project with that id found.");
+
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+        }
+
+        //TODO: Null check on request props & input sanitation
 
         Associate associate = new Associate(user, project);
 
-        associateRepository.save(associate); //Must add associate to repository because it is a new Associate object
+        associateRepository.save(associate); //Must add associate to repository because it is a new Associate object (cascade only works on existing objects)
         userRepository.save(user);
         projectRepository.save(project);
 
@@ -49,6 +58,13 @@ public class AssociateController {
     public ResponseEntity<?> makeApplicant(@RequestBody AssociateRequest associateRequest) {
         User user = userRepository.findById(associateRequest.getUserId()).orElse(null);
         Project project = projectRepository.findById(associateRequest.getProjectId()).orElse(null);
+
+        if (user == null || project == null) {
+            ErrorResponse errorResponse = new ErrorResponse();
+            errorResponse.set("No user/project with that id found.");
+
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+        }
 
         //TODO: Null check & input sanitation
 
@@ -74,8 +90,15 @@ public class AssociateController {
 
     @PutMapping("/handleApplication")
     public ResponseEntity<?> handleApplication(@RequestBody AssociateRequest associateRequest) {
-        User user = userRepository.findById(associateRequest.getUserId()).orElse(null); //The project owner
+        User user = userRepository.findById(associateRequest.getUserId()).orElse(null); //The project owner. May need later for authorization
         Project project = projectRepository.findById(associateRequest.getProjectId()).orElse(null);
+
+        if (user == null || project == null) {
+            ErrorResponse errorResponse = new ErrorResponse();
+            errorResponse.set("No user/project with that id found.");
+
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+        }
 
         //TODO: Null check & input sanitation
 
