@@ -23,10 +23,15 @@ public class UserController {
 
 
     @PostMapping
-    public ResponseEntity<?> createUser(@RequestBody User user) { //Matches User json object props to User model fields. Does not use constructor for this.
-        User newUser = this.userRepository.save(user);
+    public ResponseEntity<?> createUser(@RequestBody User user) { //Matches User json object props to User model fields. Does not use constructor for this
+        if (user == null) {
+            ErrorResponse errorResponse = new ErrorResponse();
+            errorResponse.set("No user with that id found");
 
-        //TODO: Try catch runt save?
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+        }
+
+        User newUser = this.userRepository.save(user);
 
         UserDTO userDTO = new UserDTO(user);
 

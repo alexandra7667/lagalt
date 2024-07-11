@@ -4,7 +4,6 @@ package com.lagaltcase.lagalt_be.project;
 import com.lagaltcase.lagalt_be.associate.Associate;
 import com.lagaltcase.lagalt_be.associate.AssociateRepository;
 import com.lagaltcase.lagalt_be.dto.ProjectDTO;
-import com.lagaltcase.lagalt_be.dto.UserDTO;
 import com.lagaltcase.lagalt_be.request.ProjectRequest;
 import com.lagaltcase.lagalt_be.response.ErrorResponse;
 import com.lagaltcase.lagalt_be.response.ProjectListResponse;
@@ -16,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -108,7 +106,13 @@ public class ProjectController {
     @PutMapping
     public ResponseEntity<?> updateProject(@RequestBody ProjectRequest projectRequest) {
         Project project = projectRepository.findById(projectRequest.getProjectId()).orElse(null);
-        if(project == null) return new ResponseEntity<>("No project found with that id", HttpStatus.NOT_FOUND); //Make error response
+
+        if (project == null) {
+            ErrorResponse errorResponse = new ErrorResponse();
+            errorResponse.set("No project with that id found");
+
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+        }
 
         if(projectRequest.getDescription() != null) project.setDescription(projectRequest.getDescription());
         if(projectRequest.getWebsiteUrl() != null) project.setWebsiteUrl(projectRequest.getWebsiteUrl());
