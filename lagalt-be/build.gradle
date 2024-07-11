@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.lagaltcase'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1-SNAPSHOT' //SNAPSHOT means it is not made for production
 
 java {
 	toolchain {
@@ -26,6 +26,7 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter' //For jar
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -34,13 +35,32 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	runtimeOnly 'org.postgresql:postgresql'
-	implementation 'org.hibernate.validator:hibernate-validator'	//For annotations in model classes to restrict input
+	implementation 'org.hibernate.validator:hibernate-validator' //For annotations in model classes to restrict input such as email formatting
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
 	implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
-	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0' //For Swagger and auto generated api spec
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+//Generate jar file (to run in Docker container) with command: ./gradlew build
+//The jar file will be in the build/libs folder. Jar file with plain ending is without dependencies and can be deleted
+//Run jar with command: java -jar filename.jar
+//Put jar file and Docker file in same folder and go to folder. Build with command: docker build -t choose-image-name .
+//Run the docker image with command: docker run -p 4000:4000 -d image-name
+jar {
+	//archiveBaseName.set('lagalt-be') //Optional: specify the name of the jar file
+	//archiveVersion.set('0.0.1')	//Optional: specify the version included in the name
+	//Default name is: projectname-version.jar where projectname is in settings.gradle and version is 1.0 or version specified in build.gradle
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+	manifest {
+		attributes 'Main-Class': 'src.main.java.com.lagaltcase.lagalt_be.LagaltBeApplication'
+	}
+
+	from {
+		configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+	}
 }
