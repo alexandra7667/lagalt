@@ -48,6 +48,7 @@ tasks.named('test') {
 
 //Generate jar file (to run in Docker container) with command: ./gradlew build
 //The jar file will be in the build/libs folder. Jar file with plain ending is without dependencies and can be deleted
+//(Do not add jar/remove build from .gitignore since the jar file contains database credentials)
 //Run jar with command: java -jar filename.jar
 //Put jar file and Docker file in same folder and go to folder. Build with command: docker build -t choose-image-name .
 //Run the docker image with command: docker run -p 4000:4000 -d image-name
