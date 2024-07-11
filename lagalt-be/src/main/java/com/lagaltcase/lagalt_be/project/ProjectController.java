@@ -31,7 +31,7 @@ public class ProjectController {
     private AssociateRepository associateRepository;
 
     @PostMapping
-    public ResponseEntity<?> createProject(@RequestBody ProjectRequest projectRequest) { //User id is sent as part of the body, not as a parameter according to case requirements
+    public ResponseEntity<?> createProject(@RequestBody ProjectRequest projectRequest) {
         User user = userRepository.findById(projectRequest.getUserId()).orElse(null);
 
         if (user == null) {
