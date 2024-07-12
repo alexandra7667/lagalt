@@ -17,12 +17,12 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-public class AuthTokenFilter extends OncePerRequestFilter {  //Checks if token is valid; if the user has the right role/s that can access the resource
+public class AuthTokenFilter extends OncePerRequestFilter {  //Checks if token is valid and if the user has the right role/s that can access the resource
     @Autowired
     private JwtUtils jwtUtils;
 
     @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+    private UserDetailsServiceImpl userDetailsServiceImpl;
 
     private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 
@@ -35,13 +35,13 @@ public class AuthTokenFilter extends OncePerRequestFilter {  //Checks if token i
         try {
             String jwt = parseJwt(request);
             if(jwt != null && jwtUtils.validateJwtToken(jwt)) {
-                String username = jwtUtils.getUsernameFromJwtToken(jwt);
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(userDetails,
-                                null, userDetails.getAuthorities()); //Get the user's roles
-                authentication.setDetails(
-                        new WebAuthenticationDetailsSource().buildDetails(request)); //Check what the user is trying to access
+                String username = jwtUtils.getUsernameFromJwtToken(jwt); //Get the username from token
+
+                UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(username); //Get the user from database
+
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()); //Get the user's roles
+
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request)); //Check what the user is trying to access
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }

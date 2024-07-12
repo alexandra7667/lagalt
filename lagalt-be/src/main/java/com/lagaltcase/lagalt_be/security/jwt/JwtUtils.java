@@ -17,17 +17,17 @@ import java.util.Date;
 public class JwtUtils {
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
-    @Value("${booleanuk.app.jwtSecret}") //Find the values in application.yml
+    @Value("${lagalt.app.jwtSecret}") //Find the values in application.yml
     private String jwtSecret;
 
-    @Value("${booleanuk.app.jwtExpirationMs}")
+    @Value("${lagalt.app.jwtExpirationMs}")
     private int jwtExpirationMs;
 
-    public String generateJwtToken(Authentication authentication) { //if someone logs in and everything works well, return a token
-        UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
+    public String generateJwtToken(Authentication authentication) { //If someone logs in and everything works well, return a token
+        UserDetailsImpl userDetailsImpl = (UserDetailsImpl) authentication.getPrincipal();
 
         return Jwts.builder()
-                .setSubject(userPrincipal.getUsername())
+                .setSubject(userDetailsImpl.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + this.jwtExpirationMs))
                 .signWith(this.key(), SignatureAlgorithm.HS256)
@@ -38,7 +38,7 @@ public class JwtUtils {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
     }
 
-    public String getUsernameFromJwtToken(String token) {   //If there is a token, use the key to return the name of the user
+    public String getUsernameFromJwtToken(String token) {   //If there is a token, use the key to return the username
         return Jwts.parserBuilder().setSigningKey(key())
                 .build().parseClaimsJws(token).getBody().getSubject();
     }
