@@ -57,8 +57,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Associate> associatedProjects  = new ArrayList<>();
 
-    public User(String email, String password) { //Not needed. User is created directly by mapping the JSON object to this model's fields
-        //this.userName = "john doe"; //Replace with randomly generated name
+    //Not needed in UserController. User is created directly by mapping the JSON object to this model's fields. Needed in AuthController
+    public User(String username, String email, String password) {
+        this.username = username;
         this.email = email;
         this.password = password;
     }

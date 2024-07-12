@@ -9,3 +9,8 @@ http://localhost:4000/api-docs.yaml
 
 See more at
 https://www.baeldung.com/spring-rest-openapi-documentation
+
+If database is recreated, roles need to be added with SQL query
+INSERT INTO roles (name) VALUES ('ROLE_USER');
+INSERT INTO roles (name) VALUES ('ROLE_MODERATOR');
+INSERT INTO roles (name) VALUES ('ROLE_ADMIN');
