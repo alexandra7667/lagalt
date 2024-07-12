@@ -9,6 +9,7 @@ import lombok.Setter;
 public class AssociateDTO {
     private int id;
     private int userId;
+    private String username;
     private int projectId;
     private boolean isOwner;
     private boolean isVisitor;
@@ -19,6 +20,7 @@ public class AssociateDTO {
     public AssociateDTO(Associate associate) {
         this.id = associate.getId();
         this.userId = associate.getUser().getId();
+        this.username = associate.getUser().getUsername();
         this.projectId = associate.getProject().getId();
         this.isOwner = associate.isOwner();
         this.isVisitor = associate.isVisitor();
