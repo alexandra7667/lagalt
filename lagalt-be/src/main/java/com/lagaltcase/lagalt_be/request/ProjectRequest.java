@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @NoArgsConstructor
 @Getter
 @Setter
@@ -15,6 +17,6 @@ public class ProjectRequest {
     private String category;
     private String websiteUrl;
     private String status;
-    private String neededSkill;
-    private String tag;
+    private List<String> neededSkills;
+    private List<String> tags;
 }
