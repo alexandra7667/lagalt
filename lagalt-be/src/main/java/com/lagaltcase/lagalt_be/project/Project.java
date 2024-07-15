@@ -60,6 +60,7 @@ public class Project {
     private List<Associate> associatedUsers  = new ArrayList<>();
 
     public Project(String title, String description, String category, String websiteUrl) {
+        System.out.println("IN PROJECT CONSTRUCTOR");
         this.title = title;
         this.description = description;
         this.category = category;

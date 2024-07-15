@@ -10,7 +10,10 @@ http://localhost:4000/api-docs.yaml
 See more at
 https://www.baeldung.com/spring-rest-openapi-documentation
 
-If database is recreated, roles need to be added with SQL query
+If database is recreated, roles need to be added with SQL query before new user can be created
 INSERT INTO roles (name) VALUES ('ROLE_USER');
 INSERT INTO roles (name) VALUES ('ROLE_MODERATOR');
 INSERT INTO roles (name) VALUES ('ROLE_ADMIN');
+
+To drop all tables
+DROP TABLE IF EXISTS messages, associates, project_skills, project_tags, user_roles, user_skills, roles, projects, users;
