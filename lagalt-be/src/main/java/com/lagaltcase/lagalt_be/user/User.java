@@ -36,7 +36,7 @@ public class User {
     @Column
     private String password;
 
-    @Size(max = 750, message = "Description should have no more than 750 characters")
+    @Size(max = 750, message = "User description should have no more than 750 characters")
     @Column
     private String description;
 

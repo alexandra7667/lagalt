@@ -22,11 +22,11 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotEmpty
+    @Size(min = 4, max = 20, message = "Project title should have 4-20 characters")
     @Column
     private String title;
 
-    @Size(max = 750, message = "Description should have no more than 750 characters")
+    @Size(max = 750, message = "Project description should have no more than 750 characters")
     @Column
     private String description;
 
