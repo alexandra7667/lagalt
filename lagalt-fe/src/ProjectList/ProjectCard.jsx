@@ -1,44 +1,40 @@
 import PropTypes from 'prop-types';
-import AssociateList from '../AssociateList/AssociateList';
-import { Box, Typography, Stack } from '@mui/material';
+import { Box, Typography, CardContent, Card } from '@mui/material';
 
 function ProjectCard({ project }) {
 
-    //<p>Needed skills: {project.neededSkills}</p>
-    //<p>Tags: {project.tags}</p>
+    //Set border color to green if skills match
+    //Set border color to light grey if skills do not match
+
+    const card = (
+        <>
+            <CardContent>
+                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                    {project.category}
+                </Typography>
+                <Typography variant="h5">
+                    {project.title}
+                </Typography>
+                <Typography color="text.secondary">
+                    tags:
+                </Typography>
+                <Typography variant="body2">
+                    tag1, tag2, tag3
+                </Typography>
+                <Typography color="text.secondary">
+                    needed skills:
+                </Typography>
+                <Typography variant="body2">
+                    skill1, skill2, skill3
+                </Typography>
+            </CardContent>
+        </>
+    );
 
     return (
-        <>
-
-            <Typography variant="h2" component="h2" sx={{ mb: 4 }}>
-                Material UI example
-            </Typography>
-            <Box sx={{ my: 4 }}>
-                <Stack spacing={2}>
-                    <Typography variant="h3">
-                        Title: {project.title}
-                    </Typography>
-                    <Typography variant="body1">
-                        ID: {project.id}
-                    </Typography>
-                    <Typography variant="body1">
-                        Category: {project.category}
-                    </Typography>
-                    <Typography variant="body1">
-                        Status: {project.status}
-                    </Typography>
-                    <Typography variant="body1">
-                        Description: {project.description}
-                    </Typography>
-                    <Typography variant="body1">
-                        Website: {project.websiteUrl}
-                    </Typography>
-                    {project.associates &&
-                        <AssociateList associates={project.associates} />
-                    }
-                </Stack>
-            </Box>
-        </>
+        <Box sx={{ minWidth: 275 }}>
+            <Card variant="outlined" sx={{ borderColor: 'lightgrey' }}>{card}</Card>
+        </Box>
     )
 }
 

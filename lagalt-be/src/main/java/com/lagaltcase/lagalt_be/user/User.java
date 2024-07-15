@@ -32,7 +32,7 @@ public class User {
     @Column
     private String email;
 
-    @Size(min = 8, max = 30, message = "Password should have 8-30 characters")
+    @Size(min = 8, message = "Password should have at least 8 characters")
     @Column
     private String password;
 

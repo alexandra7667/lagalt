@@ -50,11 +50,14 @@ public class ProjectController {
                 projectRequest.getWebsiteUrl()
         );
 
+        projectRepository.save(newProject);
+
         //Set associate
         Associate associate = new Associate(user, newProject);
         associate.setOwner(true);
         associate.setVisitor(true);
         associate.setCollaborator(true);
+
         associateRepository.save(associate);
 
         newProject.getAssociatedUsers().add(associate);
