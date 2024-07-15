@@ -1,39 +1,41 @@
 import PropTypes from 'prop-types';
-import { Box, Typography, CardContent, Card } from '@mui/material';
+import { Box, Typography, CardContent, Card, CardActionArea } from '@mui/material';
 
 function ProjectCard({ project }) {
 
     //Set border color to green if skills match
     //Set border color to light grey if skills do not match
 
-    const card = (
-        <>
-            <CardContent>
-                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                    {project.category}
-                </Typography>
-                <Typography variant="h5">
-                    {project.title}
-                </Typography>
-                <Typography color="text.secondary">
-                    tags:
-                </Typography>
-                <Typography variant="body2">
-                    tag1, tag2, tag3
-                </Typography>
-                <Typography color="text.secondary">
-                    needed skills:
-                </Typography>
-                <Typography variant="body2">
-                    skill1, skill2, skill3
-                </Typography>
-            </CardContent>
-        </>
-    );
+    const goToProject = () => {
+        console.log(`Clicked on project: ${project.id}`)
+    }
 
     return (
         <Box sx={{ minWidth: 275 }}>
-            <Card variant="outlined" sx={{ borderColor: 'lightgrey' }}>{card}</Card>
+            <Card variant="outlined" sx={{ borderColor: 'lightgrey' }}>
+                <CardActionArea onClick={goToProject}>
+                    <CardContent>
+                        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                            {project.category}
+                        </Typography>
+                        <Typography variant="h5">
+                            {project.title}
+                        </Typography>
+                        <Typography color="text.secondary">
+                            tags:
+                        </Typography>
+                        <Typography variant="body2">
+                            {project.tags.join(', ')}
+                        </Typography>
+                        <Typography color="text.secondary">
+                            needed skills:
+                        </Typography>
+                        <Typography variant="body2">
+                            {project.neededSkills.join(', ')}
+                        </Typography>
+                    </CardContent>
+                </CardActionArea>
+            </Card>
         </Box>
     )
 }

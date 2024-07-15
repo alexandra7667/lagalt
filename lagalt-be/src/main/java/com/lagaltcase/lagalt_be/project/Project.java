@@ -59,13 +59,13 @@ public class Project {
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<Associate> associatedUsers  = new ArrayList<>();
 
-    public Project(String title, String description, String category, String websiteUrl) {
-        System.out.println("IN PROJECT CONSTRUCTOR");
+    public Project(String title, String description, String category, String websiteUrl, List<String> neededSkills, List<String> tags) {
         this.title = title;
         this.description = description;
         this.category = category;
         this.websiteUrl = websiteUrl;
-        //this.user = user;
+        this.neededSkills = neededSkills;
+        this.tags = tags;
         this.status = "Founding";
     }
 }

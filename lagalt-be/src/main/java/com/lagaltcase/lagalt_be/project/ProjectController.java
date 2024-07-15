@@ -47,8 +47,22 @@ public class ProjectController {
                 projectRequest.getTitle(),
                 projectRequest.getDescription(),
                 projectRequest.getCategory(),
-                projectRequest.getWebsiteUrl()
+                projectRequest.getWebsiteUrl(),
+                projectRequest.getNeededSkills(),
+                projectRequest.getTags()
         );
+
+//        if(projectRequest.getNeededSkills() != null) {
+//            for(String skill : projectRequest.getNeededSkills()) {
+//                newProject.getNeededSkills().add(skill);
+//            }
+//        }
+//
+//        if(projectRequest.getTags() != null) {
+//            for(String tag : projectRequest.getTags()) {
+//                newProject.getTags().add(tag);
+//            }
+//        }
 
         projectRepository.save(newProject);
 
@@ -119,8 +133,8 @@ public class ProjectController {
 
         if(projectRequest.getDescription() != null) project.setDescription(projectRequest.getDescription());
         if(projectRequest.getWebsiteUrl() != null) project.setWebsiteUrl(projectRequest.getWebsiteUrl());
-        if(projectRequest.getNeededSkill() != null) project.getNeededSkills().add(projectRequest.getNeededSkill());
-        if(projectRequest.getTag() != null) project.getTags().add(projectRequest.getTag());
+        if(projectRequest.getNeededSkills() != null) project.getNeededSkills().add(projectRequest.getNeededSkills().get(0));
+        if(projectRequest.getTags() != null) project.getTags().add(projectRequest.getTags().get(0));
 
         if(projectRequest.getStatus() != null) {
             project.setStatus(projectRequest.getStatus());
