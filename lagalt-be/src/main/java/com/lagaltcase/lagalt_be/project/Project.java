@@ -4,6 +4,7 @@ import com.lagaltcase.lagalt_be.associate.Associate;
 import com.lagaltcase.lagalt_be.message.Message;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,10 +22,11 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotEmpty
+    @Size(min = 4, max = 20, message = "Project title should have 4-20 characters")
     @Column
     private String title;
 
+    @Size(max = 750, message = "Project description should have no more than 750 characters")
     @Column
     private String description;
 
