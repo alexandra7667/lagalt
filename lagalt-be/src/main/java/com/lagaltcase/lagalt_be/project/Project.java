@@ -26,7 +26,7 @@ public class Project {
     @Column
     private String title;
 
-    @Size(max = 750, message = "Project description should have no more than 750 characters")
+    @Size(min = 4, max = 750, message = "Project description should have 4-750 characters")
     @Column
     private String description;
 
