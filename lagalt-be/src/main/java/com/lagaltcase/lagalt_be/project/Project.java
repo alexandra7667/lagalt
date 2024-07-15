@@ -4,6 +4,7 @@ import com.lagaltcase.lagalt_be.associate.Associate;
 import com.lagaltcase.lagalt_be.message.Message;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,6 +26,7 @@ public class Project {
     @Column
     private String title;
 
+    @Size(max = 750, message = "Description should have no more than 750 characters")
     @Column
     private String description;
 

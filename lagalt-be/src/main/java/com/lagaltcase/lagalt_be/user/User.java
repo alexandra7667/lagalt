@@ -23,7 +23,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Size(max = 20, message = "Username should have no more than 20 characters")
+    @Size(min = 4, max = 20, message = "Username should have 4-20 characters")
     @Column(unique = true)
     private String username;
 
@@ -32,10 +32,11 @@ public class User {
     @Column
     private String email;
 
-    @Size(min = 8, message = "Password should have at least 8 characters")
+    @Size(min = 8, max = 30, message = "Password should have 8-30 characters")
     @Column
     private String password;
 
+    @Size(max = 750, message = "Description should have no more than 750 characters")
     @Column
     private String description;
 
