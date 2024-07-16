@@ -11,7 +11,7 @@ function ProjectCard({ project }) {
     }
 
     return (
-        <Box sx={{ minWidth: 275 }}>
+        <Box sx={{ }}>
             <Card variant="outlined" sx={{ borderColor: 'lightgrey' }}>
                 <CardActionArea onClick={goToProject}>
                     <CardContent>
