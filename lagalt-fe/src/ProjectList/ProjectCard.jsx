@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Typography, CardContent, Card, CardActionArea } from '@mui/material';
+import { Typography, CardContent, Card, CardActionArea, Box } from '@mui/material';
 
 function ProjectCard({ project }) {
 
@@ -11,23 +11,23 @@ function ProjectCard({ project }) {
     }
 
     return (
-        <Card variant="outlined" sx={{ borderColor: 'lightgrey' }}>
+        <Card variant="outlined" sx={{ borderColor: 'lightgrey', m: '10px' }}>
             <CardActionArea onClick={goToProject}>
                 <CardContent>
-                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                    <Typography sx={{ textAlign: 'center' }} color="text.secondary" gutterBottom>
                         {project.category}
                     </Typography>
                     <Typography variant="h5">
                         {project.title}
                     </Typography>
                     <Typography color="text.secondary">
-                        tags:
+                        Tags:
                     </Typography>
                     <Typography variant="body2">
                         {project.tags.join(', ')}
                     </Typography>
                     <Typography color="text.secondary">
-                        needed skills:
+                        Needed skills:
                     </Typography>
                     <Typography variant="body2">
                         {project.neededSkills.join(', ')}

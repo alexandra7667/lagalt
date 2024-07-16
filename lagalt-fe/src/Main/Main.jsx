@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { urlBackendBasePath } from "../assets/urls";
-import { Autocomplete, Box, FormControl, IconButton, InputAdornment, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { Autocomplete, Box, FormControl, IconButton, InputAdornment, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import ProjectList from '../ProjectList/ProjectList.jsx'
 
@@ -59,6 +59,7 @@ function Main() {
 
     const filterByCategory = (e) => {
         setSelectedCategory(e.target.value);
+
         if (e.target.value === "All") setFilteredProjects(projects);
         else setFilteredProjects(projects.filter(project => project.category === e.target.value));
     };
@@ -77,22 +78,22 @@ function Main() {
         projects.forEach(project => {
             if (project.tags.length > 0) {
                 project.tags.forEach(tag => {
-                    if (tag === value) {
+                    if (tag.toLowerCase() === value.toLowerCase()) { //Ignore casing
                         projectSet.add(project);
                         match = true;
-                        return;
+                        return; //Exit tags loop
                     }
                 })
             }
 
-            if (match) return;
+            if (match) return; //Exit project loop (Continue to next project)
 
             if (project.neededSkills.length > 0) {
                 project.neededSkills.forEach(skill => {
-                    if (skill === value) {
+                    if (skill.toLowerCase() === value.toLowerCase()) {
                         projectSet.add(project);
                         match = true;
-                        return;
+                        return; //Exit neededSkills loop
                     }
                 })
             }
@@ -105,7 +106,9 @@ function Main() {
 
     return (
         <>
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', my: '20px' }}>
+            <Typography variant="h4" sx={{ mb: '20px', textAlign: 'center' }}>Browse Projects</Typography>
+
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: '20px' }}>
                 {keywords && (
                     <Autocomplete
                         freeSolo
@@ -133,7 +136,7 @@ function Main() {
                         )}
                     />)}
 
-                <FormControl sx={{ mb: '20px', width: { xs: '300px', sm: '400px' } }} >
+                <FormControl sx={{ width: { xs: '300px', sm: '400px' } }} >
                     <InputLabel id="label-category">Category</InputLabel>
                     <Select
                         labelId="label-category"

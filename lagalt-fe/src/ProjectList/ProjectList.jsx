@@ -6,15 +6,13 @@ import PropTypes from 'prop-types';
 function ProjectList({ projects }) {
 
     return (
-        <>
-            <Grid container spacing={2}>
+            <Grid container sx={{px: '20px', maxWidth: '2000px', width: '100%', margin: 'auto'}}>
                 {projects.map((project, index) => (
                     <Grid item xs={12} sm={6} md={4} xl={3} key={index}>
                         <ProjectCard project={project} />
                     </Grid>
                 ))}
             </Grid>
-        </>
     )
 }
 
