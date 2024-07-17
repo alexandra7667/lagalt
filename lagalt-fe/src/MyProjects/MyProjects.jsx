@@ -82,15 +82,9 @@ function MyProjects() {
         setListsFilled(true);
     }
 
-    const handleOwner = () => {
-        setOpenOwner(!openOwner);
-    }
-    const handleMember = () => {
-        setOpenMember(!openMember);
-    }
-    const handleApplications = () => {
-        setOpenApplications(!openApplications);
-    }
+    const toggleOpen = (setter) => {
+        setter(open => !open);
+    };
 
     const goToProject = (projectId) => {
         console.log(`Go to project ${projectId}`);
@@ -98,7 +92,7 @@ function MyProjects() {
 
     return (
         <List>
-            <ListItemButton onClick={handleOwner}>
+            <ListItemButton onClick={() => toggleOpen(setOpenOwner)}>
                 <ListItemIcon>
                     <LocalPoliceIcon />
                 </ListItemIcon>
@@ -115,7 +109,7 @@ function MyProjects() {
                 </List>
             </Collapse>
 
-            <ListItemButton onClick={handleMember}>
+            <ListItemButton onClick={() => toggleOpen(setOpenMember)}>
                 <ListItemIcon>
                     <BadgeIcon />
                 </ListItemIcon>
@@ -132,7 +126,7 @@ function MyProjects() {
                 </List>
             </Collapse>
 
-            <ListItemButton onClick={handleApplications}>
+            <ListItemButton onClick={() => toggleOpen(setOpenApplications)}>
                 <ListItemIcon>
                     <ForwardToInboxIcon />
                 </ListItemIcon>
@@ -149,7 +143,6 @@ function MyProjects() {
                     ))}
                 </List>
             </Collapse>
-
         </List>
     );
 }

@@ -141,9 +141,9 @@ function Profile() {
                                 </li>
                             ))}
                         </ul>
+                        <Button variant="contained" onClick={updateProfile}>Update Profile</Button>
                     </>
                 )}
-                <Button variant="contained" onClick={updateProfile}>Update Profile</Button>
             </Stack>
         </form>
 
