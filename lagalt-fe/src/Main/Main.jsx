@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
 import { urlBackendBasePath } from "../assets/urls";
 import ProjectsView from "../ProjectsView/ProjectsView";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import NewProject from "../NewProject/NewProject";
 
 
-function Main() {
+function Main({ navPage }) {
     const [projects, setProjects] = useState([]);
-    const [pageTitle, setPageTitle] = useState('Browse Projects');
-
+    const [pageTitle, setPageTitle] = useState('Create New Project');
+    const [page, setPage] = useState('newproject');
 
     useEffect(() => {
         fetchOrders();
+        //setPage(navPage);
+        //setPageTitle(navPage);
     }, [])
 
     async function fetchOrders() {
@@ -37,11 +40,13 @@ function Main() {
 
 
     return (
-        <>
-            <Typography variant="h4" sx={{ mb: '20px', textAlign: 'center' }}>{pageTitle}</Typography>
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: '20px', }}>
+            <Typography variant="h4" sx={{ mb: '40px', textAlign: 'center' }}>{pageTitle}</Typography>
 
-            {projects && <ProjectsView projects={projects} />}
-        </>
+            {projects && page === 'projectsview' && <ProjectsView projects={projects} />}
+
+            {page === 'newproject' && <NewProject />}
+        </Box>
     )
 }
 

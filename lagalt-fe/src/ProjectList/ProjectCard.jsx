@@ -1,5 +1,10 @@
 import PropTypes from 'prop-types';
-import { Typography, CardContent, Card, CardActionArea, Box } from '@mui/material';
+import { Typography, CardContent, Card, CardActionArea, CardMedia } from '@mui/material';
+import hamster from '../assets/img/hamster.jpg';
+import flowers from '../assets/img/flowers.jpg';
+import tree from '../assets/img/tree.jpg';
+import beach from '../assets/img/beach.jpg';
+
 
 function ProjectCard({ project }) {
 
@@ -10,13 +15,37 @@ function ProjectCard({ project }) {
         console.log(`Clicked on project: ${project.id}`)
     }
 
+    let image;
+    switch (project.category) {
+        case 'Films':
+            image = beach;
+            break;
+        case 'Music':
+            image = hamster;
+            break;
+        case 'Web Development':
+            image = flowers;
+            break;
+        default:
+            image = tree;
+            break;
+    }
+
     return (
         <Card variant="outlined" sx={{ borderColor: 'lightgrey', m: '10px' }}>
             <CardActionArea onClick={goToProject}>
+                <Typography sx={{ textAlign: 'center', my: '5px' }} color="text.secondary" gutterBottom>
+                    {project.category}
+                </Typography>
+
+                <CardMedia
+                    component="img"
+                    height="140"
+                    image={image}
+                    alt={project.title}
+                />
+
                 <CardContent>
-                    <Typography sx={{ textAlign: 'center' }} color="text.secondary" gutterBottom>
-                        {project.category}
-                    </Typography>
                     <Typography variant="h5">
                         {project.title}
                     </Typography>
