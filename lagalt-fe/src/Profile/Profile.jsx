@@ -8,18 +8,11 @@ import AddIcon from '@mui/icons-material/Add';
 
 function Profile() {
     const [user, setUser] = useState(null);
-    const [userSet, setUserSet] = useState(false);
     const [skill, setSkill] = useState('');
 
     useEffect(() => {
         fetchUser();
     }, []);
-
-    useEffect(() => {
-        if (user) {
-            setUserSet(true);
-        }
-    }, [user]);
 
     async function fetchUser() {
         //const token = localStorage.getItem('token');
@@ -100,7 +93,7 @@ function Profile() {
     return (
         <form style={{ display: 'flex', flexDirection: 'column' }}>
             <Stack direction="column" spacing={2}>
-                {userSet && (
+                {user && (
                     <>
                         <Box sx={{
                             display: 'flex',
