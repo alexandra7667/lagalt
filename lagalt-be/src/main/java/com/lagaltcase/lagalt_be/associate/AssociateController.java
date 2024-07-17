@@ -4,6 +4,7 @@ import com.lagaltcase.lagalt_be.dto.AssociateDTO;
 import com.lagaltcase.lagalt_be.project.Project;
 import com.lagaltcase.lagalt_be.project.ProjectRepository;
 import com.lagaltcase.lagalt_be.request.AssociateRequest;
+import com.lagaltcase.lagalt_be.response.AssociateListResponse;
 import com.lagaltcase.lagalt_be.response.AssociateResponse;
 import com.lagaltcase.lagalt_be.response.ErrorResponse;
 import com.lagaltcase.lagalt_be.user.User;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*") //Ändra till localhost
 @RestController
@@ -25,6 +27,30 @@ public class AssociateController {
     private UserRepository userRepository;
     @Autowired
     private ProjectRepository projectRepository;
+
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<?> getAllAssociations(@PathVariable int userId) {
+        User user = userRepository.findById(userId).orElse(null);
+
+        if (user == null) {
+            ErrorResponse errorResponse = new ErrorResponse();
+            errorResponse.set("No user with that id found.");
+
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+        }
+
+        List<Associate> associates = associateRepository.findByUser(user);
+
+        List<AssociateDTO> associateDTOS = associates.stream()
+                .map(AssociateDTO::new)
+                .collect(Collectors.toList());
+
+        AssociateListResponse associateListResponse = new AssociateListResponse();
+        associateListResponse.set(associateDTOS);
+
+        return ResponseEntity.ok(associateListResponse);
+    }
 
     @PostMapping("/makeVisitor")
     public ResponseEntity<?> makeVisitor(@RequestBody AssociateRequest associateRequest) {

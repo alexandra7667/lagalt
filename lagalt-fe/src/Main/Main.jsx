@@ -3,20 +3,21 @@ import { urlBackendBasePath } from "../assets/urls";
 import ProjectsView from "../ProjectsView/ProjectsView";
 import { Box, Typography } from "@mui/material";
 import NewProject from "../NewProject/NewProject";
+import MyProjects from "../MyProjects/MyProjects";
 
 
 function Main({ navPage }) {
     const [projects, setProjects] = useState([]);
-    const [pageTitle, setPageTitle] = useState('Create New Project');
-    const [page, setPage] = useState('newproject');
+    const [pageTitle, setPageTitle] = useState('My Projects');
+    const [page, setPage] = useState('myprojects');
 
     useEffect(() => {
-        fetchOrders();
+        fetchProjects();
         //setPage(navPage);
         //setPageTitle(navPage);
     }, [])
 
-    async function fetchOrders() {
+    async function fetchProjects() {
         //const token = localStorage.getItem('token');
 
         const headers = {
@@ -46,6 +47,8 @@ function Main({ navPage }) {
             {projects && page === 'projectsview' && <ProjectsView projects={projects} />}
 
             {page === 'newproject' && <NewProject />}
+
+            {page === 'myprojects' && <MyProjects />}
         </Box>
     )
 }
