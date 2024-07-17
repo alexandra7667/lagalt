@@ -103,7 +103,7 @@ function MyProjects() {
                 <List component="div" disablePadding>
                     {listsFilled && ownedProjects.map(project => (
                         <ListItemButton onClick={() => goToProject(project.id)} key={project.id} sx={{ pl: 4 }}>
-                            <ListItemText primary={project.id + " " + project.projectTitle} />
+                            <ListItemText primary={project.projectTitle} />
                         </ListItemButton>
                     ))}
                 </List>
@@ -134,11 +134,11 @@ function MyProjects() {
                 {openApplications ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={openApplications} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
+                <List disablePadding>
                     {listsFilled && applications.map(project => (
                         <ListItemButton onClick={() => goToProject(project.id)} key={project.id} sx={{ pl: 4 }}>
                             <ListItemText primary={project.projectTitle} />
-                            <ListItemText primary={project.motivationalLetter} />
+                            <ListItemText secondary={project.motivationalLetter} />
                         </ListItemButton>
                     ))}
                 </List>
