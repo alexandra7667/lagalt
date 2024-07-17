@@ -19,7 +19,6 @@ public class UserDTO {
     private List<AssociateDTO> associatedProjects;
     private List<String> skills;
 
-
     public UserDTO(User user) {
         List<AssociateDTO> associatedProjectDTOs = user.getAssociatedProjects().stream()
                 .map(AssociateDTO::new)

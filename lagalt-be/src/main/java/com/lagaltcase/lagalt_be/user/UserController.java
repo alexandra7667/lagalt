@@ -4,6 +4,7 @@ package com.lagaltcase.lagalt_be.user;
 import com.lagaltcase.lagalt_be.dto.UserDTO;
 import com.lagaltcase.lagalt_be.project.Project;
 import com.lagaltcase.lagalt_be.project.ProjectRepository;
+import com.lagaltcase.lagalt_be.request.UserRequest;
 import com.lagaltcase.lagalt_be.response.ErrorResponse;
 import com.lagaltcase.lagalt_be.response.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,32 @@ public class UserController {
         User newUser = this.userRepository.save(user);
 
         UserDTO userDTO = new UserDTO(newUser);
+
+        UserResponse userResponse = new UserResponse();
+        userResponse.set(userDTO);
+
+        return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
+    }
+
+    @PutMapping
+    public ResponseEntity<?> updateUser(@RequestBody UserRequest userRequest) {
+        User user = this.userRepository.findById(userRequest.getUserId()).orElse(null);
+
+        if (user == null) {
+            ErrorResponse errorResponse = new ErrorResponse();
+            errorResponse.set("No user with that id found.");
+
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+        }
+
+        //Send all info all times
+        user.setDescription(userRequest.getDescription());
+        user.setHidden(userRequest.isHidden());
+        user.setSkills(userRequest.getSkills());
+
+        User updatedUser = this.userRepository.save(user);
+
+        UserDTO userDTO = new UserDTO(updatedUser);
 
         UserResponse userResponse = new UserResponse();
         userResponse.set(userDTO);

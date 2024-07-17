@@ -4,12 +4,13 @@ import ProjectsView from "../ProjectsView/ProjectsView";
 import { Box, Typography } from "@mui/material";
 import NewProject from "../NewProject/NewProject";
 import MyProjects from "../MyProjects/MyProjects";
+import Profile from "../Profile/Profile";
 
 
 function Main({ navPage }) {
     const [projects, setProjects] = useState([]);
-    const [pageTitle, setPageTitle] = useState('My Projects');
-    const [page, setPage] = useState('myprojects');
+    const [pageTitle, setPageTitle] = useState('Profile');
+    const [page, setPage] = useState('profile');
 
     useEffect(() => {
         fetchProjects();
@@ -49,6 +50,8 @@ function Main({ navPage }) {
             {page === 'newproject' && <NewProject />}
 
             {page === 'myprojects' && <MyProjects />}
+
+            {page === 'profile' && <Profile />}
         </Box>
     )
 }
