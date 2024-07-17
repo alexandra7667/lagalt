@@ -31,7 +31,7 @@ function Header() {
                     <Typography variant="h6" component="h1" sx={{ flexGrow: 1 }}>
                         Lagalt
                     </Typography>
-                    <Button color="inherit">Login</Button>
+                    <Button color="inherit">Log in</Button>
                 </Toolbar>
 
                 <Menu

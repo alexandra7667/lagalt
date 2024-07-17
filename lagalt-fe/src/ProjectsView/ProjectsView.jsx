@@ -63,7 +63,10 @@ function ProjectsView({ projects }) {
                 })
             }
 
-            if (match) return; //Exit project loop (Continue to next project)
+            if (match) {
+                match = false;
+                return; //Exit project loop (Continue to next project)
+            }
 
             if (project.neededSkills.length > 0) {
                 project.neededSkills.forEach(skill => {
