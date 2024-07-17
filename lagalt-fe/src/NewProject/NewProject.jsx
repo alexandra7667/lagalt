@@ -1,7 +1,7 @@
 import { Button, FormControl, IconButton, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { urlBackendBasePath } from "../assets/urls";
 
 const initialState = {
@@ -33,19 +33,17 @@ function NewProject() {
             //"Authorization": `Bearer ${token}`
         };
 
-        const fetchProjectsResponse = await fetch(`${urlBackendBasePath}/projects`, {
+        const postProjectsResponse = await fetch(`${urlBackendBasePath}/projects`, {
             method: "POST",
             headers: headers,
             body: JSON.stringify(newProject),
         });
 
-        // if (!fetchProjectsResponse.status !== 201) {
+        // if (!postProjectsResponse.status !== 201) {
         //     throw new Error("Failed to post project to the database");
         // }
 
-        console.log(fetchProjectsResponse);
-
-        //setSubmitDisabled(true);
+        console.log(postProjectsResponse);
     }
 
     const handleChange = (e) => {
@@ -56,6 +54,11 @@ function NewProject() {
             [e.target.name]: e.target.value
         })
     }
+
+    useEffect(() => {
+        if (newProject.title !== '' && newProject.description !== '') setSubmitDisabled(false);
+        else setSubmitDisabled(true);
+    }, [newProject])
 
     const addTag = (e) => {
         setTag(e.target.value);
@@ -120,6 +123,7 @@ function NewProject() {
                 <TextField
                     sx={{ mb: '15px' }}
                     required
+                    variant="standard"
                     id="title"
                     name="title"
                     label="Title (max 20 characters)"
@@ -139,6 +143,7 @@ function NewProject() {
 
                 <TextField
                     sx={{ mb: '15px' }}
+                    variant="standard"
                     id="websiteUrl"
                     name="websiteUrl"
                     label="Website URL"
@@ -147,6 +152,7 @@ function NewProject() {
 
                 <TextField
                     sx={{ mt: '15px', mb: '5px' }}
+                    variant="standard"
                     id="tag"
                     value={tag}
                     label="Enter a tag (e.g. 'Documentary')"
@@ -167,6 +173,7 @@ function NewProject() {
 
                 <TextField
                     sx={{ mb: '5px' }}
+                    variant="standard"
                     id="neededSkill"
                     value={neededSkill}
                     label="Enter a needed skill (e.g. 'Photography')"
