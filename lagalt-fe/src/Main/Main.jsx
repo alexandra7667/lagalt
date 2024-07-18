@@ -1,57 +1,38 @@
 import { useEffect, useState } from "react";
-import { urlBackendBasePath } from "../assets/urls";
 import ProjectsView from "../ProjectsView/ProjectsView";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import NewProject from "../NewProject/NewProject";
 import MyProjects from "../MyProjects/MyProjects";
 import Profile from "../Profile/Profile";
+import { Route, Routes } from "react-router-dom";
+import FetchProjects from "./FetchProjects.js"
 
 
-function Main({ navPage }) {
-    const [projects, setProjects] = useState([]);
-    const [pageTitle, setPageTitle] = useState('Profile');
-    const [page, setPage] = useState('profile');
+function Main({ user }) {
+    const [projects, setProjects] = useState(null);
 
     useEffect(() => {
-        fetchProjects();
-        //setPage(navPage);
-        //setPageTitle(navPage);
+        FetchProjects(setProjects);
     }, [])
-
-    async function fetchProjects() {
-        //const token = localStorage.getItem('token');
-
-        const headers = {
-            "Content-Type": "application/json",
-            //"Authorization": `Bearer ${token}`
-        };
-
-        const fetchProjectsResponse = await fetch(`${urlBackendBasePath}/projects`, {
-            method: "GET",
-            headers: headers
-        });
-
-        if (!fetchProjectsResponse.ok) {
-            throw new Error("Failed to get projects from the database");
-        }
-
-        const projectsResponse = await fetchProjectsResponse.json();
-
-        setProjects(projectsResponse.data);
-    }
 
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: '20px', }}>
-            <Typography variant="h4" sx={{ mb: '40px', textAlign: 'center' }}>{pageTitle}</Typography>
+            <Routes>
+                {projects && (
+                    <Route path="/dashboard" element={<ProjectsView projects={projects} user={user} />} />
+                )}
 
-            {projects && page === 'projectsview' && <ProjectsView projects={projects} />}
+                {user && (
+                    <>
+                        <Route path="/newproject" element={<NewProject token={user.token} />} />
 
-            {page === 'newproject' && <NewProject />}
+                        <Route path="/myprojects" element={<MyProjects token={user.token} />} />
 
-            {page === 'myprojects' && <MyProjects />}
-
-            {page === 'profile' && <Profile />}
+                        <Route path="/profile" element={<Profile user={user} />} />
+                    </>
+                )}
+            </Routes>
         </Box>
     )
 }
