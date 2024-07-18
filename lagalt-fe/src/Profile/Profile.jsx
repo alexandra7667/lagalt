@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { urlBackendBasePath } from "../assets/urls";
 import { Box, Button, IconButton, Stack, TextField, Typography } from "@mui/material";
 import Avatar from '@mui/material/Avatar';
@@ -6,39 +6,8 @@ import { blueGrey } from "@mui/material/colors";
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 
-function Profile() {
-    const [user, setUser] = useState(null);
+function Profile({ user, setUser }) {
     const [skill, setSkill] = useState('');
-
-    useEffect(() => {
-        fetchUser();
-    }, []);
-
-    async function fetchUser() {
-        //const token = localStorage.getItem('token');
-
-        const userId = 1;
-
-        const headers = {
-            "Content-Type": "application/json",
-            //"Authorization": `Bearer ${token}`
-        };
-
-        const fetchUserResponse = await fetch(`${urlBackendBasePath}/users/${userId}`, {
-            method: "GET",
-            headers: headers
-        });
-
-        if (!fetchUserResponse.ok) {
-            throw new Error("Failed to get projects from the database");
-        }
-
-        const userResponse = await fetchUserResponse.json();
-
-        console.log(userResponse.data);
-
-        setUser(userResponse.data);
-    }
 
     const handleChange = (e) => {
         setUser({
@@ -91,62 +60,65 @@ function Profile() {
     }
 
     return (
-        <form style={{ display: 'flex', flexDirection: 'column' }}>
-            <Stack direction="column" spacing={2}>
-                {user && (
-                    <>
-                        <Box sx={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                        }}>
-                            <Avatar sx={{ bgcolor: blueGrey, textAlign: 'center' }}>{user.username[0]}</Avatar>
+        <>
+            <Typography variant="h4" sx={{ mb: '40px', textAlign: 'center' }}>Account Settings</Typography>
 
-                            <Typography variant="h5">
-                                {user.username}
-                            </Typography>
+            <form style={{ display: 'flex', flexDirection: 'column' }}>
+                <Stack direction="column" spacing={2}>
+                    {user && (
+                        <>
+                            <Box sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}>
+                                <Avatar sx={{ bgcolor: blueGrey, textAlign: 'center' }}>{user.username[0]}</Avatar>
 
-                            <Typography>
-                                {user.email}
-                            </Typography>
-                        </Box>
+                                <Typography variant="h5">
+                                    {user.username}
+                                </Typography>
 
-                        <TextField
-                            required
-                            multiline
-                            rows={10}
-                            id="description"
-                            name="description"
-                            label="Description"
-                            onChange={handleChange}>
-                        </TextField>
+                                <Typography>
+                                    {user.email}
+                                </Typography>
+                            </Box>
 
-                        <TextField
-                            variant="standard"
-                            id="skill"
-                            value={skill}
-                            label="Enter a new skill"
-                            onChange={addSkill}>
-                        </TextField>
-                        <Button variant="outlined" onClick={addToSkills} startIcon={<AddIcon />} size="small">
-                            Add skill
-                        </Button>
-                        <ul>
-                            {user.skills.map((skill, index) => (
-                                <li key={index}>{skill}
-                                    <IconButton onClick={() => removeSkill(skill)}>
-                                        <DeleteIcon fontSize="inherit" />
-                                    </IconButton>
-                                </li>
-                            ))}
-                        </ul>
-                        <Button variant="contained" onClick={updateProfile}>Update Profile</Button>
-                    </>
-                )}
-            </Stack>
-        </form>
+                            <TextField
+                                required
+                                multiline
+                                rows={10}
+                                id="description"
+                                name="description"
+                                label="Description"
+                                onChange={handleChange}>
+                            </TextField>
 
+                            <TextField
+                                variant="standard"
+                                id="skill"
+                                value={skill}
+                                label="Enter a new skill"
+                                onChange={addSkill}>
+                            </TextField>
+                            <Button variant="outlined" onClick={addToSkills} startIcon={<AddIcon />} size="small">
+                                Add skill
+                            </Button>
+                            <ul>
+                                {user.skills.map((skill, index) => (
+                                    <li key={index}>{skill}
+                                        <IconButton onClick={() => removeSkill(skill)}>
+                                            <DeleteIcon fontSize="inherit" />
+                                        </IconButton>
+                                    </li>
+                                ))}
+                            </ul>
+                            <Button variant="contained" onClick={updateProfile}>Update Profile</Button>
+                        </>
+                    )}
+                </Stack>
+            </form>
+        </>
     )
 }
 

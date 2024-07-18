@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Autocomplete, Box, FormControl, IconButton, InputAdornment, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { Autocomplete, Box, FormControl, IconButton, InputAdornment, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import ProjectList from '../ProjectList/ProjectList.jsx'
 import PropTypes from 'prop-types';
@@ -86,6 +86,8 @@ function ProjectsView({ projects }) {
 
     return (
         <>
+            <Typography variant="h4" sx={{ mb: '40px', textAlign: 'center' }}>Browse Projects</Typography>
+
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: '20px' }}>
                 {keywords && (
                     <Autocomplete

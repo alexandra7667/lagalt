@@ -12,6 +12,7 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import LocalPoliceIcon from '@mui/icons-material/LocalPolice';
 import { useEffect, useState } from 'react';
 import { urlBackendBasePath } from '../assets/urls';
+import { Typography } from '@mui/material';
 
 
 function MyProjects() {
@@ -91,59 +92,63 @@ function MyProjects() {
     }
 
     return (
-        <List>
-            <ListItemButton onClick={() => toggleOpen(setOpenOwner)}>
-                <ListItemIcon>
-                    <LocalPoliceIcon />
-                </ListItemIcon>
-                <ListItemText primary="Owner" />
-                {openOwner ? <ExpandLess /> : <ExpandMore />}
-            </ListItemButton>
-            <Collapse in={openOwner} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
-                    {listsFilled && ownedProjects.map(project => (
-                        <ListItemButton onClick={() => goToProject(project.id)} key={project.id} sx={{ pl: 4 }}>
-                            <ListItemText primary={project.projectTitle} />
-                        </ListItemButton>
-                    ))}
-                </List>
-            </Collapse>
+        <>
+            <Typography variant="h4" sx={{ mb: '40px', textAlign: 'center' }}>My Projects</Typography>
 
-            <ListItemButton onClick={() => toggleOpen(setOpenMember)}>
-                <ListItemIcon>
-                    <BadgeIcon />
-                </ListItemIcon>
-                <ListItemText primary="Member" />
-                {openMember ? <ExpandLess /> : <ExpandMore />}
-            </ListItemButton>
-            <Collapse in={openMember} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
-                    {listsFilled && memberProjects.map(project => (
-                        <ListItemButton onClick={() => goToProject(project.id)} key={project.id} sx={{ pl: 4 }}>
-                            <ListItemText primary={project.projectTitle} />
-                        </ListItemButton>
-                    ))}
-                </List>
-            </Collapse>
+            <List>
+                <ListItemButton onClick={() => toggleOpen(setOpenOwner)}>
+                    <ListItemIcon>
+                        <LocalPoliceIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Owner" />
+                    {openOwner ? <ExpandLess /> : <ExpandMore />}
+                </ListItemButton>
+                <Collapse in={openOwner} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding>
+                        {listsFilled && ownedProjects.map(project => (
+                            <ListItemButton onClick={() => goToProject(project.id)} key={project.id} sx={{ pl: 4 }}>
+                                <ListItemText primary={project.projectTitle} />
+                            </ListItemButton>
+                        ))}
+                    </List>
+                </Collapse>
 
-            <ListItemButton onClick={() => toggleOpen(setOpenApplications)}>
-                <ListItemIcon>
-                    <ForwardToInboxIcon />
-                </ListItemIcon>
-                <ListItemText primary="Applications" />
-                {openApplications ? <ExpandLess /> : <ExpandMore />}
-            </ListItemButton>
-            <Collapse in={openApplications} timeout="auto" unmountOnExit>
-                <List disablePadding>
-                    {listsFilled && applications.map(project => (
-                        <ListItemButton onClick={() => goToProject(project.id)} key={project.id} sx={{ pl: 4 }}>
-                            <ListItemText primary={project.projectTitle} />
-                            <ListItemText secondary={project.motivationalLetter} />
-                        </ListItemButton>
-                    ))}
-                </List>
-            </Collapse>
-        </List>
+                <ListItemButton onClick={() => toggleOpen(setOpenMember)}>
+                    <ListItemIcon>
+                        <BadgeIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Member" />
+                    {openMember ? <ExpandLess /> : <ExpandMore />}
+                </ListItemButton>
+                <Collapse in={openMember} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding>
+                        {listsFilled && memberProjects.map(project => (
+                            <ListItemButton onClick={() => goToProject(project.id)} key={project.id} sx={{ pl: 4 }}>
+                                <ListItemText primary={project.projectTitle} />
+                            </ListItemButton>
+                        ))}
+                    </List>
+                </Collapse>
+
+                <ListItemButton onClick={() => toggleOpen(setOpenApplications)}>
+                    <ListItemIcon>
+                        <ForwardToInboxIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Applications" />
+                    {openApplications ? <ExpandLess /> : <ExpandMore />}
+                </ListItemButton>
+                <Collapse in={openApplications} timeout="auto" unmountOnExit>
+                    <List disablePadding>
+                        {listsFilled && applications.map(project => (
+                            <ListItemButton onClick={() => goToProject(project.id)} key={project.id} sx={{ pl: 4 }}>
+                                <ListItemText primary={project.projectTitle} />
+                                <ListItemText secondary={project.motivationalLetter} />
+                            </ListItemButton>
+                        ))}
+                    </List>
+                </Collapse>
+            </List>
+        </>
     );
 }
 

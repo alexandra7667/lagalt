@@ -1,18 +1,29 @@
-import { AppBar, Box, Button, IconButton, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
+import { AppBar, Avatar, Box, Button, IconButton, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import { useState } from "react";
+import { blueGrey } from "@mui/material/colors";
+import { useNavigate } from "react-router-dom";
 
 
-function Header() {
+function Header({ user, setUser }) {
+    const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState(null);
 
     const toggleMenu = (event) => {
         setAnchorEl(event.currentTarget);
-      };
-    
-      const closeMenu = () => {
+    };
+
+    const closeMenu = () => {
         setAnchorEl(null);
-      };
+    };
+
+    //Make visibility of menu items hidden by default. conditional on user. log in btn conditional -> avatar with initial
+
+    const logout = () => {
+        localStorage.clear();
+        setUser(null);
+        navigate("/dashboard");
+    }
 
     return (
         <Box sx={{ flexGrow: 1, mb: '50px' }}>
@@ -31,7 +42,13 @@ function Header() {
                     <Typography variant="h6" component="h1" sx={{ flexGrow: 1 }}>
                         Lagalt
                     </Typography>
-                    <Button color="inherit">Log in</Button>
+                    <Button color="inherit" onClick={user ? navigate("/profile") : navigate("/login")}>
+                        {user ? (
+                            <Avatar sx={{ bgcolor: blueGrey[500], textAlign: 'center' }}>{user.username[0]}</Avatar>
+                        ) : (
+                            <span>Login</span>
+                        )}
+                    </Button>
                 </Toolbar>
 
                 <Menu
@@ -39,11 +56,14 @@ function Header() {
                     open={Boolean(anchorEl)}
                     onClose={closeMenu}
                 >
-                    <MenuItem onClick={closeMenu}>Browse projects</MenuItem>
-                    <MenuItem onClick={closeMenu}>Create new project</MenuItem>
-                    <MenuItem onClick={closeMenu}>My projects</MenuItem>
-                    <MenuItem onClick={closeMenu}>Account</MenuItem>
-                    <MenuItem onClick={closeMenu}>Log out</MenuItem>
+                    <MenuItem onClick={navigate("/dashboard")}>Browse projects</MenuItem>
+                    {user && (
+                        <>
+                            <MenuItem onClick={navigate("/newproject")}>Create new project</MenuItem>
+                            <MenuItem onClick={navigate("/myprojects")}>My projects</MenuItem>
+                            <MenuItem onClick={navigate("/profile")}>Account</MenuItem>
+                            <MenuItem onClick={logout}>Log out</MenuItem>
+                        </>)}
                 </Menu>
             </AppBar>
         </Box>

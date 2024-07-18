@@ -1,4 +1,4 @@
-import { Button, FormControl, IconButton, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { Button, FormControl, IconButton, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useEffect, useState } from "react";
@@ -102,6 +102,8 @@ function NewProject() {
 
     return (
         <>
+            <Typography variant="h4" sx={{ mb: '40px', textAlign: 'center' }}>Create New Project</Typography>
+
             <form style={{ display: 'flex', flexDirection: 'column' }}>
                 <FormControl sx={{ width: { xs: '300px', sm: '400px' }, mb: '20px' }} >
                     <InputLabel id="label-category">Category*</InputLabel>
