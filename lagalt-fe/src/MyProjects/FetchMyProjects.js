@@ -1,7 +1,7 @@
 import { urlBackendBasePath } from "../assets/urls";
 import PropTypes from 'prop-types';
 
-export default async function fetchMyProjects({ setProjectLists }) {
+export default async function fetchMyProjects() {
     //const token = localStorage.getItem('token');
 
     const userId = 1;
@@ -22,9 +22,9 @@ export default async function fetchMyProjects({ setProjectLists }) {
 
     const projectsResponse = await fetchProjectsResponse.json();
 
-    setProjectLists(projectsResponse.data);
+    return projectsResponse.data;
 }
 
 fetchMyProjects.propTypes = {
-    setProjectLists: PropTypes.func.isRequired
+    setProjectLists: PropTypes.func
 };

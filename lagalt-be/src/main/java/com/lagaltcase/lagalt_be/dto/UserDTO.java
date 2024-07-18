@@ -16,20 +16,20 @@ public class UserDTO {
     private String email;
     private String description;
     private boolean isHidden;
-    private List<AssociateDTO> associatedProjects;
+    //private List<AssociateDTO> associatedProjects;
     private List<String> skills;
 
     public UserDTO(User user) {
-        List<AssociateDTO> associatedProjectDTOs = user.getAssociatedProjects().stream()
-                .map(AssociateDTO::new)
-                .collect(Collectors.toList());
+//        List<AssociateDTO> associatedProjectDTOs = user.getAssociatedProjects().stream()
+//                .map(AssociateDTO::new)
+//                .collect(Collectors.toList());
 
         this.userId = user.getId();
         this.username = user.getUsername();
         this.email = user.getEmail();
         this.description = user.getDescription();
         this.isHidden = user.isHidden();
-        this.associatedProjects = associatedProjectDTOs;
+        //this.associatedProjects = associatedProjectDTOs;
         this.skills = user.getSkills();
     }
 }

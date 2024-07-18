@@ -8,8 +8,11 @@ import PropTypes from 'prop-types';
 import fetchUser from './FetchUser.js'
 import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
+import { UserContext } from "../App";
+import { useContext } from 'react'
 
-function Login({ setUser }) {
+function Login() {
+    const { setUser } = useContext(UserContext);
     const navigate = useNavigate();
     const [loginData, setLoginData] = useState({});
 

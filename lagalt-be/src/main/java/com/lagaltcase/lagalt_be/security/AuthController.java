@@ -49,32 +49,38 @@ public class AuthController {
 
         String jwt = this.jwtUtils.generateJwtToken(authentication);
 
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        UserDetailsImpl userDetailsImpl = (UserDetailsImpl) authentication.getPrincipal();
 
-        return ResponseEntity.ok(new JwtResponse(
+        JwtResponse jwtResponse = new JwtResponse(
                 jwt,
-                userDetails.getId(),
-                userDetails.getEmail(),
-                userDetails.getUsername()));
+                userDetailsImpl.getId(),
+                userDetailsImpl.getEmail(),
+                userDetailsImpl.getUsername(),
+                userDetailsImpl.getDescription(),
+                userDetailsImpl.isHidden(),
+                userDetailsImpl.getSkills()
+        );
+
+        return ResponseEntity.ok(jwtResponse);
     }
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody SignupRequest signupRequest) {
-        if (this.userRepository.existsByUsername(signupRequest.getUsername())) {    //If the username is already taken
+        if (userRepository.existsByUsername(signupRequest.getUsername())) {    //If the username is already taken
             return ResponseEntity.badRequest().body("Error: Username is already taken.");
         }
 
         //Encode password so it's not in plain text in database
-        User user = new User(signupRequest.getUsername(), signupRequest.getEmail(), this.encoder.encode(signupRequest.getPassword()));
+        User user = new User(signupRequest.getUsername(), signupRequest.getEmail(), encoder.encode(signupRequest.getPassword()));
 
         //Add Role manually because the role name needs to be retrieved from RoleRepository
         List<Role> roles = new ArrayList<>();
-        Role userRole = this.roleRepository.findByName("ROLE_USER")
+        Role userRole = roleRepository.findByName("ROLE_USER")
                 .orElseThrow(() -> new RuntimeException("Error: Role not found."));
         roles.add(userRole);
         user.setRoles(roles);
 
-        this.userRepository.save(user);
+        userRepository.save(user);
 
         return ResponseEntity.ok("User registered successfully");
     }
