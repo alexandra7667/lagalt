@@ -124,6 +124,7 @@ function NewProject() {
 
                 <TextField
                     sx={{ mb: '15px' }}
+                    autoFocus 
                     required
                     variant="standard"
                     id="title"

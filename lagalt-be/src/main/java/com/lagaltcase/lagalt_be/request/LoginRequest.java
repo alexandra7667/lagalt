@@ -1,4 +1,4 @@
-package com.lagaltcase.lagalt_be.security;
+package com.lagaltcase.lagalt_be.request;
 
 
 import lombok.Getter;

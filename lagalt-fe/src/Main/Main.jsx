@@ -5,10 +5,13 @@ import NewProject from "../NewProject/NewProject";
 import MyProjects from "../MyProjects/MyProjects";
 import Profile from "../Profile/Profile";
 import { Route, Routes } from "react-router-dom";
-import FetchProjects from "./FetchProjects.js"
+import FetchProjects from "../FetchProjects.js"
+import Login from "../Login/Login";
+
+import PropTypes from 'prop-types';
 
 
-function Main({ user }) {
+function Main({ user, setUser }) {
     const [projects, setProjects] = useState(null);
 
     useEffect(() => {
@@ -18,23 +21,32 @@ function Main({ user }) {
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: '20px', }}>
-            <Routes>
-                {projects && (
-                    <Route path="/dashboard" element={<ProjectsView projects={projects} user={user} />} />
-                )}
+        <Routes>
+          
+          {projects && (
+            <Route path="/" element={<ProjectsView projects={projects} user={user} />} />
+          )}
 
-                {user && (
-                    <>
-                        <Route path="/newproject" element={<NewProject token={user.token} />} />
+          {!user ? (
+            <Route path="/login" element={<Login setUser={setUser} />} />
+          ) : (
+            <>
+              <Route path="/newproject" element={<NewProject token={user.token} />} />
 
-                        <Route path="/myprojects" element={<MyProjects token={user.token} />} />
+              <Route path="/myprojects" element={<MyProjects token={user.token} />} />
 
-                        <Route path="/profile" element={<Profile user={user} />} />
-                    </>
-                )}
-            </Routes>
-        </Box>
+              <Route path="/profile" element={<Profile user={user} />} />
+            </>
+          )}
+
+        </Routes>
+      </Box>
     )
 }
+
+Main.propTypes = {
+    user: PropTypes.object,
+    setUser: PropTypes.func,
+};
 
 export default Main;
