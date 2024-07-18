@@ -17,7 +17,7 @@ function ProjectList({ projects }) {
 }
 
 ProjectList.propTypes = {
-    projects: PropTypes.array.isRequired
+    projects: PropTypes.array
 };
 
 export default ProjectList;

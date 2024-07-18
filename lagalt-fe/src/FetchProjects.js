@@ -1,11 +1,10 @@
-import { urlBackendBasePath } from "../assets/urls";
+import { urlBackendBasePath } from "./assets/urls";
+import PropTypes from 'prop-types';
 
-export default async function fetchProjects({ setProjects }) {
-    //const token = localStorage.getItem('token');
+export default async function fetchProjects(setProjects) {
 
     const headers = {
         "Content-Type": "application/json",
-        //"Authorization": `Bearer ${token}`
     };
 
     const fetchProjectsResponse = await fetch(`${urlBackendBasePath}/projects`, {
@@ -21,3 +20,7 @@ export default async function fetchProjects({ setProjects }) {
 
     setProjects(projectsResponse.data);
 }
+
+fetchProjects.propTypes = {
+    setProjects: PropTypes.func
+};

@@ -1,5 +1,6 @@
 package com.lagaltcase.lagalt_be.security;
 
+import com.lagaltcase.lagalt_be.request.LoginRequest;
 import com.lagaltcase.lagalt_be.response.JwtResponse;
 import com.lagaltcase.lagalt_be.security.jwt.JwtUtils;
 import com.lagaltcase.lagalt_be.user.Role;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("auth")
 public class AuthController {

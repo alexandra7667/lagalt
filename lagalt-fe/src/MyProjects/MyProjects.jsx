@@ -11,7 +11,6 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import LocalPoliceIcon from '@mui/icons-material/LocalPolice';
 import { useEffect, useState } from 'react';
-import { urlBackendBasePath } from '../assets/urls';
 import { Typography } from '@mui/material';
 
 
@@ -29,29 +28,7 @@ function MyProjects() {
         fetchMyProjects();
     }, [])
 
-    async function fetchMyProjects() {
-        //const token = localStorage.getItem('token');
-
-        const userId = 1;
-
-        const headers = {
-            "Content-Type": "application/json",
-            //"Authorization": `Bearer ${token}`
-        };
-
-        const fetchProjectsResponse = await fetch(`${urlBackendBasePath}/associates/${userId}`, {
-            method: "GET",
-            headers: headers
-        });
-
-        if (!fetchProjectsResponse.ok) {
-            throw new Error("Failed to get projects from the database");
-        }
-
-        const projectsResponse = await fetchProjectsResponse.json();
-
-        setProjectLists(projectsResponse.data);
-    }
+    
 
     const setProjectLists = (projects) => {
         const visited = [];
