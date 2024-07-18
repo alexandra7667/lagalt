@@ -1,17 +1,15 @@
 import { AppBar, Avatar, Box, Button, IconButton, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { blueGrey } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../App";
+import { useContext } from 'react'
 
-
-function Header({ user, setUser }) {
+function Header() {
+    const { user, setUser } = useContext(UserContext);
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState(null);
-
-    useEffect(() => {
-        console.log("User set, header updated")
-    }, [user]);
 
     const toggleMenu = (event) => {
         setAnchorEl(event.currentTarget);
@@ -24,6 +22,7 @@ function Header({ user, setUser }) {
     const logout = () => {
         localStorage.clear();
         setUser(null);
+        closeMenu();
         navigate("/");
     }
 
@@ -58,13 +57,15 @@ function Header({ user, setUser }) {
                     open={Boolean(anchorEl)}
                     onClose={closeMenu}
                 >
-                    <MenuItem onClick={() => {navigate("/"); closeMenu();}}>Browse projects</MenuItem>
-                    {user && (<>
-                        <MenuItem onClick={() => {navigate("/newproject"); closeMenu();}}>Create new project</MenuItem>
-                        <MenuItem onClick={() => {navigate("/myprojects"); closeMenu();}}>My projects</MenuItem>
-                        <MenuItem onClick={() => {navigate("/profile"); closeMenu();}}>Account</MenuItem>
-                        <MenuItem onClick={logout}>Log out</MenuItem>
-                    </>)}
+                    {[
+                        <MenuItem key="browse" onClick={() => { navigate("/"); closeMenu(); }}>Browse projects</MenuItem>,
+                        user && [
+                            <MenuItem key="create" onClick={() => { navigate("/newproject"); closeMenu(); }}>Create new project</MenuItem>,
+                            <MenuItem key="myprojects" onClick={() => { navigate("/myprojects"); closeMenu(); }}>My projects</MenuItem>,
+                            <MenuItem key="profile" onClick={() => { navigate("/profile"); closeMenu(); }}>Account</MenuItem>,
+                            <MenuItem key="logout" onClick={logout}>Log out</MenuItem>
+                        ]
+                    ]}
                 </Menu>
             </AppBar>
         </Box>

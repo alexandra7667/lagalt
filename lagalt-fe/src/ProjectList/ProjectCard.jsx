@@ -5,14 +5,11 @@ import flowers from '../assets/img/flowers.jpg';
 import tree from '../assets/img/tree.jpg';
 import beach from '../assets/img/beach.jpg';
 
-
 function ProjectCard({ project }) {
-
-    //Set border color to green if skills match
-    //Set border color to light grey if skills do not match
-
     const goToProject = () => {
         console.log(`Clicked on project: ${project.id}`)
+        //add to visited projects in associations
+        
     }
 
     let image;
@@ -32,8 +29,17 @@ function ProjectCard({ project }) {
     }
 
     return (
-        <Card variant="outlined" sx={{ borderColor: 'lightgrey', m: '10px' }}>
+        <Card variant="outlined" sx={{ borderColor: project.matchingSkill ? 'lightgreen' : 'lightgrey', m: '10px' }}>
             <CardActionArea onClick={goToProject}>
+                
+                {project.matchingSkill ? (
+                    <Typography sx={{ color: 'green', textAlign: 'right', mr: '5px', mt: '5px' }}>
+                        - Skill match -
+                    </Typography>
+                ) : (
+                    <br style={{marginTop: '10px'}}/>
+                )}
+
                 <Typography sx={{ textAlign: 'center', my: '5px' }} color="text.secondary" gutterBottom>
                     {project.category}
                 </Typography>
@@ -46,7 +52,7 @@ function ProjectCard({ project }) {
                 />
 
                 <CardContent>
-                    <Typography variant="h5">
+                    <Typography variant="h5" sx={{ color: project.visited ? 'blue' : 'black'}}>
                         {project.title}
                     </Typography>
                     <Typography color="text.secondary">

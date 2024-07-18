@@ -2,25 +2,62 @@ import { useEffect, useState } from "react";
 import { Autocomplete, Box, FormControl, IconButton, InputAdornment, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import ProjectList from '../ProjectList/ProjectList.jsx'
-import PropTypes from 'prop-types';
+import { UserContext } from "../App";
+import { useContext } from 'react'
+import { ProjectContext } from "../Main/Main.jsx";
 
-
-function ProjectsView({ projects }) {
+function ProjectsView() {
+    const { user } = useContext(UserContext);
+    const { projects, visitedProjects } = useContext(ProjectContext);
     const [filteredProjects, setFilteredProjects] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState("All");
     const [keywords, setKeywords] = useState([]);
     const [selectedKeyword, setSelectedKeyword] = useState("");
 
     useEffect(() => {
-        setFilteredProjects(projects);
-        addTagsToKeywords(projects);
-    }, [projects])
+        addTagsToKeywords();
 
-    const addTagsToKeywords = (allProjects) => {
-        //add all tags and needed skills from all projects to keywords
+        const setProjectsData = async () => {
+            const setted = await test(projects); //Sätt som i my projects (egen metod med const return)
+            console.log("first: " + setted);
+            //visitedProjects = null
+            if (visitedProjects) matchSkillsAndVisited(setted);
+        }
+
+        setProjectsData();
+    }, [projects, visitedProjects]);
+
+    async function test(ps) {
+        setFilteredProjects(ps);
+        return true;
+    }
+
+
+    const matchSkillsAndVisited = (setted) => {
+        console.log("second: " + setted)
+        filteredProjects.forEach(project => {
+            //Checks if any neededSkill in the project matches with user.skills
+            if (project.neededSkills.some(neededSkill => user.skills.includes(neededSkill))) {
+                //Add a new property to the project object
+                project.matchingSkill = true;
+            }
+            console.log("VISITED: " + visitedProjects.projectTitle)
+            //check if project.id === any visited.projectId
+            // visitedProjects.forEach(visited => {
+            //     console.log("VISITED: " + visited);
+            //     if (project.id === visited.projectId) {
+            //         project.visited = true;
+            //         console.log("IN visited");
+            //     }
+            // })
+        });
+    };
+
+    const addTagsToKeywords = () => {
+        //Add all tags and needed skills from all projects to keywords
         const keywordSet = new Set();
 
-        allProjects.forEach(project => {
+        projects.forEach(project => {
 
             project.tags.forEach(tag => {
                 keywordSet.add(tag);
@@ -137,10 +174,6 @@ function ProjectsView({ projects }) {
             {filteredProjects && <ProjectList projects={filteredProjects} />}
         </>
     )
-}
-
-ProjectsView.propTypes = {
-    projects: PropTypes.array.isRequired
 }
 
 export default ProjectsView;

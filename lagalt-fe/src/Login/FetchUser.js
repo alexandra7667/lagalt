@@ -22,5 +22,5 @@ export default async function fetchUser(data, setUser) {
 
     localStorage.setItem('token', userResponse.token);
 
-    setUser(userResponse.data);
+    setUser(userResponse);
 }

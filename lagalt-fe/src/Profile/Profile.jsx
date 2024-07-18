@@ -5,8 +5,11 @@ import Avatar from '@mui/material/Avatar';
 import { blueGrey } from "@mui/material/colors";
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
+import { UserContext } from "../App";
+import { useContext } from 'react'
 
-function Profile({ user, setUser }) {
+function Profile() {
+    const { user, setUser } = useContext(UserContext);
     const [skill, setSkill] = useState('');
 
     const handleChange = (e) => {
@@ -57,6 +60,8 @@ function Profile({ user, setUser }) {
         // }
 
         const userResponse = await putUserResponse.json();
+
+        //set user as response
     }
 
     return (
@@ -73,7 +78,7 @@ function Profile({ user, setUser }) {
                                 justifyContent: 'center',
                                 alignItems: 'center',
                             }}>
-                                <Avatar sx={{ bgcolor: blueGrey, textAlign: 'center' }}>{user.username[0]}</Avatar>
+                                <Avatar sx={{ bgcolor: blueGrey[500], textAlign: 'center' }}>{user.username[0]}</Avatar>
 
                                 <Typography variant="h5">
                                     {user.username}

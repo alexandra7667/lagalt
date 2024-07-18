@@ -1,5 +1,4 @@
 
-import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -12,54 +11,31 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import LocalPoliceIcon from '@mui/icons-material/LocalPolice';
 import { useEffect, useState } from 'react';
 import { Typography } from '@mui/material';
-
+import fetchMyProjects from './FetchMyProjects.js'
+import setProjectLists from './SetProjectLists.js';
+import { ProjectContext } from "../Main/Main.jsx";
+import { useContext } from 'react'
 
 function MyProjects() {
+    const { visitedProjects, setVisitedProjects } = useContext(ProjectContext);
     const [openOwner, setOpenOwner] = useState(false);
     const [openMember, setOpenMember] = useState(false);
     const [openApplications, setOpenApplications] = useState(false);
     const [ownedProjects, setOwnedProjects] = useState([]);
     const [memberProjects, setMemberProjects] = useState([]);
     const [applications, setApplications] = useState([]);
-    const [visitedProjects, setVisitedProjects] = useState([]);
     const [listsFilled, setListsFilled] = useState(false);
 
     useEffect(() => {
-        fetchMyProjects();
-    }, [])
-
+        const setProjectsData = async () => {
+            const fetchedProjects = await fetchMyProjects();
+            setProjectLists(fetchedProjects, setVisitedProjects, setOwnedProjects, setMemberProjects, setApplications, setListsFilled);
+            console.log("fetched: " + fetchedProjects + " visited new: " + visitedProjects)
+        };
     
-
-    const setProjectLists = (projects) => {
-        const visited = [];
-        const owned = [];
-        const members = [];
-        const apps = [];
-
-        projects.forEach((project) => {
-            if (project.visitor) {
-                visited.push(project); //Ha vid hämtning av alla projekt. Jmf projekt id med de projekt id som renderas till Browse Projects och sätt title till annan färg
-            }
-
-            if (project.owner) {
-                owned.push(project);
-            }
-            else if (project.collaborator) {
-                members.push(project);
-            }
-            else if (project.applicant) {
-                apps.push(project);
-            }
-        });
-
-        setVisitedProjects(visited);
-        setOwnedProjects(owned);
-        setMemberProjects(members);
-        setApplications(apps);
-
-        setListsFilled(true);
-    }
-
+        setProjectsData();
+    }, []);
+    
     const toggleOpen = (setter) => {
         setter(open => !open);
     };
