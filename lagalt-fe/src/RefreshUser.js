@@ -13,18 +13,16 @@ async function getUserByToken(token, setUser) {
     Authorization: `Bearer ${token}`,
   };
 
-  const fetchUserResponse = await fetch(`${urlBackendBasePath}/users`, {
+  const fetchresponse = await fetch(`${urlBackendBasePath}/users`, {
     method: "GET",
     headers: headers,
   });
 
-  if (!fetchUserResponse.ok) {
+  if (!fetchresponse.ok) {
     throw new Error("Failed to get user from the database");
   }
 
-  const userResponse = await fetchUserResponse.json();
+  const response = await fetchresponse.json();
 
-  console.log("REFRESH USER: ", userResponse.data);
-
-  setUser(userResponse.data);
+  setUser(response.data);
 }

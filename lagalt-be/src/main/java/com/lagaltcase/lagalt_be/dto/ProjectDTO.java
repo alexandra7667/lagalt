@@ -20,25 +20,25 @@ public class ProjectDTO {
     private List<String> neededSkills;
     private List<String> tags;
     private List<AssociateDTO> associates;
-    private List<MessageDTO> messageBoard;
-    private List<MessageDTO> projectUpdates;
+    //private List<MessageDTO> messageBoard;
+    //private List<MessageDTO> projectUpdates;
 
     public ProjectDTO(Project project) {
         List<AssociateDTO> associateDTOS = project.getAssociatedUsers().stream()
                 .map(AssociateDTO::new)
                 .collect(Collectors.toList());
 
-        List<MessageDTO> messageDTOS = project.getMessages().stream()
-                .map(MessageDTO::new)
-                .collect(Collectors.toList());
-
-        List<MessageDTO> messageList = messageDTOS.stream()
-                .filter(dto -> "message".equals(dto.getType()))
-                .collect(Collectors.toList());
-
-        List<MessageDTO> updateList = messageDTOS.stream()
-                .filter(dto -> "update".equals(dto.getType()))
-                .collect(Collectors.toList());
+//        List<MessageDTO> messageDTOS = project.getMessages().stream()
+//                .map(MessageDTO::new)
+//                .collect(Collectors.toList());
+//
+//        List<MessageDTO> messageList = messageDTOS.stream()
+//                .filter(dto -> "message".equals(dto.getType()))
+//                .collect(Collectors.toList());
+//
+//        List<MessageDTO> updateList = messageDTOS.stream()
+//                .filter(dto -> "update".equals(dto.getType()))
+//                .collect(Collectors.toList());
 
 
         this.id = project.getId();
@@ -50,7 +50,7 @@ public class ProjectDTO {
         this.neededSkills = project.getNeededSkills();
         this.tags = project.getTags();
         this.associates = associateDTOS;
-        this.messageBoard = messageList;
-        this.projectUpdates = updateList;
+//        this.messageBoard = messageList;
+//        this.projectUpdates = updateList;
     }
 }
