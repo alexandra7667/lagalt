@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from 'react'
 import { Box, Button, Collapse, List, ListItemButton, ListItemText, TextField, Typography } from "@mui/material";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import AddIcon from '@mui/icons-material/Add';
+import fetchMessages from "./FetchMessages.js";
 
 function ProjectView() {
     const { projectId } = useParams();
@@ -13,6 +14,8 @@ function ProjectView() {
     const [project, setProject] = useState(null);
     const [openMembers, setOpenMembers] = useState(false);
     const [role, setRole] = useState(null);
+    const [messageBoard, setMessageBoard] = useState(null);
+    const [projectUpdates, setProjectUpdates] = useState(null);
 
     //role
     //check project owner, add editable, add applications (also add info about new applications in header)
@@ -25,12 +28,13 @@ function ProjectView() {
 
     useEffect(() => {
         const setProjectData = async () => {
-            const foundProject = projects.find(p => p.id === Number(projectId));
+            const foundProject = await projects.find(p => p.id === Number(projectId));
 
             if (foundProject) {
                 setProject(foundProject);
 
-                console.log(foundProject);
+                //set message board and updates
+                fetchMessages(foundProject.id, setMessageBoard, setProjectUpdates);
 
                 let roleSet = false;
                 for (const associate of foundProject.associates) {
@@ -112,8 +116,10 @@ function ProjectView() {
                                 padding: 2,  // Optional: add padding inside the box
                                 margin: 2  // Optional: add margin outside the box
                             }}>
-                                Project Updates
-                                {project.projectUpdates.map((message, index) => (
+                                <Typography variant="h6" sx={{ textAlign: 'center' }}>
+                                    Project Updates
+                                </Typography>
+                                {projectUpdates && projectUpdates.map((message, index) => (
                                     <Typography key={index}>
                                         datetime : {message.message}
                                     </Typography>
@@ -126,14 +132,15 @@ function ProjectView() {
                             </Box>
 
                             <Box sx={{
-                                border: '2px solid',  // Specify border width and style
-                                borderColor: 'grey.500',  // Use a theme color or custom color
-                                borderRadius: 2,  // Optional: add border radius for rounded corners
-                                padding: 2,  // Optional: add padding inside the box
-                                margin: 2  // Optional: add margin outside the box
+                                border: '2px solid',
+                                borderColor: 'grey.500',
+                                borderRadius: 2,
+                                padding: 2,
                             }}>
-                                Message Board
-                                {project.messageBoard.map((message, index) => (
+                                <Typography variant="h6" sx={{ textAlign: 'center' }}>
+                                    Message Board
+                                </Typography>
+                                {messageBoard && messageBoard.map((message, index) => (
                                     <Typography key={index}>
                                         {message.username} : {message.message}
                                     </Typography>

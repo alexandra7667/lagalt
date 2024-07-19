@@ -59,8 +59,9 @@ public class MessageController {
         return new ResponseEntity<>(messageResponse, HttpStatus.CREATED);
     }
 
+
     @GetMapping("/{projectId}")
-    public ResponseEntity<?> getAllMessages(@PathVariable int projectId) { //TODO: Change to List response
+    public ResponseEntity<?> getMessages(@PathVariable int projectId) {
         Project project = projectRepository.findById(projectId).orElse(null);
 
         if (project == null) {
@@ -72,12 +73,12 @@ public class MessageController {
 
         List<Message> allMessages = project.getMessages();
 
-        List<MessageDTO> messageDTOs = allMessages.stream()
+        List<MessageDTO> messageDTOS = allMessages.stream()
                 .map(MessageDTO::new)
                 .collect(Collectors.toList());
 
         MessageListResponse messageListResponse = new MessageListResponse();
-        messageListResponse.set(messageDTOs);
+        messageListResponse.set(messageDTOS);
 
         return ResponseEntity.ok(messageListResponse);
     }

@@ -6,16 +6,16 @@ export default async function fetchProjects(setProjects) {
         "Content-Type": "application/json",
     };
 
-    const fetchProjectsResponse = await fetch(`${urlBackendBasePath}/projects`, {
+    const fetchResponse = await fetch(`${urlBackendBasePath}/projects`, {
         method: "GET",
         headers: headers
     });
 
-    if (!fetchProjectsResponse.ok) {
+    if (!fetchResponse.ok) {
         throw new Error("Failed to get projects from the database");
     }
 
-    const projectsResponse = await fetchProjectsResponse.json();
+    const response = await fetchResponse.json();
 
-    setProjects(projectsResponse.data);
+    setProjects(response.data);
 }
