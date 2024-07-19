@@ -16,9 +16,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-@CrossOrigin(origins = "*") //Ändra
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -61,7 +60,7 @@ public class UserController {
             return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
         }
 
-        //Send all info all times
+        //Sends all info all times
         user.setDescription(userRequest.getDescription());
         user.setHidden(userRequest.isHidden());
         user.setSkills(userRequest.getSkills());
@@ -76,31 +75,34 @@ public class UserController {
         return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
     }
 
-//    @GetMapping("/{userId}")
-//    public ResponseEntity<?> getUserById(@PathVariable int userId) {
-//        User user = this.userRepository.findById(userId).orElse(null);
-//
-//        if (user == null) {
-//            ErrorResponse errorResponse = new ErrorResponse();
-//            errorResponse.set("No user with that id found.");
-//
-//            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
-//        }
-//
-//        UserDTO userDTO = new UserDTO(user);
-//
-//        UserResponse userResponse = new UserResponse();
-//        userResponse.set(userDTO);
-//
-//        return ResponseEntity.ok(userResponse);
-//    }
+    @GetMapping("/{userId}")
+    public ResponseEntity<?> getUserById(@PathVariable int userId) {
+        User user = this.userRepository.findById(userId).orElse(null);
+
+        if (user == null) {
+            ErrorResponse errorResponse = new ErrorResponse();
+            errorResponse.set("No user with that id found.");
+
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+        }
+
+        UserDTO userDTO = new UserDTO(user);
+
+        UserResponse userResponse = new UserResponse();
+        userResponse.set(userDTO);
+
+        return ResponseEntity.ok(userResponse);
+    }
 
     @GetMapping //token is sent in header
     public ResponseEntity<?> getUserByToken() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            ErrorResponse errorResponse = new ErrorResponse();
+            errorResponse.set("Could not authenticate user with provided token.");
+
+            return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
         }
 
         UserDetailsImpl userDetailsImpl = (UserDetailsImpl) authentication.getPrincipal();
@@ -111,7 +113,7 @@ public class UserController {
             ErrorResponse errorResponse = new ErrorResponse();
             errorResponse.set("No user with that token found.");
 
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
         }
 
         UserDTO userDTO = new UserDTO(user);

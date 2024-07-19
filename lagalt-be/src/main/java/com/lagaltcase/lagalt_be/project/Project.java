@@ -53,7 +53,7 @@ public class Project {
     //mappedBy = "project" means that Project is the owning side of the relationship
     //cascade means to delete all messages if the project is deleted
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
-    private List<Message> messageBoard = new ArrayList<>();
+    private List<Message> messages = new ArrayList<>();
 
     //Associated users this project has. A project can have many associated users. An associate object belongs to only one project
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)

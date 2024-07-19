@@ -8,6 +8,8 @@ import com.lagaltcase.lagalt_be.request.MessageRequest;
 import com.lagaltcase.lagalt_be.response.ErrorResponse;
 import com.lagaltcase.lagalt_be.response.MessageListResponse;
 import com.lagaltcase.lagalt_be.response.MessageResponse;
+import com.lagaltcase.lagalt_be.user.User;
+import com.lagaltcase.lagalt_be.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,10 +26,13 @@ public class MessageController {
     private MessageRepository messageRepository;
     @Autowired
     private ProjectRepository projectRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-    @PostMapping
+    @PostMapping("/message")
     public ResponseEntity<?> createMessage(@RequestBody MessageRequest messageRequest) {
         Project project = projectRepository.findById(messageRequest.getProjectId()).orElse(null);
+        User user = userRepository.findById(messageRequest.getUserId()).orElse(null);
 
         if (project == null) {
             ErrorResponse errorResponse = new ErrorResponse();
@@ -41,8 +46,9 @@ public class MessageController {
         Message newMessage = new Message();
         newMessage.setProject(project);
         newMessage.setUserId(messageRequest.getUserId());
+        newMessage.setUsername(user.getUsername());
         newMessage.setMessage(messageRequest.getMessage());
-
+        newMessage.setType(messageRequest.getType());
         Message savedMessage = messageRepository.save(newMessage);
 
         MessageDTO messageDTO = new MessageDTO(savedMessage);
@@ -64,7 +70,7 @@ public class MessageController {
             return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
         }
 
-        List<Message> allMessages = project.getMessageBoard();
+        List<Message> allMessages = project.getMessages();
 
         List<MessageDTO> messageDTOs = allMessages.stream()
                 .map(MessageDTO::new)

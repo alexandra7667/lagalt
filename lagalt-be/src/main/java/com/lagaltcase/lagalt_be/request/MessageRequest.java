@@ -11,4 +11,5 @@ public class MessageRequest {
     private int projectId;
     private int userId;
     private String message;
+    private String type;
 }
