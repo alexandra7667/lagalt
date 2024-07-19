@@ -96,6 +96,7 @@ function Profile() {
                                 id="description"
                                 name="description"
                                 label="Description"
+                                value={user.description}
                                 onChange={handleChange}>
                             </TextField>
 
