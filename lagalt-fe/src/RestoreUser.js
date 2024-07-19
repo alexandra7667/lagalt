@@ -1,16 +1,10 @@
 import { urlBackendBasePath } from "./assets/urls";
 
-export default function (setUser) {
-  const token = localStorage.getItem("token");
-  if (token) {
-    getUserByToken(token, setUser);
-  }
-}
 
-async function getUserByToken(token, setUser) {
+export const restoreUser = async (token, setUser) => {
   const headers = {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`,
+    "Authorization": `Bearer ${token}`,
   };
 
   const fetchresponse = await fetch(`${urlBackendBasePath}/users`, {
@@ -23,6 +17,8 @@ async function getUserByToken(token, setUser) {
   }
 
   const response = await fetchresponse.json();
+
+  console.dir(response, { depth: null });
 
   setUser(response.data);
 }
