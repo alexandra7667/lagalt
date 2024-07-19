@@ -10,20 +10,20 @@ import Login from "../Login/Login";
 import { UserContext } from "../App";
 import { useContext } from 'react'
 import ProjectView from "../ProjectView/ProjectView.jsx";
+import UserView from "../UserView/UserView.jsx";
 
 const ProjectContext = createContext();
 
 function Main() {
   const { user } = useContext(UserContext);
   const [projects, setProjects] = useState(null);
-  const [visitedProjects, setVisitedProjects] = useState(null);
 
   useEffect(() => {
     FetchProjects(setProjects);
   }, [])
 
   return (
-    <ProjectContext.Provider value={{ projects, setProjects, visitedProjects, setVisitedProjects }}>
+    <ProjectContext.Provider value={{ projects, setProjects }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: '20px', }}>
         <Routes>
 
@@ -43,6 +43,8 @@ function Main() {
               <Route path="/myprojects" element={<MyProjects />} />
 
               <Route path="/profile" element={<Profile />} />
+
+              <Route path="/userview/:userId" element={<UserView />} />
             </>
           )}
 

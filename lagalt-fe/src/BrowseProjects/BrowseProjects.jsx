@@ -8,47 +8,29 @@ import { ProjectContext } from "../Main/Main.jsx";
 
 function ProjectsView() {
     const { user } = useContext(UserContext);
-    const { projects, visitedProjects } = useContext(ProjectContext);
+    const { projects } = useContext(ProjectContext);
     const [filteredProjects, setFilteredProjects] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState("All");
     const [keywords, setKeywords] = useState([]);
     const [selectedKeyword, setSelectedKeyword] = useState("");
+    const [visitedProjects, setVisitedProjects] = useState(null);
 
     useEffect(() => {
         addTagsToKeywords();
+        matchSkills();
 
-        const setProjectsData = async () => {
-            const setted = await test(projects); //Sätt som i my projects (egen metod med const return)
-            console.log("first: " + setted);
-            //visitedProjects = null
-            if (visitedProjects) matchSkillsAndVisited(setted);
-        }
+        //get user's all visited project ids and setFilteredProjects
+        fetchVisitedProjectIds(user.userId);
+    }, []);
 
-        setProjectsData();
-    }, [projects, visitedProjects]);
 
-    async function test(ps) {
-        setFilteredProjects(ps);
-        return true;
-    }
-
-    const matchSkillsAndVisited = (setted) => {
-        console.log("second: " + setted)
-        filteredProjects.forEach(project => {
+    const matchSkills = () => {
+        projects.forEach(project => {
             //Checks if any neededSkill in the project matches with user.skills
             if (project.neededSkills.some(neededSkill => user.skills.includes(neededSkill))) {
                 //Add a new property to the project object
                 project.matchingSkill = true;
             }
-            console.log("VISITED: " + visitedProjects.projectTitle)
-            //check if project.id === any visited.projectId
-            // visitedProjects.forEach(visited => {
-            //     console.log("VISITED: " + visited);
-            //     if (project.id === visited.projectId) {
-            //         project.visited = true;
-            //         console.log("IN visited");
-            //     }
-            // })
         });
     };
 

@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { ProjectContext } from "../Main/Main.jsx";
 import { UserContext } from "../App";
 import { useContext, useEffect, useState } from 'react'
-import { Box, Button, Collapse, List, ListItemButton, ListItemText, TextField, Typography } from "@mui/material";
+import { Box, Collapse, List, ListItemButton, ListItemText, TextField, Typography } from "@mui/material";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import AddIcon from '@mui/icons-material/Add';
 import fetchMessages from "./FetchMessages.js";
@@ -22,10 +22,6 @@ function ProjectView() {
     //check member - can add messages to board (visible: message board and project updates)
     //check user (logged in) - can apply, add join/applied/member button with icon
 
-    //add project updates
-    //add message board
-
-
     useEffect(() => {
         const setProjectData = async () => {
             const foundProject = await projects.find(p => p.id === Number(projectId));
@@ -33,22 +29,25 @@ function ProjectView() {
             if (foundProject) {
                 setProject(foundProject);
 
-                //set message board and updates
+                //Set message board and updates
                 fetchMessages(foundProject.id, setMessageBoard, setProjectUpdates);
 
                 let roleSet = false;
                 for (const associate of foundProject.associates) {
-                    if (associate.userId === user.id) {
+                    if (associate.userId === user.userId) {
                         if (associate.owner) {
                             setRole('Owner');
+                            roleSet = true;
                             break;
                         }
                         else if (associate.collaborator) {
                             setRole('Member');
+                            roleSet = true;
                             break;
                         }
                         else if (associate.applicant) {
                             setRole('Applicant');
+                            roleSet = true;
                             break;
                         }
                     }
@@ -76,23 +75,14 @@ function ProjectView() {
 
             {project && (
                 <>
-                    {user &&
-                        (role === 'Unaffiliated' ? (
-                            <Button variant="outlined" startIcon={<AddIcon />}>
-                                Apply for membership
-                            </Button>
-                        ) : (
-                            role && (
+                    {user && role && (
                                 <Typography>
                                     {role === 'Owner' && (<AddIcon />)}
                                     {role === 'Member' && (<AddIcon />)}
                                     {role === 'Applicant' && (<AddIcon />)}
                                     {role}
                                 </Typography>
-                            )
-                        )
-                        )
-                    }
+                    )}
 
                     <Typography variant="h6" color="text.secondary">
                         {project.category}
