@@ -1,17 +1,14 @@
 import PropTypes from 'prop-types';
 import { Typography, CardContent, Card, CardActionArea, CardMedia } from '@mui/material';
-import hamster from '../assets/img/hamster.jpg';
-import flowers from '../assets/img/flowers.jpg';
-import tree from '../assets/img/tree.jpg';
-import beach from '../assets/img/beach.jpg';
+import hamster from '../../assets/img/hamster.jpg';
+import flowers from '../../assets/img/flowers.jpg';
+import tree from '../../assets/img/tree.jpg';
+import beach from '../../assets/img/beach.jpg';
+import { useNavigate } from "react-router-dom";
 
 function ProjectCard({ project }) {
-    const goToProject = () => {
-        console.log(`Clicked on project: ${project.id}`)
-        //add to visited projects in associations
-        
-    }
-
+    const navigate = useNavigate();
+    
     let image;
     switch (project.category) {
         case 'Films':
@@ -30,7 +27,7 @@ function ProjectCard({ project }) {
 
     return (
         <Card variant="outlined" sx={{ borderColor: project.matchingSkill ? 'lightgreen' : 'lightgrey', m: '10px' }}>
-            <CardActionArea onClick={goToProject}>
+            <CardActionArea onClick={() => navigate(`/projectview/${project.id}`)}>
                 
                 {project.matchingSkill ? (
                     <Typography sx={{ color: 'green', textAlign: 'right', mr: '5px', mt: '5px' }}>

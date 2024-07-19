@@ -1,14 +1,15 @@
 import { useEffect, useState, createContext } from "react";
-import ProjectsView from "../ProjectsView/ProjectsView";
+import BrowseProjects from "../BrowseProjects/BrowseProjects.jsx";
 import { Box } from "@mui/material";
 import NewProject from "../NewProject/NewProject";
 import MyProjects from "../MyProjects/MyProjects";
 import Profile from "../Profile/Profile";
 import { Route, Routes } from "react-router-dom";
-import FetchProjects from "../FetchProjects.js"
+import FetchProjects from "./FetchProjects.js"
 import Login from "../Login/Login";
 import { UserContext } from "../App";
 import { useContext } from 'react'
+import ProjectView from "../ProjectView/ProjectView.jsx";
 
 const ProjectContext = createContext();
 
@@ -27,7 +28,10 @@ function Main() {
         <Routes>
 
           {projects && (
-            <Route path="/" element={<ProjectsView />} />
+            <>
+              <Route path="/" element={<BrowseProjects />} />
+              <Route path="/projectview/:projectId" element={<ProjectView />} />
+            </>
           )}
 
           {!user ? (

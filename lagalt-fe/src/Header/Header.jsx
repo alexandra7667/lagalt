@@ -40,16 +40,23 @@ function Header() {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" component="h1" sx={{ flexGrow: 1 }}>
+
+                    <Typography variant="h6" component="h1" sx={{ flexGrow: 1, cursor: 'pointer', }} onClick={() => navigate("/")}>
                         Lagalt
                     </Typography>
-                    <Button color="inherit" onClick={user ? () => navigate("/profile") : () => navigate("/login")}>
+
+                    <Button color="inherit" onClick={user ? () => navigate("/profile") : () => navigate("/login")} sx={{ textTransform: 'none' }}>
                         {user ? (
                             <Avatar sx={{ bgcolor: blueGrey[500], textAlign: 'center', }}>{user.username[0]}</Avatar>
                         ) : (
                             <span>Login</span>
                         )}
                     </Button>
+
+                    {user && (
+                        <Button color="inherit" onClick={logout}>Log out</Button>
+                    )}
+
                 </Toolbar>
 
                 <Menu
