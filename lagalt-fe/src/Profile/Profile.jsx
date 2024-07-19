@@ -89,6 +89,8 @@ function Profile() {
                                 </Typography>
                             </Box>
 
+                            <br />
+
                             <TextField
                                 required
                                 multiline

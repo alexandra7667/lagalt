@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Autocomplete, Box, FormControl, IconButton, InputAdornment, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
-import ProjectList from '../ProjectList/ProjectList.jsx'
-import { UserContext } from "../App";
+import ProjectList from './ProjectList/ProjectList.jsx'
+import { UserContext } from "../App.jsx";
 import { useContext } from 'react'
 import { ProjectContext } from "../Main/Main.jsx";
 
@@ -31,7 +31,6 @@ function ProjectsView() {
         setFilteredProjects(ps);
         return true;
     }
-
 
     const matchSkillsAndVisited = (setted) => {
         console.log("second: " + setted)

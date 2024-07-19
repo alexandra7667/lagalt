@@ -1,5 +1,4 @@
-import { urlBackendBasePath } from "./assets/urls";
-import PropTypes from 'prop-types';
+import { urlBackendBasePath } from "../assets/urls";
 
 export default async function fetchProjects(setProjects) {
 
@@ -20,7 +19,3 @@ export default async function fetchProjects(setProjects) {
 
     setProjects(projectsResponse.data);
 }
-
-fetchProjects.propTypes = {
-    setProjects: PropTypes.func
-};

@@ -3,7 +3,7 @@ import Header from './Header/Header';
 import CssBaseline from '@mui/material/CssBaseline'; //Resets browser css
 import { useEffect, useState, createContext } from 'react';
 import { Main } from './Main/Main.jsx';
-import { urlBackendBasePath } from './assets/urls.js';
+import RefreshUser from './RefreshUser.js';
 
 const UserContext = createContext();
 
@@ -11,33 +11,8 @@ function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      getUserByToken(token);
-    }
+    RefreshUser(setUser);
   }, []);
-
-  async function getUserByToken(token) {
-    const headers = {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`
-    };
-
-    const fetchUserResponse = await fetch(`${urlBackendBasePath}/users`, {
-      method: "GET",
-      headers: headers,
-    });
-
-    if (!fetchUserResponse.ok) {
-      throw new Error("Failed to get user from the database");
-    }
-
-    const userResponse = await fetchUserResponse.json();
-
-    console.log("REFRESH USER: ", userResponse.data);
-
-    setUser(userResponse.data);
-  }
 
   return (
     <>

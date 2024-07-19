@@ -11,13 +11,17 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import LocalPoliceIcon from '@mui/icons-material/LocalPolice';
 import { useEffect, useState } from 'react';
 import { Typography } from '@mui/material';
-import fetchMyProjects from './FetchMyProjects.js'
+import FetchAssociations from './FetchAssociations.js'
 import setProjectLists from './SetProjectLists.js';
 import { ProjectContext } from "../Main/Main.jsx";
+import { UserContext } from "../App";
 import { useContext } from 'react'
+import { useNavigate } from "react-router-dom";
 
 function MyProjects() {
+    const navigate = useNavigate();
     const { visitedProjects, setVisitedProjects } = useContext(ProjectContext);
+    const { user } = useContext(UserContext);
     const [openOwner, setOpenOwner] = useState(false);
     const [openMember, setOpenMember] = useState(false);
     const [openApplications, setOpenApplications] = useState(false);
@@ -28,9 +32,8 @@ function MyProjects() {
 
     useEffect(() => {
         const setProjectsData = async () => {
-            const fetchedProjects = await fetchMyProjects();
-            setProjectLists(fetchedProjects, setVisitedProjects, setOwnedProjects, setMemberProjects, setApplications, setListsFilled);
-            console.log("fetched: " + fetchedProjects + " visited new: " + visitedProjects)
+            const fetchedAssociations = await FetchAssociations(1); //skicka in user.id
+            setProjectLists(fetchedAssociations, setVisitedProjects, setOwnedProjects, setMemberProjects, setApplications, setListsFilled);
         };
     
         setProjectsData();
@@ -39,10 +42,6 @@ function MyProjects() {
     const toggleOpen = (setter) => {
         setter(open => !open);
     };
-
-    const goToProject = (projectId) => {
-        console.log(`Go to project ${projectId}`);
-    }
 
     return (
         <>
@@ -57,9 +56,9 @@ function MyProjects() {
                     {openOwner ? <ExpandLess /> : <ExpandMore />}
                 </ListItemButton>
                 <Collapse in={openOwner} timeout="auto" unmountOnExit>
-                    <List component="div" disablePadding>
+                    <List disablePadding>
                         {listsFilled && ownedProjects.map(project => (
-                            <ListItemButton onClick={() => goToProject(project.id)} key={project.id} sx={{ pl: 4 }}>
+                            <ListItemButton onClick={() => navigate(`/projectview/${project.projectId}`)} key={project.projectId} sx={{ pl: 4 }}>
                                 <ListItemText primary={project.projectTitle} />
                             </ListItemButton>
                         ))}
@@ -74,7 +73,7 @@ function MyProjects() {
                     {openMember ? <ExpandLess /> : <ExpandMore />}
                 </ListItemButton>
                 <Collapse in={openMember} timeout="auto" unmountOnExit>
-                    <List component="div" disablePadding>
+                    <List disablePadding>
                         {listsFilled && memberProjects.map(project => (
                             <ListItemButton onClick={() => goToProject(project.id)} key={project.id} sx={{ pl: 4 }}>
                                 <ListItemText primary={project.projectTitle} />
