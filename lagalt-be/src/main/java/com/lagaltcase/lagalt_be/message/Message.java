@@ -21,7 +21,13 @@ public class Message {
     private int userId;
 
     @Column
+    private String username;
+
+    @Column
     private String message;
+
+    @Column
+    private String type;
 
     @ManyToOne
     @JoinColumn(name = "project_id", nullable = false)

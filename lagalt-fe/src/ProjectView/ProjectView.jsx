@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { ProjectContext } from "../Main/Main.jsx";
 import { UserContext } from "../App";
 import { useContext, useEffect, useState } from 'react'
-import { Button, Collapse, List, ListItemButton, ListItemText, Typography } from "@mui/material";
+import { Box, Button, Collapse, List, ListItemButton, ListItemText, TextField, Typography } from "@mui/material";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import AddIcon from '@mui/icons-material/Add';
 
@@ -29,6 +29,8 @@ function ProjectView() {
 
             if (foundProject) {
                 setProject(foundProject);
+
+                console.log(foundProject);
 
                 let roleSet = false;
                 for (const associate of foundProject.associates) {
@@ -83,8 +85,8 @@ function ProjectView() {
                                     {role === 'Applicant' && (<AddIcon />)}
                                     {role}
                                 </Typography>
-                                )
                             )
+                        )
                         )
                     }
 
@@ -100,6 +102,48 @@ function ProjectView() {
                     <Typography variant="body1">
                         Tags: {project.tags.join(', ')}
                     </Typography>
+
+                    {user && (
+                        <>
+                            <Box sx={{
+                                border: '2px solid',  // Specify border width and style
+                                borderColor: 'grey.500',  // Use a theme color or custom color
+                                borderRadius: 2,  // Optional: add border radius for rounded corners
+                                padding: 2,  // Optional: add padding inside the box
+                                margin: 2  // Optional: add margin outside the box
+                            }}>
+                                Project Updates
+                                {project.projectUpdates.map((message, index) => (
+                                    <Typography key={index}>
+                                        datetime : {message.message}
+                                    </Typography>
+                                ))}
+                                {role === 'Owner' && (
+                                    <TextField>
+                                        Enter new update (for owner)
+                                    </TextField>
+                                )}
+                            </Box>
+
+                            <Box sx={{
+                                border: '2px solid',  // Specify border width and style
+                                borderColor: 'grey.500',  // Use a theme color or custom color
+                                borderRadius: 2,  // Optional: add border radius for rounded corners
+                                padding: 2,  // Optional: add padding inside the box
+                                margin: 2  // Optional: add margin outside the box
+                            }}>
+                                Message Board
+                                {project.messageBoard.map((message, index) => (
+                                    <Typography key={index}>
+                                        {message.username} : {message.message}
+                                    </Typography>
+                                ))}
+                                <TextField>
+                                    Enter new message
+                                </TextField>
+                            </Box>
+                        </>
+                    )}
 
                     <List>
                         <ListItemButton onClick={() => toggleOpen(setOpenMembers)}>
