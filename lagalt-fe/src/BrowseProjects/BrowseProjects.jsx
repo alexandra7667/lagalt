@@ -16,20 +16,27 @@ function ProjectsView() {
     const [visitedProjects, setVisitedProjects] = useState(null);
 
     useEffect(() => {
-        addTagsToKeywords();
-        matchSkills();
+        if (projects) {
+            setFilteredProjects(projects);
+            addTagsToKeywords();
+        }
 
-        //get user's all visited project ids and setFilteredProjects
-        fetchVisitedProjectIds(user.userId);
+        if (user) {
+            matchSkills();
+            //get user's all visited project ids and setFilteredProjects
+            //fetchVisitedProjectIds(user.userId);
+        }
     }, []);
 
 
     const matchSkills = () => {
         projects.forEach(project => {
             //Checks if any neededSkill in the project matches with user.skills
-            if (project.neededSkills.some(neededSkill => user.skills.includes(neededSkill))) {
-                //Add a new property to the project object
-                project.matchingSkill = true;
+            if (project.neededSkills && user.skills) {
+                if (project.neededSkills.some(neededSkill => user.skills.includes(neededSkill))) {
+                    //Add a new property to the project object
+                    project.matchingSkill = true;
+                }
             }
         });
     };
@@ -40,13 +47,17 @@ function ProjectsView() {
 
         projects.forEach(project => {
 
-            project.tags.forEach(tag => {
-                keywordSet.add(tag);
-            });
+            if (project.tags) {
+                project.tags.forEach(tag => {
+                    keywordSet.add(tag);
+                });
+            }
 
-            project.neededSkills.forEach(skill => {
-                keywordSet.add(skill);
-            })
+            if (project.neededSkills) {
+                project.neededSkills.forEach(skill => {
+                    keywordSet.add(skill);
+                })
+            }
         });
 
         setKeywords(Array.from(keywordSet));
@@ -119,7 +130,7 @@ function ProjectsView() {
                         renderInput={(params) => (
                             <TextField
                                 {...params}
-                                label="Search by keyword"
+                                label="Search by tag or skill"
                                 InputProps={{
                                     ...params.InputProps,
                                     endAdornment: (
