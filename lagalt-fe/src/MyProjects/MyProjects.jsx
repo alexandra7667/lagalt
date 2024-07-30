@@ -11,34 +11,32 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import LocalPoliceIcon from '@mui/icons-material/LocalPolice';
 import { useEffect, useState } from 'react';
 import { Typography } from '@mui/material';
-import FetchAssociations from './FetchAssociations.js'
 import setProjectLists from './SetProjectLists.js';
-import { ProjectContext } from "../Main/Main.jsx";
 import { UserContext } from "../App";
 import { useContext } from 'react'
 import { useNavigate } from "react-router-dom";
 
 function MyProjects() {
     const navigate = useNavigate();
-    const { visitedProjects, setVisitedProjects } = useContext(ProjectContext);
     const { user } = useContext(UserContext);
     const [openOwner, setOpenOwner] = useState(false);
     const [openMember, setOpenMember] = useState(false);
     const [openApplications, setOpenApplications] = useState(false);
-    const [ownedProjects, setOwnedProjects] = useState([]);
-    const [memberProjects, setMemberProjects] = useState([]);
+    const [ownedAssociations, setOwnedAssociations] = useState([]);
+    const [memberAssociations, setMemberAssociations] = useState([]);
     const [applications, setApplications] = useState([]);
     const [listsFilled, setListsFilled] = useState(false);
 
     useEffect(() => {
-        const setProjectsData = async () => {
-            const fetchedAssociations = await FetchAssociations(1); //skicka in user.id
-            setProjectLists(fetchedAssociations, setVisitedProjects, setOwnedProjects, setMemberProjects, setApplications, setListsFilled);
-        };
-    
-        setProjectsData();
+        if (user) {
+            const setProjectsData = async () => {
+                setProjectLists(user.associations, setOwnedAssociations, setMemberAssociations, setApplications, setListsFilled);
+            };
+
+            setProjectsData();
+        }
     }, []);
-    
+
     const toggleOpen = (setter) => {
         setter(open => !open);
     };
@@ -57,7 +55,7 @@ function MyProjects() {
                 </ListItemButton>
                 <Collapse in={openOwner} timeout="auto" unmountOnExit>
                     <List disablePadding>
-                        {listsFilled && ownedProjects.map(project => (
+                        {listsFilled && ownedAssociations.map(project => (
                             <ListItemButton onClick={() => navigate(`/projectview/${project.projectId}`)} key={project.projectId} sx={{ pl: 4 }}>
                                 <ListItemText primary={project.projectTitle} />
                             </ListItemButton>
@@ -74,7 +72,7 @@ function MyProjects() {
                 </ListItemButton>
                 <Collapse in={openMember} timeout="auto" unmountOnExit>
                     <List disablePadding>
-                        {listsFilled && memberProjects.map(project => (
+                        {listsFilled && memberAssociations.map(project => (
                             <ListItemButton onClick={() => goToProject(project.id)} key={project.id} sx={{ pl: 4 }}>
                                 <ListItemText primary={project.projectTitle} />
                             </ListItemButton>

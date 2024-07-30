@@ -18,4 +18,6 @@ export default async function fetchProjects(setProjects) {
     const response = await fetchResponse.json();
 
     setProjects(response.data);
+
+    console.log("Fetched projects")
 }
