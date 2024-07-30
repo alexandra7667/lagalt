@@ -21,10 +21,6 @@ function Signup() {
         navigate("/login");
     };
 
-    //"Username should have 4-20 characters"
-    //"Password should have at least 8 characters"
-    //"Email cannot be empty"
-
     const handleChange = (e) => {
         setSignUpData({
             ...signUpData,
@@ -47,7 +43,7 @@ function Signup() {
             <Typography component="h1" variant="h5">
                 Log in
             </Typography>
-            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+            <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
                 <TextField
                     required
                     id="username"
@@ -55,6 +51,7 @@ function Signup() {
                     name="username"
                     autoFocus
                     autoComplete="username"
+                    inputProps={{ minLength: 4, maxLength: 20 }}
                     onChange={handleChange}
                 />
                 <TextField
@@ -72,6 +69,7 @@ function Signup() {
                     type="password"
                     id="password"
                     autoComplete="current-password"
+                    inputProps={{ minLength: 8 }}
                     onChange={handleChange}
                 />
 
