@@ -22,15 +22,13 @@ function ProjectsView() {
 
         if (user) {
             matchSkillsAndVisitedProjects();
-
-            //Re setta filteredProjects
         }
     }, [user]);
 
 
     const matchSkillsAndVisitedProjects = () => {
         projects.forEach(project => {
-            // Check if any neededSkill in the project matches with user.skills
+            //Check for matching skills
             if (project.neededSkills && user.skills) {
                 if (project.neededSkills.some(neededSkill => user.skills.includes(neededSkill))) {
                     project.matchingSkill = true;
@@ -38,7 +36,7 @@ function ProjectsView() {
                 }
             }
 
-            // Check if the project is visited
+            //Check if project is visited
             if (user.associations) {
                 const association = user.associations.find(assoc => assoc.projectId === project.id && assoc.visitor);
                 if (association) {
