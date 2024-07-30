@@ -1,10 +1,10 @@
 import { Button, FormControl, IconButton, InputLabel, MenuItem, Select, TextField, Typography, Box } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useEffect, useState } from "react";
-import { urlBackendBasePath } from "../assets/urls";
+import { useState } from "react";
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import createProject from "./CreateProject.js";
 
 const initialState = {
     userId: 1,
@@ -25,32 +25,7 @@ function NewProject() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        createProject();
-    }
-
-    const  createProject = async () => {
-        console.log("new project: " + newProject);
-
-        const token = localStorage.getItem('token');
-
-        const headers = {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-        };
-
-        const postProjectsResponse = await fetch(`${urlBackendBasePath}/projects`, {
-            method: "POST",
-            headers: headers,
-            body: JSON.stringify(newProject),
-        });
-
-        if (postProjectsResponse.status !== 201) {
-            throw new Error("Failed to post project to the database");
-        }
-
-        setOpen(true);
-
-        console.log("created project: " + postProjectsResponse);
+        createProject(newProject, setOpen);
     }
 
     const handleChange = (e) => {
@@ -140,7 +115,7 @@ function NewProject() {
                     variant="standard"
                     id="title"
                     name="title"
-                    label="Title (max 20 characters)"
+                    label="Title (4-20 characters)"
                     onChange={handleChange}>
                 </TextField>
 
@@ -151,7 +126,7 @@ function NewProject() {
                     required
                     id="description"
                     name="description"
-                    label="Description (max 750 characters)"
+                    label="Description (4-750 characters)"
                     onChange={handleChange}>
                 </TextField>
 

@@ -56,7 +56,7 @@ function Signup() {
                     <TextField
                         required
                         id="username"
-                        label="username"
+                        label="username (4-20 characters)"
                         name="username"
                         autoFocus
                         autoComplete="username"
@@ -74,7 +74,7 @@ function Signup() {
                     <TextField
                         required
                         name="password"
-                        label="password"
+                        label="password (min. 8 characters)"
                         type="password"
                         id="password"
                         autoComplete="current-password"

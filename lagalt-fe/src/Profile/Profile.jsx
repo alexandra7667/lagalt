@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { urlBackendBasePath } from "../assets/urls";
-import { Box, Button, IconButton, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
 import Avatar from '@mui/material/Avatar';
 import { blueGrey } from "@mui/material/colors";
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -9,6 +8,7 @@ import { UserContext } from "../App";
 import { useContext } from 'react'
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import updateUser from './UpdateUser.js'
 
 function Profile() {
     const { user, setUser } = useContext(UserContext);
@@ -25,7 +25,7 @@ function Profile() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        updateProfile();
+        updateUser(user, setOpen);
     }
 
     const addSkill = (e) => {
@@ -46,32 +46,6 @@ function Profile() {
             ...prevUser,
             skills: prevUser.skills.filter(skill => skill !== skillToRemove)
         }));
-    }
-
-    const updateProfile = async () => {
-        const token = localStorage.getItem('token');
-
-        const headers = {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-        };
-
-        const putResponse = await fetch(`${urlBackendBasePath}/users`, {
-            method: "PUT",
-            headers: headers,
-            body: JSON.stringify(user),
-        });
-
-        if (putResponse.status !== 201) {
-            throw new Error("Failed to update user");
-        }
-
-        const response = await putResponse.json();
-
-        console.log("Updated user: " + response.data)
-
-        //Open snackbar
-        setOpen(true);
     }
 
     //Close snackbar
