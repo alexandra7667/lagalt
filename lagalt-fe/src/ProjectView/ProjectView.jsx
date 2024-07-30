@@ -100,11 +100,11 @@ function ProjectView() {
                     {user && (
                         <>
                             <Box sx={{
-                                border: '2px solid',  // Specify border width and style
-                                borderColor: 'grey.500',  // Use a theme color or custom color
-                                borderRadius: 2,  // Optional: add border radius for rounded corners
-                                padding: 2,  // Optional: add padding inside the box
-                                margin: 2  // Optional: add margin outside the box
+                                border: '2px solid',
+                                borderColor: 'grey.500',
+                                borderRadius: 2,
+                                padding: 2, 
+                                margin: 2
                             }}>
                                 <Typography variant="h6" sx={{ textAlign: 'center' }}>
                                     Project Updates

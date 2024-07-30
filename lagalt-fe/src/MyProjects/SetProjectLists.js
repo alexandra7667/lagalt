@@ -1,31 +1,23 @@
 
-export default function setProjectLists(myProjects, setVisitedProjects, setOwnedProjects, setMemberProjects, setApplications, setListsFilled) {
-    const visited = [];
+export default function setAssociationLists(allUsersAssociations, setOwnedAssociations, setMemberAssociations, setApplications, setListsFilled) {
     const owned = [];
     const members = [];
     const apps = [];
 
-    myProjects.forEach((project) => {
-        if (project.visitor) {
-            visited.push(project);
+    allUsersAssociations.forEach((association) => {
+        if (association.owner) {
+            owned.push(association);
         }
-
-        if (project.owner) {
-            owned.push(project);
+        else if (association.collaborator) {
+            members.push(association);
         }
-        else if (project.collaborator) {
-            members.push(project);
-        }
-        else if (project.applicant) {
-            apps.push(project);
+        else if (association.applicant) {
+            apps.push(association);
         }
     });
 
-    console.log("visited: " + visited)
-
-    setVisitedProjects(visited);
-    setOwnedProjects(owned);
-    setMemberProjects(members);
+    setOwnedAssociations(owned);
+    setMemberAssociations(members);
     setApplications(apps);
 
     setListsFilled(true);

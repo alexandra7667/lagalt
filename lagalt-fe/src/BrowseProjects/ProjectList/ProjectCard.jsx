@@ -49,7 +49,7 @@ function ProjectCard({ project }) {
                 />
 
                 <CardContent>
-                    <Typography variant="h5" sx={{ color: project.visited ? 'blue' : 'black'}}>
+                    <Typography variant="h5" sx={{ color: project.visited ? 'grey' : 'black'}}>
                         {project.title}
                     </Typography>
                     <Typography color="text.secondary">

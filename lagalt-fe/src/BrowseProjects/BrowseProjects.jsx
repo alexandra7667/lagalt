@@ -13,7 +13,6 @@ function ProjectsView() {
     const [selectedCategory, setSelectedCategory] = useState("All");
     const [keywords, setKeywords] = useState([]);
     const [selectedKeyword, setSelectedKeyword] = useState("");
-    const [visitedProjects, setVisitedProjects] = useState(null);
 
     useEffect(() => {
         if (projects) {
@@ -22,20 +21,29 @@ function ProjectsView() {
         }
 
         if (user) {
-            matchSkills();
-            //get user's all visited project ids and setFilteredProjects
-            //fetchVisitedProjectIds(user.userId);
+            matchSkillsAndVisitedProjects();
+
+            //Re setta filteredProjects
         }
-    }, []);
+    }, [user]);
 
 
-    const matchSkills = () => {
+    const matchSkillsAndVisitedProjects = () => {
         projects.forEach(project => {
-            //Checks if any neededSkill in the project matches with user.skills
+            // Check if any neededSkill in the project matches with user.skills
             if (project.neededSkills && user.skills) {
                 if (project.neededSkills.some(neededSkill => user.skills.includes(neededSkill))) {
-                    //Add a new property to the project object
                     project.matchingSkill = true;
+                    console.log("Matching skills: " + project.title);
+                }
+            }
+
+            // Check if the project is visited
+            if (user.associations) {
+                const association = user.associations.find(assoc => assoc.projectId === project.id && assoc.visitor);
+                if (association) {
+                    project.visited = true;
+                    console.log("visited: " + association.projectTitle);
                 }
             }
         });
