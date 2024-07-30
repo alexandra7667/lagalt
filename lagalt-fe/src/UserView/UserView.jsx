@@ -15,9 +15,11 @@ function UserView() {
     }, [])
 
     const fetchUserById = async () => {
+      const token = localStorage.getItem('token');
+
         const headers = {
           "Content-Type": "application/json",
-          //"Authorization": `Bearer ${token}`,
+          "Authorization": `Bearer ${token}`,
         };
       
         const fetchresponse = await fetch(`${urlBackendBasePath}/users/${userId}`, {
@@ -31,7 +33,7 @@ function UserView() {
       
         const response = await fetchresponse.json();
       
-        console.dir(response, { depth: null });
+        console.log("Fetched user: " + response.data);
       
         setProfileUser(response.data);
       }

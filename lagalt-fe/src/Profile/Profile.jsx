@@ -19,6 +19,10 @@ function Profile() {
         })
     }
 
+    const handleSubmit = (e) => {
+        updateProfile();
+    }
+
     const addSkill = (e) => {
         setSkill(e.target.value);
     }
@@ -42,34 +46,35 @@ function Profile() {
     const updateProfile = async (e) => {
         e.preventDefault();
 
-        //const token = localStorage.getItem('token');
+        const token = localStorage.getItem('token');
 
         const headers = {
             "Content-Type": "application/json",
-            //"Authorization": `Bearer ${token}`
+            "Authorization": `Bearer ${token}`
         };
 
-        const putUserResponse = await fetch(`${urlBackendBasePath}/users`, {
+        const putResponse = await fetch(`${urlBackendBasePath}/users`, {
             method: "PUT",
             headers: headers,
             body: JSON.stringify(user),
         });
 
-        // if (!putUserResponse.status !== 201) {
-        //     throw new Error("Failed to update user");
-        // }
+        if (putResponse.status !== 201) {
+            throw new Error("Failed to update user");
+        }
 
-        const userResponse = await putUserResponse.json();
+        const response = await putResponse.json();
 
-        //set user as response
+        console.log("Updated user: " + response.data)
+
+        //Add snackbar
     }
 
     return (
         <>
             <Typography variant="h4" sx={{ mb: '40px', textAlign: 'center' }}>Account Settings</Typography>
 
-            <form style={{ display: 'flex', flexDirection: 'column' }}>
-                <Stack direction="column" spacing={2}>
+            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                     {user && (
                         <>
                             <Box sx={{
@@ -124,8 +129,7 @@ function Profile() {
                             <Button variant="contained" onClick={updateProfile}>Update Profile</Button>
                         </>
                     )}
-                </Stack>
-            </form>
+            </Box>
         </>
     )
 }

@@ -58,7 +58,7 @@ function ProjectView() {
             }
         }
         setProjectData();
-    }, [user])
+    }, [])
 
 
     const toggleOpen = (setter) => {
