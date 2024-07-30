@@ -43,11 +43,8 @@ function Main() {
           ) : (
             <>
               <Route path="/newproject" element={<NewProject />} />
-
               <Route path="/myprojects" element={<MyProjects />} />
-
               <Route path="/profile" element={<Profile />} />
-
               <Route path="/userview/:userId" element={<UserView />} />
             </>
           )}
