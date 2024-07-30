@@ -5,12 +5,13 @@ import NewProject from "../NewProject/NewProject";
 import MyProjects from "../MyProjects/MyProjects";
 import Profile from "../Profile/Profile";
 import { Route, Routes } from "react-router-dom";
-import FetchProjects from "./FetchProjects.js"
+import fetchProjects from "./FetchProjects.js"
 import Login from "../Login/Login";
 import { UserContext } from "../App";
 import { useContext } from 'react'
 import ProjectView from "../ProjectView/ProjectView.jsx";
 import UserView from "../UserView/UserView.jsx";
+import Signup from "../Signup/Signup.jsx";
 
 const ProjectContext = createContext();
 
@@ -19,7 +20,7 @@ function Main() {
   const [projects, setProjects] = useState(null);
 
   useEffect(() => {
-    FetchProjects(setProjects);
+    fetchProjects(setProjects);
   }, [])
 
   return (
@@ -35,7 +36,10 @@ function Main() {
           )}
 
           {!user ? (
-            <Route path="/login" element={<Login />} />
+            <>
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+            </>
           ) : (
             <>
               <Route path="/newproject" element={<NewProject />} />

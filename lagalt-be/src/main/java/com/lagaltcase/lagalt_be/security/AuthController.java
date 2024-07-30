@@ -1,6 +1,7 @@
 package com.lagaltcase.lagalt_be.security;
 
 import com.lagaltcase.lagalt_be.request.LoginRequest;
+import com.lagaltcase.lagalt_be.request.SignupRequest;
 import com.lagaltcase.lagalt_be.response.JwtResponse;
 import com.lagaltcase.lagalt_be.security.jwt.JwtUtils;
 import com.lagaltcase.lagalt_be.user.Role;
@@ -66,6 +67,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody SignupRequest signupRequest) {
+        System.out.println("IN REGISTER");
         if (userRepository.existsByUsername(signupRequest.getUsername())) {    //If the username is already taken
             return ResponseEntity.badRequest().body("Error: Username is already taken.");
         }

@@ -6,21 +6,21 @@ export default async function fetchUser(data, setUser) {
         "Content-Type": "application/json",
     };
 
-    const fetchUserResponse = await fetch(`${urlBackendBasePath}/auth/login`, {
+    const fetchResponse = await fetch(`${urlBackendBasePath}/auth/login`, {
         method: "POST",
         headers: headers,
         body: JSON.stringify(data)
     });
 
-    if (!fetchUserResponse.ok) {
-        throw new Error("Failed to get projects from the database");
+    if (!fetchResponse.ok) {
+        throw new Error("Failed to get user from the database");
     }
 
-    const userResponse = await fetchUserResponse.json();
+    const response = await fetchResponse.json();
 
-    console.log("logged in: " + userResponse.token);
+    console.log("logged in: " + response.token);
 
-    localStorage.setItem('token', userResponse.token);
+    localStorage.setItem('token', response.token);
 
-    setUser(userResponse);
+    setUser(response);
 }
