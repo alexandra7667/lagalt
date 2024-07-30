@@ -4,28 +4,30 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import fetchUser from './FetchUser.js'
+import createUser from './CreateUser.js'
 import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
-import { UserContext } from "../App";
-import { useContext } from 'react'
 
-function Login() {
-    const { setUser } = useContext(UserContext);
+
+function Signup() {
     const navigate = useNavigate();
-    const [loginData, setLoginData] = useState({});
+    const [signUpData, setSignUpData] = useState({});
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        fetchUser(loginData, setUser);
+        createUser(signUpData);
 
-        navigate("/");
+        navigate("/login");
     };
 
+    //"Username should have 4-20 characters"
+    //"Password should have at least 8 characters"
+    //"Email cannot be empty"
+
     const handleChange = (e) => {
-        setLoginData({
-            ...loginData,
+        setSignUpData({
+            ...signUpData,
             [e.target.name]: e.target.value
         })
     }
@@ -57,6 +59,14 @@ function Login() {
                 />
                 <TextField
                     required
+                    id="email"
+                    label="email"
+                    name="email"
+                    autoComplete="current-email"
+                    onChange={handleChange}
+                />
+                <TextField
+                    required
                     name="password"
                     label="password"
                     type="password"
@@ -69,15 +79,15 @@ function Login() {
                     type="submit"
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}>
-                    Log In
+                    Sign up
                 </Button>
             </Box>
             <Typography>
-                Not a user yet?
-                <Button onClick={() => navigate("/signup")}>Sign up</Button>
+                Already a user?
+                <Button onClick={() => navigate("/login")}>Log in</Button>
             </Typography>
         </Box>
     );
 }
 
-export default Login;
+export default Signup;

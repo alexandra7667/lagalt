@@ -1,11 +1,11 @@
 import { urlBackendBasePath } from "../assets/urls";
 
 export default async function fetchMessages(projectId, setMessageBoard, setProjectUpdates) {
-    //const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token');
 
     const headers = {
         "Content-Type": "application/json",
-        //"Authorization": `Bearer ${token}`
+        "Authorization": `Bearer ${token}`
     };
 
     const fetchResponse = await fetch(`${urlBackendBasePath}/messages/${projectId}`, {
