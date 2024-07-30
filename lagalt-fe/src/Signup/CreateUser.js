@@ -1,6 +1,6 @@
 import { urlBackendBasePath } from "../assets/urls";
 
-export default async function fetchUser(data) {
+export default async function fetchUser(data, setOpen) {
 
     const headers = {
         "Content-Type": "application/json",
@@ -20,5 +20,5 @@ export default async function fetchUser(data) {
 
     console.log("signed up: " + response);
 
-    //Create snackbar
+    setOpen(true);
 }
