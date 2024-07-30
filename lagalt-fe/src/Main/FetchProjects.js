@@ -6,7 +6,7 @@ export default async function fetchProjects(setProjects) {
         "Content-Type": "application/json",
     };
 
-    const fetchResponse = await fetch(`${urlBackendBasePath}/projects`, {
+    const fetchResponse = await fetch(`${urlBackendBasePath}/projects/getAllProjects`, {
         method: "GET",
         headers: headers
     });

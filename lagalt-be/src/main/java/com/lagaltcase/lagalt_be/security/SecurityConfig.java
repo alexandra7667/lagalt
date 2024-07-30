@@ -5,11 +5,13 @@ import com.lagaltcase.lagalt_be.security.jwt.AuthTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,6 +19,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -31,11 +34,29 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests(authorizeRequests ->
-                        authorizeRequests
-                                .anyRequest().permitAll() // Allow all requests without authentication
-                )
-                .csrf(csrf -> csrf.disable()); // Disable CSRF protection
+                .csrf((csrf) -> csrf.disable())
+                .exceptionHandling((exception) -> exception.authenticationEntryPoint(this.unauthorisedHandler))
+                .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests((requests) -> requests
+                        .requestMatchers("/auth/**", "/projects/getAllProjects").permitAll()
+
+                        // Allow signed-in users to perform GET, POST, and PUT requests on specified endpoints
+                        .requestMatchers(HttpMethod.GET, "/projects/**", "/user/**", "/messages/**", "/associations/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.POST, "/projects/**", "/user/**", "/messages/**", "/associations/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.PUT, "/projects/**", "/user/**", "/messages/**", "/associations/**").hasRole("USER")
+
+                        // Allow only admin to perform DELETE requests on specified endpoints
+                        .requestMatchers(HttpMethod.DELETE, "/projects/**", "/user/**", "/messages/**", "/associations/**").hasRole("ADMIN")
+
+                        // Any other request needs to be authenticated
+                        .anyRequest().authenticated()
+                );
+
+        http.authenticationProvider(this.authenticationProvider());
+
+        http.addFilterBefore(authenticationJwtTokenFilter(),
+                UsernamePasswordAuthenticationFilter.class);
+
 
         return http.build();
     }

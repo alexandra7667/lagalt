@@ -87,7 +87,7 @@ public class ProjectController {
         return new ResponseEntity<>(projectResponse, HttpStatus.CREATED);
     }
 
-    @GetMapping
+    @GetMapping("/getAllProjects")
     public ResponseEntity<ProjectListResponse> getAllProjects() {
         List<Project> allProjects = this.projectRepository.findAll();
 

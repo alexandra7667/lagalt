@@ -4,6 +4,8 @@ export default function setAssociationLists(allUsersAssociations, setOwnedAssoci
     const members = [];
     const apps = [];
 
+    console.log("users assos " + allUsersAssociations)
+
     allUsersAssociations.forEach((association) => {
         if (association.owner) {
             owned.push(association);
