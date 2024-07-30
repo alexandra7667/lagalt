@@ -1,8 +1,10 @@
-import { Button, FormControl, IconButton, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { Button, FormControl, IconButton, InputLabel, MenuItem, Select, TextField, Typography, Box } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useEffect, useState } from "react";
 import { urlBackendBasePath } from "../assets/urls";
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 const initialState = {
     userId: 1,
@@ -19,18 +21,21 @@ function NewProject() {
     const [category, setCategory] = useState('Films');
     const [tag, setTag] = useState('');
     const [neededSkill, setNeededSkill] = useState('');
-    const [submitDisabled, setSubmitDisabled] = useState(false);
+    const [open, setOpen] = useState(false);
 
-    const submitNewProject = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        createProject();
+    }
 
-        console.log(newProject);
+    const  createProject = async () => {
+        console.log("new project: " + newProject);
 
-        //const token = localStorage.getItem('token');
+        const token = localStorage.getItem('token');
 
         const headers = {
             "Content-Type": "application/json",
-            //"Authorization": `Bearer ${token}`
+            "Authorization": `Bearer ${token}`
         };
 
         const postProjectsResponse = await fetch(`${urlBackendBasePath}/projects`, {
@@ -39,11 +44,13 @@ function NewProject() {
             body: JSON.stringify(newProject),
         });
 
-        // if (!postProjectsResponse.status !== 201) {
-        //     throw new Error("Failed to post project to the database");
-        // }
+        if (postProjectsResponse.status !== 201) {
+            throw new Error("Failed to post project to the database");
+        }
 
-        console.log(postProjectsResponse);
+        setOpen(true);
+
+        console.log("created project: " + postProjectsResponse);
     }
 
     const handleChange = (e) => {
@@ -54,11 +61,6 @@ function NewProject() {
             [e.target.name]: e.target.value
         })
     }
-
-    useEffect(() => {
-        if (newProject.title !== '' && newProject.description !== '') setSubmitDisabled(false);
-        else setSubmitDisabled(true);
-    }, [newProject])
 
     const addTag = (e) => {
         setTag(e.target.value);
@@ -100,11 +102,20 @@ function NewProject() {
         }));
     }
 
+    //Close snackbar
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     return (
         <>
             <Typography variant="h4" sx={{ mb: '40px', textAlign: 'center' }}>Create New Project</Typography>
 
-            <form style={{ display: 'flex', flexDirection: 'column' }}>
+            <Box component="form" onSubmit={handleSubmit} sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+            }}>
                 <FormControl sx={{ width: { xs: '300px', sm: '400px' }, mb: '20px' }} >
                     <InputLabel id="label-category">Category*</InputLabel>
                     <Select
@@ -124,7 +135,7 @@ function NewProject() {
 
                 <TextField
                     sx={{ mb: '15px' }}
-                    autoFocus 
+                    autoFocus
                     required
                     variant="standard"
                     id="title"
@@ -195,8 +206,23 @@ function NewProject() {
                     ))}
                 </ul>
 
-                <Button variant="contained" onClick={submitNewProject}>Create New Project</Button>
-            </form>
+                <Button
+                    type="submit"
+                    variant="contained"
+                    sx={{ mt: 2, mb: 2 }}>
+                    Update profile
+                </Button>
+            </Box>
+
+            <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+                <Alert
+                    onClose={handleClose}
+                    severity="success"
+                    variant="filled"
+                >
+                    Project created
+                </Alert>
+            </Snackbar>
         </>
     )
 }
