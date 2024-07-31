@@ -24,12 +24,11 @@ public class User {
     private int id;
 
     @Size(min = 4, max = 20, message = "Username should have 4-20 characters")
-    @Column(unique = true)
     private String username;
 
     @Email(message = "Not valid email")
     @NotEmpty(message = "Email cannot be empty")
-    @Column
+    @Column(unique = true)
     private String email;
 
     @Size(min = 8, message = "Password should have at least 8 characters")
@@ -59,8 +58,8 @@ public class User {
     private List<Associate> associatedProjects  = new ArrayList<>();
 
     //Not needed in UserController. User is created directly by mapping the JSON object to this model's fields. Needed in AuthController
-    public User(String username, String email, String password) {
-        this.username = username;
+    public User(String email, String password) {
+        this.username = email;
         this.email = email;
         this.password = password;
     }

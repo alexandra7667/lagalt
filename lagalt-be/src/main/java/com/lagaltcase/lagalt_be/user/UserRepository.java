@@ -8,6 +8,6 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> findByUsername(String username);   //"Username" must match field in User model. Optional = user may not exist
-    Boolean existsByUsername(String username);
-//    Boolean existsByEmail(String email);
+    Optional<User> findByEmail(String email);
+    Boolean existsByEmail(String email);
 }

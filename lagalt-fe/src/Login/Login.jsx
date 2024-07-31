@@ -18,9 +18,7 @@ function Login() {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        fetchUser(loginData, setUser);
-
-        navigate("/");
+        fetchUser(loginData, setUser, navigate);
     };
 
     const handleChange = (e) => {
@@ -48,11 +46,11 @@ function Login() {
             <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                 <TextField
                     required
-                    id="username"
-                    label="username"
-                    name="username"
+                    id="email"
+                    label="email"
+                    name="email"
                     autoFocus
-                    autoComplete="username"
+                    autoComplete="email"
                     onChange={handleChange}
                 />
                 <TextField

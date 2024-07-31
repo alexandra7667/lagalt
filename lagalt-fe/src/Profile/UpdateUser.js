@@ -19,9 +19,7 @@ export default async function updateUser( user, openSnackbar ) {
     openSnackbar("Could not update profile", "error");
   }
 
-  const response = await putResponse.json();
-
-  console.log("Updated user: " + response.data);
+  console.log("Updated user: ", putResponse);
 
   openSnackbar("User updated", "success");
 }

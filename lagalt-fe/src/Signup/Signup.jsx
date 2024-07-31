@@ -8,12 +8,16 @@ import createUser from './CreateUser.js'
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from '../SnackbarContext.jsx';
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 
 
 function Signup() {
     const navigate = useNavigate();
     const [signUpData, setSignUpData] = useState({});
     const { openSnackbar } = useSnackbar();
+
+    // Access the environment variable with Vite
+    const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -47,16 +51,7 @@ function Signup() {
                 <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
                     <TextField
                         required
-                        id="username"
-                        label="username (4-20 characters)"
-                        name="username"
                         autoFocus
-                        autoComplete="username"
-                        inputProps={{ minLength: 4, maxLength: 20 }}
-                        onChange={handleChange}
-                    />
-                    <TextField
-                        required
                         id="email"
                         label="email"
                         name="email"
@@ -81,6 +76,21 @@ function Signup() {
                         Sign up
                     </Button>
                 </Box>
+
+                <GoogleOAuthProvider clientId={googleClientId}>
+                    <div>
+                        <GoogleLogin
+                            onSuccess={(response) => {
+                                console.log("google success", response);
+                            }}
+                            onError={(error) => {
+                                console.error("google error", error);
+                            }}
+                        />
+                    </div>
+                    <p>(Functional code on client and server side but client id has not been generated in Google Cloud.)</p>
+                </GoogleOAuthProvider>
+
                 <Typography>
                     Already a user?
                     <Button onClick={() => navigate("/login")}>Log in</Button>
