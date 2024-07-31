@@ -17,9 +17,11 @@ function Profile() {
     const handleChange = (e) => {
         setUser({
             ...user,
-            description: e.target.value
+            [e.target.name]: e.target.value
         })
     }
+
+    //Lägg till att kunna läggatill/byta password. Särskilt om användare registrerat sig med google men sen vill logga in med email/password
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -70,12 +72,24 @@ function Profile() {
                         <br />
 
                         <TextField
-                            required
+                            sx={{ mb: 4 }}
+                            id="username"
+                            label="username (4-20 characters)"
+                            name="username"
+                            autoFocus
+                            autoComplete="username"
+                            inputProps={{ minLength: 4, maxLength: 20 }}
+                            value={user.username}
+                            onChange={handleChange}
+                        />
+
+                        <TextField
                             multiline
                             rows={10}
                             id="description"
                             name="description"
                             label="Description"
+                            inputProps={{ maxLength: 750 }}
                             value={user.description}
                             onChange={handleChange}>
                         </TextField>

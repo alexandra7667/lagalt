@@ -60,7 +60,8 @@ public class UserController {
             return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
         }
 
-        //Sends all info all times
+        //Fields not provided in request will be ignored
+        user.setUsername(userRequest.getUsername());
         user.setDescription(userRequest.getDescription());
         user.setHidden(userRequest.isHidden());
         user.setSkills(userRequest.getSkills());
@@ -107,7 +108,7 @@ public class UserController {
 
         UserDetailsImpl userDetailsImpl = (UserDetailsImpl) authentication.getPrincipal();
 
-        User user = userRepository.findByUsername(userDetailsImpl.getUsername()).orElse(null);
+        User user = userRepository.findByEmail(userDetailsImpl.getEmail()).orElse(null);
 
         if (user == null) {
             ErrorResponse errorResponse = new ErrorResponse();
