@@ -87,7 +87,7 @@ function Signup() {
                                 console.error("google error", error);
                             }}
                         />
-                    </div>
+                    </div> 
                     <p>(Functional code on client and server side but client id has not been generated in Google Cloud.)</p>
                 </GoogleOAuthProvider>
 
