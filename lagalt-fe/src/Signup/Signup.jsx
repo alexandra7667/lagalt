@@ -48,9 +48,14 @@ function Signup() {
                 <Typography component="h1" variant="h5">
                     Sign up
                 </Typography>
-                
-                <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+
+                <Box component="form" onSubmit={handleSubmit} sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center', mt: 1
+                }}>
                     <TextField
+                        sx={{ mb: 1 }}
                         required
                         autoFocus
                         id="email"
@@ -88,8 +93,8 @@ function Signup() {
                                 console.error("google error", error);
                             }}
                         />
-                    </div> 
-                    <p>(Functional code on client and server side but client id has not been generated in Google Cloud.)</p>
+                    </div>
+                    {/*Functional code on client and server side but client id has not been generated in Google Cloud.*/}
                 </GoogleOAuthProvider>
 
                 <Typography>
