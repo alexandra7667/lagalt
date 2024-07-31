@@ -41,12 +41,12 @@ public class SecurityConfig {
                         .requestMatchers("/auth/**", "/projects/getAllProjects").permitAll()
 
                         // Allow signed-in users to perform GET, POST, and PUT requests on specified endpoints
-                        .requestMatchers(HttpMethod.GET, "/projects/**", "/user/**", "/messages/**", "/associations/**").hasRole("USER")
-                        .requestMatchers(HttpMethod.POST, "/projects/**", "/user/**", "/messages/**", "/associations/**").hasRole("USER")
-                        .requestMatchers(HttpMethod.PUT, "/projects/**", "/user/**", "/messages/**", "/associations/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/projects/**", "/users/**", "/messages/**", "/associations/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.POST, "/projects/**", "/users/**", "/messages/**", "/associations/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.PUT, "/projects/**", "/users/**", "/messages/**", "/associations/**").hasRole("USER")
 
                         // Allow only admin to perform DELETE requests on specified endpoints
-                        .requestMatchers(HttpMethod.DELETE, "/projects/**", "/user/**", "/messages/**", "/associations/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/projects/**", "/users/**", "/messages/**", "/associations/**").hasRole("ADMIN")
 
                         // Any other request needs to be authenticated
                         .anyRequest().authenticated()

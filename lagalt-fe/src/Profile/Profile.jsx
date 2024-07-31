@@ -6,15 +6,13 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import { UserContext } from "../App";
 import { useContext } from 'react'
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
+import { useSnackbar } from '../SnackbarContext.jsx';
 import updateUser from './UpdateUser.js'
 
 function Profile() {
     const { user, setUser } = useContext(UserContext);
     const [skill, setSkill] = useState('');
-    const [open, setOpen] = useState(false);
-
+    const { openSnackbar } = useSnackbar();
 
     const handleChange = (e) => {
         setUser({
@@ -25,7 +23,7 @@ function Profile() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        updateUser(user, setOpen);
+        updateUser(user, openSnackbar);
     }
 
     const addSkill = (e) => {
@@ -47,12 +45,6 @@ function Profile() {
             skills: prevUser.skills.filter(skill => skill !== skillToRemove)
         }));
     }
-
-    //Close snackbar
-    const handleClose = () => {
-        setOpen(false);
-    };
-
 
     return (
         <>
@@ -119,16 +111,6 @@ function Profile() {
                     Update profile
                 </Button>
             </Box>
-            
-            <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
-                <Alert
-                    onClose={handleClose}
-                    severity="success"
-                    variant="filled"
-                >
-                    Profile updated
-                </Alert>
-            </Snackbar>
         </>
     )
 }

@@ -1,24 +1,28 @@
 import { urlBackendBasePath } from "../assets/urls";
 
-export default async function fetchUser(data, setOpen) {
 
-    const headers = {
-        "Content-Type": "application/json",
-    };
+export default async function createUser(data, openSnackbar, navigate) {
+  const headers = {
+    "Content-Type": "application/json",
+  };
 
-    const fetchResponse = await fetch(`${urlBackendBasePath}/auth/signup`, {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify(data)
-    });
+  const fetchResponse = await fetch(`${urlBackendBasePath}/auth/signup`, {
+    method: "POST",
+    headers: headers,
+    body: JSON.stringify(data),
+  });
 
-    if (!fetchResponse.ok) {
-        throw new Error("Failed to create user in the database");
-    }
+  if (fetchResponse.status === 400) {
+    //username already taken
+    console.log(`Error ${fetchResponse.status}: ${await fetchResponse.text()}`);
 
-    const response = await fetchResponse.json();
+    openSnackbar("Username already taken", 'error');
+  } 
+  else {
+    console.log(`Success ${fetchResponse.status}: ${await fetchResponse.text()}`);
 
-    console.log("signed up: " + response);
-
-    setOpen(true);
+    openSnackbar("Account created", 'success');
+    
+    navigate("/login");
+  }
 }

@@ -2,9 +2,8 @@ import { Button, FormControl, IconButton, InputLabel, MenuItem, Select, TextFiel
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useState } from "react";
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
 import createProject from "./CreateProject.js";
+import { useSnackbar } from '../SnackbarContext.jsx';
 
 const initialState = {
     userId: 1,
@@ -17,15 +16,15 @@ const initialState = {
 }
 
 function NewProject() {
+    const { openSnackbar } = useSnackbar();
     const [newProject, setNewProject] = useState(initialState);
     const [category, setCategory] = useState('Films');
     const [tag, setTag] = useState('');
     const [neededSkill, setNeededSkill] = useState('');
-    const [open, setOpen] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        createProject(newProject, setOpen);
+        createProject(newProject, openSnackbar);
     }
 
     const handleChange = (e) => {
@@ -77,10 +76,6 @@ function NewProject() {
         }));
     }
 
-    //Close snackbar
-    const handleClose = () => {
-        setOpen(false);
-    };
 
     return (
         <>
@@ -188,16 +183,6 @@ function NewProject() {
                     Update profile
                 </Button>
             </Box>
-
-            <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
-                <Alert
-                    onClose={handleClose}
-                    severity="success"
-                    variant="filled"
-                >
-                    Project created
-                </Alert>
-            </Snackbar>
         </>
     )
 }
