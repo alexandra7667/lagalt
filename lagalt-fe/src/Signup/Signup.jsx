@@ -5,24 +5,21 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import createUser from './CreateUser.js'
-import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
+import { useNavigate } from "react-router-dom";
+import { useSnackbar } from '../SnackbarContext.jsx';
 
 
 function Signup() {
     const navigate = useNavigate();
     const [signUpData, setSignUpData] = useState({});
-    const [open, setOpen] = useState(false);
+    const { openSnackbar } = useSnackbar();
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        createUser(signUpData, setOpen);
-
-        navigate("/login");
-    };
+        createUser(signUpData, openSnackbar, navigate);
+    }
 
     const handleChange = (e) => {
         setSignUpData({
@@ -30,11 +27,6 @@ function Signup() {
             [e.target.name]: e.target.value
         })
     }
-
-    //Close snackbar
-    const handleClose = () => {
-        setOpen(false);
-    };
 
     return (
         <>
@@ -94,16 +86,6 @@ function Signup() {
                     <Button onClick={() => navigate("/login")}>Log in</Button>
                 </Typography>
             </Box>
-
-            <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
-                <Alert
-                    onClose={handleClose}
-                    severity="success"
-                    variant="filled"
-                >
-                    Account created
-                </Alert>
-            </Snackbar>
         </>
     );
 }

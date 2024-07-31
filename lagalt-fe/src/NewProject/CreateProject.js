@@ -1,6 +1,6 @@
 import { urlBackendBasePath } from "../assets/urls";
 
-export default async function createProject({ newProject, setOpen }) {
+export default async function createProject({ newProject, openSnackbar }) {
     console.log("new project: " + newProject);
 
         const token = localStorage.getItem('token');
@@ -17,10 +17,11 @@ export default async function createProject({ newProject, setOpen }) {
         });
 
         if (postProjectsResponse.status !== 201) {
-            throw new Error("Failed to post project to the database");
+            console.log("Failed to post project to the database");
+            openSnackbar("Could not create project", 'error');
         }
 
-        setOpen(true);
+        openSnackbar("Project created", 'success');
 
         console.log("created project: " + postProjectsResponse);
 }

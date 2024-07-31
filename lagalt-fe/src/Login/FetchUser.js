@@ -18,9 +18,9 @@ export default async function fetchUser(data, setUser) {
 
     const response = await fetchResponse.json();
 
-    console.log("logged in: " + response.token);
-
     localStorage.setItem('token', response.token);
 
     setUser(response);
+
+    console.log("set user:", JSON.stringify(response));
 }
