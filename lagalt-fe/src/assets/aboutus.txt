@@ -1,0 +1,13 @@
+The site will be used to facilitate connecting individuals in creative fields with projects that need their specific skill sets.
+These projects may be in any ‘creative’ field. However, the initial envisaged fields are as follows:
+- Music
+- Film
+- Game Development
+- Web Development
+Individuals will be able to both create and join projects within these fields.
+Before registering, a user may browse the projects freely (Anonymous mode), but may not interact directly with them. All search features still work freely in this mode.
+Users start by registering an account (using OAuth services), then have the option to tailor their profile to reflect their own skill sets. These may be displayed publicly or set in a ‘hidden’ mode. Either way, once registered, a user may apply to join an existing project.
+The ‘hidden’ mode is meant for users that want to collaborate but wish to minimize their publicly visible online profile.
+Alternatively, a user may start a project by providing a title and short description to start. They can also add additional options, such as linking to GitHub/GitLab pages for “in progress” projects. (Other integration options should be considered.) Additional information can always be added/edited at a later stage (from a project’s Admin page).
+Once a user has applied to join a project, the project owner(s) can approve or decline the application. During this process, they can view a user’s full skill set (even if they are in ‘hidden’ mode).
+If a user is approved, they can access all resources associated with the project. This project view should provide convenient means for collaborators to communicate, such as a persistent chat area and message board.
