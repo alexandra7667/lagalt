@@ -16,7 +16,7 @@ function Signup() {
     const [signUpData, setSignUpData] = useState({});
     const { openSnackbar } = useSnackbar();
 
-    // Access the environment variable with Vite
+    //Access the environment variable (with Vite)
     const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
     const handleSubmit = (e) => {
@@ -46,8 +46,9 @@ function Signup() {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Log in
+                    Sign up
                 </Typography>
+                
                 <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
                     <TextField
                         required

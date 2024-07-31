@@ -27,8 +27,8 @@ function Header() {
     }
 
     return (
-        <Box sx={{ flexGrow: 1, mb: '50px' }}>
-            <AppBar position="static" elevation={0} sx={{ backgroundColor: 'lightblue' }} >
+        <Box sx={{ flexGrow: 1, mb: '80px' }}>
+            <AppBar position="fixed" elevation={0} sx={{ backgroundColor: 'lightblue' }} >
                 <Toolbar >
                     <IconButton
                         size="large"

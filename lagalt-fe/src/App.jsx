@@ -4,6 +4,7 @@ import CssBaseline from '@mui/material/CssBaseline'; //Resets browser css
 import { useEffect, useState, createContext } from 'react';
 import { Main } from './Main/Main.jsx';
 import { restoreUser } from './RestoreUser.js';
+import Footer from './Footer/Footer.jsx';
 
 const UserContext = createContext();
 
@@ -23,6 +24,7 @@ function App() {
       <UserContext.Provider value={{ user, setUser }}>
         <Header />
         <Main />
+        <Footer />
       </UserContext.Provider>
     </>
   )
