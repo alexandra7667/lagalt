@@ -17,7 +17,7 @@ function BottomNav() {
   const handleNavigation = (event, value) => {
     switch (value) {
       case 0:
-        navigate('/about');
+        navigate('/aboutus');
         break;
       case 1:
         navigate('/');

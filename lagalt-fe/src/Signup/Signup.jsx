@@ -94,10 +94,10 @@ function Signup() {
                             }}
                         />
                     </div>
-                    {/*Functional code on client and server side but client id has not been generated in Google Cloud.*/}
+                    {/*Implemented code on server side but client id has not been generated in Google Cloud.*/}
                 </GoogleOAuthProvider>
 
-                <Typography>
+                <Typography sx ={{mt: 2}}>
                     Already a user?
                     <Button onClick={() => navigate("/login")}>Log in</Button>
                 </Typography>

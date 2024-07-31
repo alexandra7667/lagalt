@@ -9,11 +9,16 @@ import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
 import { UserContext } from "../App";
 import { useContext } from 'react'
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+
 
 function Login() {
     const { setUser } = useContext(UserContext);
     const navigate = useNavigate();
     const [loginData, setLoginData] = useState({});
+
+    //Access the environment variable (with Vite)
+    const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -76,7 +81,22 @@ function Login() {
                     Log In
                 </Button>
             </Box>
-            <Typography>
+
+            <GoogleOAuthProvider clientId={googleClientId}>
+                    <div>
+                        <GoogleLogin
+                            onSuccess={(response) => {
+                                console.log("google success", response);
+                            }}
+                            onError={(error) => {
+                                console.error("google error", error);
+                            }}
+                        />
+                    </div>
+                    {/*Implemented code on server side but client id has not been generated in Google Cloud.*/}
+                </GoogleOAuthProvider>
+
+            <Typography sx ={{mt: 2}}>
                 Not a user yet?
                 <Button onClick={() => navigate("/signup")}>Sign up</Button>
             </Typography>
