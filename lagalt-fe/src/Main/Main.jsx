@@ -12,6 +12,7 @@ import { useContext } from 'react'
 import ProjectView from "../ProjectView/ProjectView.jsx";
 import UserView from "../UserView/UserView.jsx";
 import Signup from "../Signup/Signup.jsx";
+import NotFound from "../NotFound/NotFound.jsx";
 
 const ProjectContext = createContext();
 
@@ -25,7 +26,7 @@ function Main() {
 
   return (
     <ProjectContext.Provider value={{ projects, setProjects }}>
-      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: '20px', }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: '20px',}}>
         <Routes>
 
           {projects && (
@@ -48,6 +49,8 @@ function Main() {
               <Route path="/userview/:userId" element={<UserView />} />
             </>
           )}
+
+          <Route path="*" element={<NotFound />} />
 
         </Routes>
       </Box>
