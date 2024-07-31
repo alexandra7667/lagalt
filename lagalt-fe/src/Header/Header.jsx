@@ -5,6 +5,9 @@ import { blueGrey } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../App";
 import { useContext } from 'react'
+import LogoutIcon from '@mui/icons-material/Logout';
+import LoginIcon from '@mui/icons-material/Login';
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
 
 function Header() {
     const { user, setUser } = useContext(UserContext);
@@ -49,12 +52,15 @@ function Header() {
                         {user ? (
                             <Avatar sx={{ bgcolor: blueGrey[500], textAlign: 'center', }}>{user.username[0]}</Avatar>
                         ) : (
-                            <span>Login</span>
+                            <>
+                                <LoginIcon sx={{ mr: 1 }} />
+                                <span>Login</span>
+                            </>
                         )}
                     </Button>
 
                     {user && (
-                        <Button color="inherit" onClick={logout}>Log out</Button>
+                        <Button color="inherit" onClick={logout} icon={<LogoutIcon />}>Log out</Button>
                     )}
 
                 </Toolbar>

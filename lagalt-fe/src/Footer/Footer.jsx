@@ -12,7 +12,7 @@ import { useContext } from 'react'
 
 function BottomNav() {
   const navigate = useNavigate();
-  const { setUser } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   const handleNavigation = (event, value) => {
     switch (value) {
@@ -23,9 +23,7 @@ function BottomNav() {
         navigate('/');
         break;
       case 2:
-        localStorage.clear();
-        setUser(null);
-        navigate("/");
+        //third option
         break;
       default:
         break;
@@ -40,7 +38,6 @@ function BottomNav() {
       >
         <BottomNavigationAction label="About us" icon={<BubbleChartIcon />} />
         <BottomNavigationAction label="Browse Projects" icon={<AccountTreeIcon />} />
-        <BottomNavigationAction label="Log out" icon={<LogoutIcon />} />
       </BottomNavigation>
     </Paper>
   )
