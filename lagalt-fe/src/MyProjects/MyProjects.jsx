@@ -15,6 +15,7 @@ import setProjectLists from './SetProjectLists.js';
 import { UserContext } from "../App";
 import { useContext } from 'react'
 import { useNavigate } from "react-router-dom";
+import PageTitle from '../PageTitle/PageTitle.jsx';
 
 function MyProjects() {
     const navigate = useNavigate();
@@ -43,7 +44,7 @@ function MyProjects() {
 
     return (
         <>
-            <Typography variant="h4" sx={{ mb: '40px', textAlign: 'center' }}>My Projects</Typography>
+            <PageTitle title={"My Projects"} />
 
             <List>
                 <ListItemButton onClick={() => toggleOpen(setOpenOwner)}>

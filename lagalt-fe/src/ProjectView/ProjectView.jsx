@@ -7,6 +7,7 @@ import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import AddIcon from '@mui/icons-material/Add';
 import fetchMessages from "./FetchMessages.js";
 import JoinModal from "./JoinModal/JoinModal.jsx";
+import PageTitle from "../PageTitle/PageTitle.jsx";
 
 function ProjectView() {
     const { projectId } = useParams();
@@ -26,11 +27,6 @@ function ProjectView() {
     const closeModal = () => {
         setIsModalOpen(false);
     };
-
-    //role
-    //check project owner, add editable, add applications (also add info about new applications in header)
-    //check member - can add messages to board (visible: message board and project updates)
-    //check user (logged in) - can apply, add join/applied/member button with icon
 
     useEffect(() => {
         const setProjectData = async () => {
@@ -83,7 +79,7 @@ function ProjectView() {
 
     return (
         <>
-            <Typography variant="h4" sx={{ mb: '30px', textAlign: 'center' }}>{project ? project.title : 'Project not found'}</Typography>
+            <PageTitle title={project.title}/>
 
             {project && (
                 <>

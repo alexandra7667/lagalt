@@ -5,6 +5,7 @@ import ProjectList from './ProjectList/ProjectList.jsx'
 import { UserContext } from "../App.jsx";
 import { useContext } from 'react'
 import { ProjectContext } from "../Main/Main.jsx";
+import PageTitle from "../PageTitle/PageTitle.jsx";
 
 function ProjectsView() {
     const { user } = useContext(UserContext);
@@ -123,8 +124,8 @@ function ProjectsView() {
 
     return (
         <>
-            <Typography variant="h4" sx={{ mb: '40px', textAlign: 'center' }}>Browse Projects</Typography>
-
+            <PageTitle title={"Browse Projects"} />
+            
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: '20px' }}>
                 {keywords && (
                     <Autocomplete

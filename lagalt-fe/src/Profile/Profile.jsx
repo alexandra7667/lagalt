@@ -8,6 +8,8 @@ import { UserContext } from "../App";
 import { useContext } from 'react'
 import { useSnackbar } from '../SnackbarContext.jsx';
 import updateUser from './UpdateUser.js'
+import PageTitle from "../PageTitle/PageTitle.jsx";
+
 
 function Profile() {
     const { user, setUser } = useContext(UserContext);
@@ -50,7 +52,7 @@ function Profile() {
 
     return (
         <>
-            <Typography variant="h4" sx={{ mb: '40px', textAlign: 'center' }}>Account Settings</Typography>
+            <PageTitle title={"Account Settings"} />
 
             <Box component="form" onSubmit={handleSubmit} sx={{
                 display: 'flex',
