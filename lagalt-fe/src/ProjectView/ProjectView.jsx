@@ -2,10 +2,11 @@ import { useParams } from "react-router-dom";
 import { ProjectContext } from "../Main/Main.jsx";
 import { UserContext } from "../App";
 import { useContext, useEffect, useState } from 'react'
-import { Box, Collapse, List, ListItemButton, ListItemText, TextField, Typography } from "@mui/material";
+import { Box, Button, Collapse, List, ListItemButton, ListItemText, TextField, Typography } from "@mui/material";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import AddIcon from '@mui/icons-material/Add';
 import fetchMessages from "./FetchMessages.js";
+import JoinModal from "./JoinModal/JoinModal.jsx";
 
 function ProjectView() {
     const { projectId } = useParams();
@@ -16,6 +17,15 @@ function ProjectView() {
     const [role, setRole] = useState(null);
     const [messageBoard, setMessageBoard] = useState(null);
     const [projectUpdates, setProjectUpdates] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
 
     //role
     //check project owner, add editable, add applications (also add info about new applications in header)
@@ -32,6 +42,7 @@ function ProjectView() {
                 //Set message board and updates
                 fetchMessages(foundProject.id, setMessageBoard, setProjectUpdates);
 
+                //Set user's role in project
                 let roleSet = false;
                 for (const associate of foundProject.associates) {
                     if (associate.userId === user.userId) {
@@ -69,19 +80,26 @@ function ProjectView() {
         console.log(`Go to user ${userId}`);
     }
 
+
     return (
         <>
-            <Typography variant="h4" sx={{ mb: '40px', textAlign: 'center' }}>{project ? project.title : 'Project not found'}</Typography>
+            <Typography variant="h4" sx={{ mb: '30px', textAlign: 'center' }}>{project ? project.title : 'Project not found'}</Typography>
 
             {project && (
                 <>
                     {user && role && (
-                                <Typography>
-                                    {role === 'Owner' && (<AddIcon />)}
-                                    {role === 'Member' && (<AddIcon />)}
-                                    {role === 'Applicant' && (<AddIcon />)}
-                                    {role}
-                                </Typography>
+                        <Typography>
+                            {role === 'Owner' && (<AddIcon />)}
+                            {role === 'Member' && (<AddIcon />)}
+                            {role === 'Applicant' && (<AddIcon />)}
+                        </Typography>
+                    )}
+
+                    {role === 'Unaffiliated' && (
+                        <>
+                            <Button onClick={openModal} variant="outlined" sx={{ mb: 1 }}>Join</Button>
+                            <JoinModal isOpen={isModalOpen} onClose={closeModal} userId={user.userId} projectId={project.id} />
+                        </>
                     )}
 
                     <Typography variant="h6" color="text.secondary">
@@ -100,10 +118,10 @@ function ProjectView() {
                     {user && (
                         <>
                             <Box sx={{
-                                border: '2px solid',
+                                border: '1px solid',
                                 borderColor: 'grey.500',
                                 borderRadius: 2,
-                                padding: 2, 
+                                padding: 2,
                                 margin: 2
                             }}>
                                 <Typography variant="h6" sx={{ textAlign: 'center' }}>
@@ -122,7 +140,7 @@ function ProjectView() {
                             </Box>
 
                             <Box sx={{
-                                border: '2px solid',
+                                border: '1px solid',
                                 borderColor: 'grey.500',
                                 borderRadius: 2,
                                 padding: 2,

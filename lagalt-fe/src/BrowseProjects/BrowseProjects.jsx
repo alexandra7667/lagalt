@@ -19,7 +19,9 @@ function ProjectsView() {
             setFilteredProjects(projects);
             addTagsToKeywords();
         }
+    }, [projects]);
 
+    useEffect(() => {
         if (user) {
             matchSkillsAndVisitedProjects();
         }

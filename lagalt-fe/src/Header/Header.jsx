@@ -7,7 +7,6 @@ import { UserContext } from "../App";
 import { useContext } from 'react'
 import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
-import AccountTreeIcon from '@mui/icons-material/AccountTree';
 
 function Header() {
     const { user, setUser } = useContext(UserContext);
@@ -48,19 +47,17 @@ function Header() {
                         Lagalt
                     </Typography>
 
-                    <Button color="inherit" onClick={user ? () => navigate("/profile") : () => navigate("/login")} sx={{ textTransform: 'none' }}>
-                        {user ? (
-                            <Avatar sx={{ bgcolor: blueGrey[500], textAlign: 'center', }}>{user.username[0]}</Avatar>
-                        ) : (
-                            <>
-                                <LoginIcon sx={{ mr: 1 }} />
-                                <span>Login</span>
-                            </>
-                        )}
-                    </Button>
-
-                    {user && (
-                        <Button color="inherit" onClick={logout} icon={<LogoutIcon />}>Log out</Button>
+                    {user ? (
+                        <>
+                            <Avatar onClick={() => navigate("/profile")} sx={{ bgcolor: blueGrey[500] }}>{user.username[0]}</Avatar>
+                            <Button onClick={logout}>
+                                <LogoutIcon sx={{ color: 'white' }}/>
+                            </Button>
+                        </>
+                    ) : (
+                        <Button onClick={() => navigate("/login")}>
+                            <LoginIcon sx={{ color: 'white' }} />
+                        </Button>
                     )}
 
                 </Toolbar>
@@ -72,6 +69,7 @@ function Header() {
                 >
                     {[
                         <MenuItem key="browse" onClick={() => { navigate("/"); closeMenu(); }}>Browse projects</MenuItem>,
+                        <MenuItem key="browse" onClick={() => { navigate("/aboutus"); closeMenu(); }}>About us</MenuItem>,
                         user && [
                             <MenuItem key="create" onClick={() => { navigate("/newproject"); closeMenu(); }}>Create new project</MenuItem>,
                             <MenuItem key="myprojects" onClick={() => { navigate("/myprojects"); closeMenu(); }}>My projects</MenuItem>,

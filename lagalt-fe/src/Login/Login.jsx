@@ -97,7 +97,7 @@ function Login() {
                 </GoogleOAuthProvider>
 
             <Typography sx ={{mt: 2}}>
-                Not a user yet?
+                Not yet a user?
                 <Button onClick={() => navigate("/signup")}>Sign up</Button>
             </Typography>
         </Box>

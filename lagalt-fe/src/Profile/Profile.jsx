@@ -72,9 +72,9 @@ function Profile() {
                         <br />
 
                         <TextField
-                            sx={{ mb: 4 }}
+                            sx={{ mb: 4, width: '80vw', maxWidth: '400px' }}
                             id="username"
-                            label="username (4-20 characters)"
+                            label="Display name (4-20 characters)"
                             name="username"
                             autoFocus
                             autoComplete="username"
@@ -84,17 +84,19 @@ function Profile() {
                         />
 
                         <TextField
+                            sx={{ width: '80vw', maxWidth: '400px' }}
                             multiline
                             rows={10}
                             id="description"
                             name="description"
-                            label="Description"
+                            label="About you (max 750 characters)"
                             inputProps={{ maxLength: 750 }}
                             value={user.description}
                             onChange={handleChange}>
                         </TextField>
 
                         <TextField
+                            sx={{ width: '80vw', maxWidth: '400px' }}
                             variant="standard"
                             id="skill"
                             value={skill}
@@ -110,7 +112,7 @@ function Profile() {
                             {user.skills.map((skill, index) => (
                                 <li key={index}>{skill}
                                     <IconButton onClick={() => removeSkill(skill)}>
-                                        <DeleteIcon fontSize="inherit" />
+                                        <DeleteIcon  />
                                     </IconButton>
                                 </li>
                             ))}
@@ -121,7 +123,7 @@ function Profile() {
                 <Button
                     type="submit"
                     variant="contained"
-                    sx={{ mt: 2, mb: 2 }}>
+                    sx={{ mt: 2, mb: 1 }}>
                     Update profile
                 </Button>
             </Box>
