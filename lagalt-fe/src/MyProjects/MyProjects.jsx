@@ -74,7 +74,7 @@ function MyProjects() {
                 <Collapse in={openMember} timeout="auto" unmountOnExit>
                     <List disablePadding>
                         {listsFilled && memberAssociations.map(project => (
-                            <ListItemButton onClick={() => goToProject(project.id)} key={project.id} sx={{ pl: 4 }}>
+                            <ListItemButton onClick={() => navigate(`/projectview/${project.projectId}`)} key={project.id} sx={{ pl: 4 }}>
                                 <ListItemText primary={project.projectTitle} />
                             </ListItemButton>
                         ))}
@@ -91,7 +91,7 @@ function MyProjects() {
                 <Collapse in={openApplications} timeout="auto" unmountOnExit>
                     <List disablePadding>
                         {listsFilled && applications.map(project => (
-                            <ListItemButton onClick={() => goToProject(project.id)} key={project.id} sx={{ pl: 4 }}>
+                            <ListItemButton onClick={() => navigate(`/projectview/${project.projectId}`)} key={project.id} sx={{ pl: 4 }}>
                                 <ListItemText primary={project.projectTitle} />
                                 <ListItemText secondary={project.motivationalLetter} />
                             </ListItemButton>

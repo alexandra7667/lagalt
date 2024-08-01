@@ -21,7 +21,7 @@ function App() {
 
   return (
     <>
-      <CssBaseline enableColorScheme /> {/* enableColorScheme sets the theme to be the user's system theme */}
+      <CssBaseline />
       <UserContext.Provider value={{ user, setUser }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
           <Header />
