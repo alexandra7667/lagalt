@@ -53,8 +53,8 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
 
 
-                        //For development
-                        //.anyRequest().permitAll()
+                        //For development with Swagger
+//                        .anyRequest().permitAll()
                 );
 
         http.authenticationProvider(this.authenticationProvider());
