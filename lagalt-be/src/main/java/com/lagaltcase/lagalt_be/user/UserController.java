@@ -78,6 +78,7 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public ResponseEntity<?> getUserById(@PathVariable int userId) {
+        System.out.println("Looking for user " + userId);
         User user = this.userRepository.findById(userId).orElse(null);
 
         if (user == null) {

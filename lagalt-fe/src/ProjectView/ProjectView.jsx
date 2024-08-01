@@ -8,8 +8,10 @@ import AddIcon from '@mui/icons-material/Add';
 import fetchMessages from "./FetchMessages.js";
 import JoinModal from "./JoinModal/JoinModal.jsx";
 import PageTitle from "../PageTitle/PageTitle.jsx";
+import { useNavigate } from "react-router-dom";
 
 function ProjectView() {
+    const navigate = useNavigate();
     const { projectId } = useParams();
     const { projects } = useContext(ProjectContext);
     const { user } = useContext(UserContext);
@@ -72,17 +74,13 @@ function ProjectView() {
         setter(open => !open);
     };
 
-    const goToProfile = (userId) => {
-        console.log(`Go to user ${userId}`);
-    }
-
 
     return (
         <>
-            <PageTitle title={project.title}/>
-
             {project && (
                 <>
+                    <PageTitle title={project.title} />
+
                     {user && role && (
                         <Typography>
                             {role === 'Owner' && (<AddIcon />)}
@@ -164,7 +162,7 @@ function ProjectView() {
                         <Collapse in={openMembers} timeout="auto" unmountOnExit>
                             <List disablePadding>
                                 {project.associates.map(associate => (
-                                    <ListItemButton onClick={() => goToProfile(associate.userId)} key={associate.id} sx={{ pl: 4 }}>
+                                    <ListItemButton onClick={() => navigate(`/userview/${associate.id}`)} key={associate.id} sx={{ pl: 4 }}>
                                         <ListItemText primary={associate.username} />
                                     </ListItemButton>
                                 ))}
