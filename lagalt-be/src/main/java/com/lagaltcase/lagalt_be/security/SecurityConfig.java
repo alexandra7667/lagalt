@@ -5,6 +5,7 @@ import com.lagaltcase.lagalt_be.security.jwt.AuthTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -38,9 +39,9 @@ public class SecurityConfig {
                 .exceptionHandling((exception) -> exception.authenticationEntryPoint(this.unauthorisedHandler))
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/auth/**", "/projects/getAllProjects").permitAll()
+                        .requestMatchers("/auth/**", "/projects/getAllProjects", "/swagger-ui/**", "/v3/api-docs", "/api-docs", "/webjars/**").permitAll()
 
-                        // Allow signed-in users to perform GET, POST, and PUT requests on specified endpoints
+                         //Allow signed-in users to perform GET, POST, and PUT requests on specified endpoints
                         .requestMatchers(HttpMethod.GET, "/projects/**", "/users/**", "/messages/**", "/associations/**").hasRole("USER")
                         .requestMatchers(HttpMethod.POST, "/projects/**", "/users/**", "/messages/**", "/associations/**").hasRole("USER")
                         .requestMatchers(HttpMethod.PUT, "/projects/**", "/users/**", "/messages/**", "/associations/**").hasRole("USER")
@@ -48,8 +49,12 @@ public class SecurityConfig {
                         // Allow only admin to perform DELETE requests on specified endpoints
                         .requestMatchers(HttpMethod.DELETE, "/projects/**", "/users/**", "/messages/**", "/associations/**").hasRole("ADMIN")
 
-                        // Any other request needs to be authenticated
+                         //Any other request needs to be authenticated
                         .anyRequest().authenticated()
+
+
+                        //For development
+                        //.anyRequest().permitAll()
                 );
 
         http.authenticationProvider(this.authenticationProvider());

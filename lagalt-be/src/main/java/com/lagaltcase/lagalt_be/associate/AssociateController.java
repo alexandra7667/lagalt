@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*") //Ändra till localhost
 @RestController
-@RequestMapping("/associates")
+@RequestMapping("/associations")
 public class AssociateController {
     @Autowired
     private AssociateRepository associateRepository;
@@ -80,8 +80,9 @@ public class AssociateController {
         return ResponseEntity.ok(associateResponse);
     }
 
-    @PutMapping("/makeApplicant")
+    @PostMapping("/makeApplicant")
     public ResponseEntity<?> makeApplicant(@RequestBody AssociateRequest associateRequest) {
+        System.out.println("IN makeapplicant with request: " + associateRequest);
         User user = userRepository.findById(associateRequest.getUserId()).orElse(null);
         Project project = projectRepository.findById(associateRequest.getProjectId()).orElse(null);
 

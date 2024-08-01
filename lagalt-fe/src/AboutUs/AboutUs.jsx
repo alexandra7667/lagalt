@@ -15,7 +15,7 @@ function AboutUs() {
         <Box sx={{ padding: 3, lineHeight: 1.6, maxWidth: '800px', }}>
             <Typography variant="h4" sx={{ mb: '40px', textAlign: 'center' }}>About us</Typography>
 
-            <Typography variant="body1">
+            <Typography variant="body2">
                 {aboutus.split('\n').map((line, index) => (
                     <div key={index} style={{ marginBottom: '1em' }}>
                         {line}

@@ -1,12 +1,14 @@
 import { Button, FormControl, IconButton, InputLabel, MenuItem, Select, TextField, Typography, Box } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import createProject from "./CreateProject.js";
 import { useSnackbar } from '../SnackbarContext.jsx';
+import { UserContext } from "../App";
+import { useContext } from 'react'
+import { ProjectContext } from "../Main/Main.jsx";
 
 const initialState = {
-    userId: 1,
     title: '',
     category: 'Films',
     description: '',
@@ -16,15 +18,26 @@ const initialState = {
 }
 
 function NewProject() {
+    const { user } = useContext(UserContext);
+    const { projects, setProjects } = useContext(ProjectContext);
     const { openSnackbar } = useSnackbar();
     const [newProject, setNewProject] = useState(initialState);
     const [category, setCategory] = useState('Films');
     const [tag, setTag] = useState('');
     const [neededSkill, setNeededSkill] = useState('');
 
+    useEffect(() => {
+        if (user) {
+            setNewProject({
+                ...newProject,
+                userId: user.userId
+            })
+        }
+    }, [])
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        createProject(newProject, openSnackbar);
+        createProject(newProject, openSnackbar, projects, setProjects);
     }
 
     const handleChange = (e) => {
@@ -86,7 +99,7 @@ function NewProject() {
                 flexDirection: 'column',
                 alignItems: 'center',
             }}>
-                <FormControl sx={{ width: { xs: '300px', sm: '400px' }, mb: '20px' }} >
+                <FormControl sx={{ width: '80vw', maxWidth: '400px' }} >
                     <InputLabel id="label-category">Category*</InputLabel>
                     <Select
                         labelId="label-category"
@@ -104,7 +117,7 @@ function NewProject() {
                 </FormControl>
 
                 <TextField
-                    sx={{ mb: '15px' }}
+                    sx={{ m: '15px', width: '80vw', maxWidth: '400px' }}
                     autoFocus
                     required
                     variant="standard"
@@ -115,7 +128,7 @@ function NewProject() {
                 </TextField>
 
                 <TextField
-                    sx={{ mb: '15px' }}
+                    sx={{ mb: '15px', width: '80vw', maxWidth: '400px' }}
                     multiline
                     rows={10}
                     required
@@ -126,7 +139,7 @@ function NewProject() {
                 </TextField>
 
                 <TextField
-                    sx={{ mb: '15px' }}
+                    sx={{ mb: '15px', width: '80vw', maxWidth: '400px' }}
                     variant="standard"
                     id="websiteUrl"
                     name="websiteUrl"
@@ -135,7 +148,7 @@ function NewProject() {
                 </TextField>
 
                 <TextField
-                    sx={{ mt: '15px', mb: '5px' }}
+                    sx={{ mt: '15px', mb: '5px', width: '80vw', maxWidth: '400px' }}
                     variant="standard"
                     id="tag"
                     value={tag}
@@ -146,7 +159,7 @@ function NewProject() {
                     Add tag
                 </Button>
                 <ul>
-                    {newProject.tags.map((tag, index) => (
+                    {newProject.tags && newProject.tags.map((tag, index) => (
                         <li key={index}>{tag}
                             <IconButton aria-label="delete" size="small" onClick={() => removeFromTags(tag)}>
                                 <DeleteIcon fontSize="inherit" />
@@ -156,7 +169,7 @@ function NewProject() {
                 </ul>
 
                 <TextField
-                    sx={{ mb: '5px' }}
+                    sx={{ mb: '5px', width: '80vw', maxWidth: '400px' }}
                     variant="standard"
                     id="neededSkill"
                     value={neededSkill}
@@ -167,7 +180,7 @@ function NewProject() {
                     Add skill
                 </Button>
                 <ul>
-                    {newProject.neededSkills.map((neededSkill, index) => (
+                    {newProject.neededSkills && newProject.neededSkills.map((neededSkill, index) => (
                         <li key={index}>{neededSkill}
                             <IconButton aria-label="delete" size="small" onClick={() => removeFromNeededSkills(neededSkill)}>
                                 <DeleteIcon fontSize="inherit" />
@@ -179,8 +192,8 @@ function NewProject() {
                 <Button
                     type="submit"
                     variant="contained"
-                    sx={{ mt: 2, mb: 2 }}>
-                    Update profile
+                    sx={{ mt: 2, mb: 1 }}>
+                    Create project
                 </Button>
             </Box>
         </>

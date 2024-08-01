@@ -3,6 +3,7 @@ package com.lagaltcase.lagalt_be.associate;
 import com.lagaltcase.lagalt_be.project.Project;
 import com.lagaltcase.lagalt_be.user.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -41,6 +42,7 @@ public class Associate {
     private boolean applicationDenied;
 
     @Column
+    @Size(max = 750, message = "Motivational letter should be 4-750 characters")
     private String motivationalLetter;
 
     @Column
