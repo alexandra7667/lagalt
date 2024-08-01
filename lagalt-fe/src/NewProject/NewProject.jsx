@@ -7,6 +7,7 @@ import { useSnackbar } from '../SnackbarContext.jsx';
 import { UserContext } from "../App";
 import { useContext } from 'react'
 import { ProjectContext } from "../Main/Main.jsx";
+import PageTitle from "../PageTitle/PageTitle.jsx";
 
 const initialState = {
     title: '',
@@ -92,7 +93,7 @@ function NewProject() {
 
     return (
         <>
-            <Typography variant="h4" sx={{ mb: '40px', textAlign: 'center' }}>Create New Project</Typography>
+            <PageTitle title={"Create New Project"} />
 
             <Box component="form" onSubmit={handleSubmit} sx={{
                 display: 'flex',

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { urlBackendBasePath } from "../assets/urls";
+import PageTitle from "../PageTitle/PageTitle";
 
 function UserView() {
     const { userId } = useParams();
@@ -40,7 +41,7 @@ function UserView() {
 
     return (
         <>
-        <p>Name: {profileUser.username}</p>
+        <PageTitle title={profileUser.username} />
         <p>Hidden: {profileUser.hidden}</p>
         <p>Skills: {profileUser.skills}</p>
         </>

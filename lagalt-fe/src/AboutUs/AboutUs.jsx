@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Typography, Box } from '@mui/material';
+import PageTitle from '../PageTitle/PageTitle';
 
 function AboutUs() {
     const [aboutus, setAboutus] = useState('');
@@ -13,15 +14,15 @@ function AboutUs() {
 
     return (
         <Box sx={{ padding: 3, lineHeight: 1.6, maxWidth: '800px', }}>
-            <Typography variant="h4" sx={{ mb: '40px', textAlign: 'center' }}>About us</Typography>
+            <PageTitle title={"About us"} />
 
-            <Typography variant="body2">
-                {aboutus.split('\n').map((line, index) => (
-                    <div key={index} style={{ marginBottom: '1em' }}>
+            {aboutus.split('\n').map((line, index) => (
+                <div key={index} style={{ marginBottom: '1em' }}>
+                    <Typography variant="body2">
                         {line}
-                    </div>
-                ))}
-            </Typography>
+                    </Typography>
+                </div>
+            ))}
         </Box>
     );
 }
