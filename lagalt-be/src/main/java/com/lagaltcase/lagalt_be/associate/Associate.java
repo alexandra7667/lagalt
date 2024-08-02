@@ -39,7 +39,7 @@ public class Associate {
     private int applicantId;
 
     @Column
-    private boolean applicationDenied;
+    private boolean applicationDenied = false;
 
     @Column
     @Size(max = 750, message = "Motivational letter should be 4-750 characters")

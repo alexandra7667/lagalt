@@ -82,7 +82,6 @@ public class AssociateController {
 
     @PostMapping("/makeApplicant")
     public ResponseEntity<?> makeApplicant(@RequestBody AssociateRequest associateRequest) {
-        System.out.println("IN makeapplicant with request: " + associateRequest);
         User user = userRepository.findById(associateRequest.getUserId()).orElse(null);
         Project project = projectRepository.findById(associateRequest.getProjectId()).orElse(null);
 
@@ -115,7 +114,7 @@ public class AssociateController {
         return ResponseEntity.ok(associateResponse);
     }
 
-    @PutMapping("/handleApplication")
+    @PostMapping("/handleApplication")
     public ResponseEntity<?> handleApplication(@RequestBody AssociateRequest associateRequest) {
         User user = userRepository.findById(associateRequest.getUserId()).orElse(null); //The project owner. May need later for authorization
         Project project = projectRepository.findById(associateRequest.getProjectId()).orElse(null);

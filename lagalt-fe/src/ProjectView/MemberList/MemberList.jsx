@@ -18,7 +18,7 @@ function MemberList({ members }) {
                 {openMembers ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={openMembers} timeout="auto" unmountOnExit>
-                <List disablePadding>
+                <List>
                     {members.map(member => (
                         <ListItemButton onClick={() => navigate(`/userview/${member.id}`)} key={member.id} sx={{ pl: 4 }}>
                             <ListItemText primary={member.username} />

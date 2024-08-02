@@ -22,15 +22,17 @@ function MyProjects() {
     const [openOwner, setOpenOwner] = useState(false);
     const [openMember, setOpenMember] = useState(false);
     const [openApplications, setOpenApplications] = useState(false);
+    const [openDeniedApplications, setOpenDeniedApplications] = useState(false);
     const [ownedAssociations, setOwnedAssociations] = useState([]);
     const [memberAssociations, setMemberAssociations] = useState([]);
     const [applications, setApplications] = useState([]);
+    const [deniedApplications, setDeniedApplications] = useState([]);
     const [listsFilled, setListsFilled] = useState(false);
 
     useEffect(() => {
         if (user) {
             const setProjectsData = async () => {
-                setProjectLists(user.associations, setOwnedAssociations, setMemberAssociations, setApplications, setListsFilled);
+                setProjectLists(user.associations, setOwnedAssociations, setMemberAssociations, setApplications, setDeniedApplications, setListsFilled);
             };
 
             setProjectsData();
@@ -55,9 +57,9 @@ function MyProjects() {
                 </ListItemButton>
                 <Collapse in={openOwner} timeout="auto" unmountOnExit>
                     <List disablePadding>
-                        {listsFilled && ownedAssociations.map(project => (
-                            <ListItemButton onClick={() => navigate(`/projectview/${project.projectId}`)} key={project.projectId} sx={{ pl: 4 }}>
-                                <ListItemText primary={project.projectTitle} />
+                        {listsFilled && ownedAssociations.map(ownerProject => (
+                            <ListItemButton onClick={() => navigate(`/projectview/${ownerProject.projectId}`)} key={ownerProject.projectId} sx={{ pl: 4 }}>
+                                <ListItemText primary={ownerProject.projectTitle} />
                             </ListItemButton>
                         ))}
                     </List>
@@ -72,9 +74,9 @@ function MyProjects() {
                 </ListItemButton>
                 <Collapse in={openMember} timeout="auto" unmountOnExit>
                     <List disablePadding>
-                        {listsFilled && memberAssociations.map(project => (
-                            <ListItemButton onClick={() => navigate(`/projectview/${project.projectId}`)} key={project.id} sx={{ pl: 4 }}>
-                                <ListItemText primary={project.projectTitle} />
+                        {listsFilled && memberAssociations.map(memberProject => (
+                            <ListItemButton onClick={() => navigate(`/projectview/${memberProject.projectId}`)} key={memberProject.id} sx={{ pl: 4 }}>
+                                <ListItemText primary={memberProject.projectTitle} />
                             </ListItemButton>
                         ))}
                     </List>
@@ -89,10 +91,28 @@ function MyProjects() {
                 </ListItemButton>
                 <Collapse in={openApplications} timeout="auto" unmountOnExit>
                     <List disablePadding>
-                        {listsFilled && applications.map(project => (
-                            <ListItemButton onClick={() => navigate(`/projectview/${project.projectId}`)} key={project.id} sx={{ pl: 4 }}>
-                                <ListItemText primary={project.projectTitle} />
-                                <ListItemText secondary={project.motivationalLetter} />
+                        {listsFilled && applications.map(application => (
+                            <ListItemButton onClick={() => navigate(`/projectview/${application.projectId}`)} key={application.id} sx={{ pl: 4 }}>
+                                <ListItemText primary={application.projectTitle} />
+                                <ListItemText secondary={application.motivationalLetter} />
+                            </ListItemButton>
+                        ))}
+                    </List>
+                </Collapse>
+
+                <ListItemButton onClick={() => toggleOpen(setOpenDeniedApplications)}>
+                    <ListItemIcon>
+                        <ForwardToInboxIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Denied Applications" />
+                    {openDeniedApplications ? <ExpandLess /> : <ExpandMore />}
+                </ListItemButton>
+                <Collapse in={openDeniedApplications} timeout="auto" unmountOnExit>
+                    <List disablePadding>
+                        {listsFilled && deniedApplications.map(deniedApplication => (
+                            <ListItemButton onClick={() => navigate(`/projectview/${deniedApplication.projectId}`)} key={deniedApplication.id} sx={{ pl: 4 }}>
+                                <ListItemText primary={deniedApplication.projectTitle} />
+                                <ListItemText secondary={"Application was denied by project owner. It's possible to re-apply."} />
                             </ListItemButton>
                         ))}
                     </List>
