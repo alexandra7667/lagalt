@@ -2,25 +2,32 @@ import { useParams } from "react-router-dom";
 import { ProjectContext } from "../Main/Main.jsx";
 import { UserContext } from "../App";
 import { useContext, useEffect, useState } from 'react'
-import { Box, Button, Collapse, List, ListItemButton, ListItemText, TextField, Typography } from "@mui/material";
-import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import AddIcon from '@mui/icons-material/Add';
+import { Box, Button, Typography } from "@mui/material";
+import BadgeIcon from '@mui/icons-material/Badge';
+import LocalPoliceIcon from '@mui/icons-material/LocalPolice';
 import fetchMessages from "./FetchMessages.js";
 import JoinModal from "./JoinModal/JoinModal.jsx";
 import PageTitle from "../PageTitle/PageTitle.jsx";
-import { useNavigate } from "react-router-dom";
+import InfoIcon from '@mui/icons-material/Info';
+import ProjectUpdates from "./ProjectUpdates/ProjectUpdates.jsx";
+import MessageBoard from "./MessageBoard/MessageBoard.jsx";
+import MemberList from "./MemberList/MemberList.jsx";
+import setUserRole from "./SetUserRole.js";
+import { useSnackbar } from '../SnackbarContext.jsx';
+import ApplicantList from "./ApplicantList/ApplicantList.jsx";
+
 
 function ProjectView() {
-    const navigate = useNavigate();
     const { projectId } = useParams();
     const { projects } = useContext(ProjectContext);
     const { user } = useContext(UserContext);
+    const { openSnackbar } = useSnackbar();
     const [project, setProject] = useState(null);
-    const [openMembers, setOpenMembers] = useState(false);
     const [role, setRole] = useState(null);
     const [messageBoard, setMessageBoard] = useState(null);
     const [projectUpdates, setProjectUpdates] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [applicants, setApplicants] = useState(null);
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -41,38 +48,11 @@ function ProjectView() {
                 fetchMessages(foundProject.id, setMessageBoard, setProjectUpdates);
 
                 //Set user's role in project
-                let roleSet = false;
-                for (const associate of foundProject.associates) {
-                    if (associate.userId === user.userId) {
-                        if (associate.owner) {
-                            setRole('Owner');
-                            roleSet = true;
-                            break;
-                        }
-                        else if (associate.collaborator) {
-                            setRole('Member');
-                            roleSet = true;
-                            break;
-                        }
-                        else if (associate.applicant) {
-                            setRole('Applicant');
-                            roleSet = true;
-                            break;
-                        }
-                    }
-                }
-                if (!roleSet) {
-                    setRole('Unaffiliated');
-                }
+                setUserRole(foundProject.associates, user.userId, setRole, setApplicants);
             }
         }
         setProjectData();
     }, [])
-
-
-    const toggleOpen = (setter) => {
-        setter(open => !open);
-    };
 
 
     return (
@@ -82,20 +62,54 @@ function ProjectView() {
                     <PageTitle title={project.title} />
 
                     {user && role && (
-                        <Typography>
-                            {role === 'Owner' && (<AddIcon />)}
-                            {role === 'Member' && (<AddIcon />)}
-                            {role === 'Applicant' && (<AddIcon />)}
-                        </Typography>
-                    )}
-
-                    {role === 'Unaffiliated' && (
                         <>
-                            <Button onClick={openModal} variant="outlined" sx={{ mb: 1 }}>Join</Button>
-                            <JoinModal isOpen={isModalOpen} onClose={closeModal} userId={user.userId} projectId={project.id} />
+                            {role === 'Owner' && (
+                                <>
+                                <Typography color='blue'>
+                                    Owner
+                                    <LocalPoliceIcon />
+                                </Typography>
+
+                                <Typography> Applicants: </Typography>
+                                <ApplicantList applicants={applicants} />
+                                </>
+                            )}
+
+                            {role === 'Member' && (
+                                <Typography color='green'>
+                                    Member
+                                    <BadgeIcon />
+                                </Typography>
+                            )}
+
+                            {role === 'Applicant' && (
+                                <Typography color='yellow'>
+                                    <InfoIcon />
+                                    Application not yet reviewed
+                                </Typography>
+
+                            )}
+
+                            {role === 'Unaffiliated' && (
+                                <>
+                                    <Button onClick={openModal} variant="outlined" sx={{ mb: 1 }}>Join</Button>
+                                    <JoinModal isOpen={isModalOpen} onClose={closeModal} userId={user.userId} projectId={project.id} />
+                                </>
+                            )}
+
+                            {(role === 'Owner' || role === 'Member') && (
+                                <>
+                                    <ProjectUpdates role={role} projectUpdates={projectUpdates} projectId={project.id} userId={user.userId} openSnackbar={openSnackbar} />
+
+                                    <MessageBoard messageBoard={messageBoard} projectId={project.id} userId={user.userId} openSnackbar={openSnackbar} />
+
+                                    <MemberList members={project.associates} />
+                                </>
+                            )}
                         </>
                     )}
 
+                    {/* Users who are not logged in can still see basic information about the project*/}
                     <Typography variant="h6" color="text.secondary">
                         {project.category}
                     </Typography>
@@ -108,67 +122,6 @@ function ProjectView() {
                     <Typography variant="body1">
                         Tags: {project.tags.join(', ')}
                     </Typography>
-
-                    {user && (
-                        <>
-                            <Box sx={{
-                                border: '1px solid',
-                                borderColor: 'grey.500',
-                                borderRadius: 2,
-                                padding: 2,
-                                margin: 2
-                            }}>
-                                <Typography variant="h6" sx={{ textAlign: 'center' }}>
-                                    Project Updates
-                                </Typography>
-                                {projectUpdates && projectUpdates.map((message, index) => (
-                                    <Typography key={index}>
-                                        datetime : {message.message}
-                                    </Typography>
-                                ))}
-                                {role === 'Owner' && (
-                                    <TextField>
-                                        Enter new update (for owner)
-                                    </TextField>
-                                )}
-                            </Box>
-
-                            <Box sx={{
-                                border: '1px solid',
-                                borderColor: 'grey.500',
-                                borderRadius: 2,
-                                padding: 2,
-                            }}>
-                                <Typography variant="h6" sx={{ textAlign: 'center' }}>
-                                    Message Board
-                                </Typography>
-                                {messageBoard && messageBoard.map((message, index) => (
-                                    <Typography key={index}>
-                                        {message.username} : {message.message}
-                                    </Typography>
-                                ))}
-                                <TextField>
-                                    Enter new message
-                                </TextField>
-                            </Box>
-                        </>
-                    )}
-
-                    <List>
-                        <ListItemButton onClick={() => toggleOpen(setOpenMembers)}>
-                            <ListItemText primary="Members" />
-                            {openMembers ? <ExpandLess /> : <ExpandMore />}
-                        </ListItemButton>
-                        <Collapse in={openMembers} timeout="auto" unmountOnExit>
-                            <List disablePadding>
-                                {project.associates.map(associate => (
-                                    <ListItemButton onClick={() => navigate(`/userview/${associate.id}`)} key={associate.id} sx={{ pl: 4 }}>
-                                        <ListItemText primary={associate.username} />
-                                    </ListItemButton>
-                                ))}
-                            </List>
-                        </Collapse>
-                    </List>
                 </>
             )}
         </>

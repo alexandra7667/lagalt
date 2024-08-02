@@ -10,7 +10,6 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import LocalPoliceIcon from '@mui/icons-material/LocalPolice';
 import { useEffect, useState } from 'react';
-import { Typography } from '@mui/material';
 import setProjectLists from './SetProjectLists.js';
 import { UserContext } from "../App";
 import { useContext } from 'react'
