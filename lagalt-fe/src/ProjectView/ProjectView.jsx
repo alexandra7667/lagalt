@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { ProjectContext } from "../Main/Main.jsx";
 import { UserContext } from "../App";
 import { useContext, useEffect, useState } from 'react'
-import { Box, Button, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import BadgeIcon from '@mui/icons-material/Badge';
 import LocalPoliceIcon from '@mui/icons-material/LocalPolice';
 import fetchMessages from "./FetchMessages.js";
@@ -29,14 +29,6 @@ function ProjectView() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [applicants, setApplicants] = useState(null);
 
-    const openModal = () => {
-        setIsModalOpen(true);
-    };
-
-    const closeModal = () => {
-        setIsModalOpen(false);
-    };
-
     useEffect(() => {
         const setProjectData = async () => {
             const foundProject = await projects.find(p => p.id === Number(projectId));
@@ -53,6 +45,14 @@ function ProjectView() {
         }
         setProjectData();
     }, [])
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
 
 
     return (
@@ -71,7 +71,7 @@ function ProjectView() {
                                 </Typography>
 
                                 <Typography> Applicants: </Typography>
-                                <ApplicantList applicants={applicants} />
+                                <ApplicantList applicants={applicants} setApplicants={setApplicants} projectId={project.id} userId={user.userId} />
                                 </>
                             )}
 

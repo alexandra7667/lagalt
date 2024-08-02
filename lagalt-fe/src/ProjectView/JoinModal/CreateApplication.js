@@ -25,5 +25,7 @@ export default async function createApplication(application, openSnackbar, onClo
     openSnackbar("Application sent", "success");
     console.log("new association: ", postResponse);
     onClose();
+
+    //Add to state variable list in MyProjects called 'applications'
   }
 }
