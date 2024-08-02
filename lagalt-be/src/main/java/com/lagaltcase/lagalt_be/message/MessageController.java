@@ -29,7 +29,7 @@ public class MessageController {
     @Autowired
     private UserRepository userRepository;
 
-    @PostMapping("/message")
+    @PostMapping
     public ResponseEntity<?> createMessage(@RequestBody MessageRequest messageRequest) {
         Project project = projectRepository.findById(messageRequest.getProjectId()).orElse(null);
         User user = userRepository.findById(messageRequest.getUserId()).orElse(null);
