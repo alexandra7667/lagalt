@@ -84,6 +84,8 @@ function JoinModal({ isOpen, onClose, userId, projectId }) {
                         label="I Agree to the Terms"
                     />
 
+                    <br />
+
                     <TextField
                         sx={{ mb: '15px', width: '100%', maxWidth: '800px' }}
                         multiline

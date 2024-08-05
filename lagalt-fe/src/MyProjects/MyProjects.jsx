@@ -9,8 +9,9 @@ import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import LocalPoliceIcon from '@mui/icons-material/LocalPolice';
+import SdCardAlertIcon from '@mui/icons-material/SdCardAlert';
 import { useEffect, useState } from 'react';
-import setProjectLists from './SetProjectLists.js';
+import setProjectLists from './SetAssociationsLists.js';
 import { UserContext } from "../App";
 import { useContext } from 'react'
 import { useNavigate } from "react-router-dom";
@@ -30,14 +31,15 @@ function MyProjects() {
     const [listsFilled, setListsFilled] = useState(false);
 
     useEffect(() => {
-        if (user) {
+        if (user.associations) {
+            console.log("User has associations in MyProjects")
             const setProjectsData = async () => {
                 setProjectLists(user.associations, setOwnedAssociations, setMemberAssociations, setApplications, setDeniedApplications, setListsFilled);
             };
 
             setProjectsData();
         }
-    }, []);
+    }, [user]);
 
     const toggleOpen = (setter) => {
         setter(open => !open);
@@ -102,9 +104,9 @@ function MyProjects() {
 
                 <ListItemButton onClick={() => toggleOpen(setOpenDeniedApplications)}>
                     <ListItemIcon>
-                        <ForwardToInboxIcon />
+                        <SdCardAlertIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Denied Applications" />
+                    <ListItemText primary="Denied applications" />
                     {openDeniedApplications ? <ExpandLess /> : <ExpandMore />}
                 </ListItemButton>
                 <Collapse in={openDeniedApplications} timeout="auto" unmountOnExit>

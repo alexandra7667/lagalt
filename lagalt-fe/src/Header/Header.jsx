@@ -25,7 +25,7 @@ function Header() {
         localStorage.clear();
         setUser(null);
         closeMenu();
-        navigate("/");
+        navigate("/login");
     }
 
     return (
@@ -43,13 +43,13 @@ function Header() {
                         <MenuIcon />
                     </IconButton>
 
-                    <Typography variant="h6" component="h1" sx={{ flexGrow: 1, cursor: 'pointer', }} onClick={() => navigate("/")}>
+                    <Typography variant="h6" component="h1" sx={{ flexGrow: 1 }} >
                         Lagalt
                     </Typography>
 
                     {user ? (
                         <>
-                            <Avatar onClick={() => navigate("/profile")} sx={{ bgcolor: blueGrey[500] }}>{user.username[0]}</Avatar>
+                            <Avatar onClick={() => navigate("/profile")} sx={{ bgcolor: blueGrey[500], cursor: 'pointer' }}>{user.username[0]}</Avatar>
                             <Button onClick={logout}>
                                 <LogoutIcon sx={{ color: 'white' }}/>
                             </Button>
@@ -69,7 +69,7 @@ function Header() {
                 >
                     {[
                         <MenuItem key="browse" onClick={() => { navigate("/"); closeMenu(); }}>Browse projects</MenuItem>,
-                        <MenuItem key="browse" onClick={() => { navigate("/aboutus"); closeMenu(); }}>About us</MenuItem>,
+                        <MenuItem key="aboutus" onClick={() => { navigate("/aboutus"); closeMenu(); }}>About us</MenuItem>,
                         user && [
                             <MenuItem key="create" onClick={() => { navigate("/newproject"); closeMenu(); }}>Create new project</MenuItem>,
                             <MenuItem key="myprojects" onClick={() => { navigate("/myprojects"); closeMenu(); }}>My projects</MenuItem>,

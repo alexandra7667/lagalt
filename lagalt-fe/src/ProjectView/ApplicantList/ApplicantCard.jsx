@@ -1,5 +1,5 @@
 import { Button, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import handleApplication from "./HandleApplication";
 
 function ApplicantCard({ applicant, applicants, setApplicants, projectId, userId }) {
@@ -7,13 +7,37 @@ function ApplicantCard({ applicant, applicants, setApplicants, projectId, userId
         projectId: projectId,
         userId: userId,
         applicantId: applicant.userId,
-        applicationAccepted: false
     });
+    const [permitHandle, setPermitHandle] = useState(false);
+    const isInitialRender = useRef(true);
 
     const accept = () => {
-        setApplicationAdmittance(true)
-        handleSubmit();
+        setApplicationAdmittance(prevState => ({
+            ...prevState,
+            applicationAccepted: true
+        }));
+
+        setPermitHandle(true)
     }
+
+    const deny = () => {
+        setApplicationAdmittance(prevState => ({
+            ...prevState,
+            applicationAccepted: false
+        }));
+
+        setPermitHandle(true)
+    }
+
+    //Does not run on render, only when permitHandle is set
+    useEffect(() => {
+        if (isInitialRender.current) {
+            isInitialRender.current = false;
+        } else if (permitHandle) {
+            handleSubmit();
+            setPermitHandle(false);
+        }
+    }, [permitHandle]);
 
     const handleSubmit = () => {
         //Post to backend
@@ -37,7 +61,7 @@ function ApplicantCard({ applicant, applicants, setApplicants, projectId, userId
             </Typography>
 
             <Button onClick={accept}>Accept</Button>
-            <Button onClick={handleSubmit}>Deny</Button>
+            <Button onClick={deny}>Deny</Button>
         </>
     )
 }
