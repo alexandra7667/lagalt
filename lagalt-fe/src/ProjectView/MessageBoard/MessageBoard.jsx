@@ -22,6 +22,11 @@ function MessageBoard({ messageBoard, projectId, userId, openSnackbar }) {
         console.log("Sending message: ", newMessage);
         createMessage(newMessage, openSnackbar);
         //Add newMessage to state variable messageBoard
+
+        setNewMessage({
+            ...newMessage,
+            message: ''
+        })
     }
 
     return (

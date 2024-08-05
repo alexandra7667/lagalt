@@ -15,6 +15,7 @@ import MemberList from "./MemberList/MemberList.jsx";
 import setUserRole from "./SetUserRole.js";
 import { useSnackbar } from '../SnackbarContext.jsx';
 import ApplicantList from "./ApplicantList/ApplicantList.jsx";
+import setMembersAndApplicants from "./SetMembersAndApplicants.js";
 
 
 function ProjectView() {
@@ -27,7 +28,9 @@ function ProjectView() {
     const [messageBoard, setMessageBoard] = useState(null);
     const [projectUpdates, setProjectUpdates] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [applicants, setApplicants] = useState(null);
+    const [members, setMembers] = useState([]);
+    const [applicants, setApplicants] = useState([]);
+    const [listsFilled, setListsFilled] = useState(false);
 
     useEffect(() => {
         const setProjectData = async () => {
@@ -40,11 +43,14 @@ function ProjectView() {
                 fetchMessages(foundProject.id, setMessageBoard, setProjectUpdates);
 
                 //Set user's role in project
-                setUserRole(foundProject.associates, user.userId, setRole, setApplicants);
+                setUserRole(foundProject.associates, user.userId, setRole);
+
+                //Set members and applicants
+                setMembersAndApplicants(project.associates, setMembers, setApplicants, setListsFilled);
             }
         }
         setProjectData();
-    }, [])
+    }, [user])
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -65,25 +71,27 @@ function ProjectView() {
                         <>
                             {role === 'Owner' && (
                                 <>
-                                <Typography color='blue'>
-                                    Owner
-                                    <LocalPoliceIcon />
-                                </Typography>
+                                    <Typography color='blue'>
+                                        <LocalPoliceIcon />
+                                        Owner
+                                    </Typography>
 
-                                <Typography> Applicants: </Typography>
-                                <ApplicantList applicants={applicants} setApplicants={setApplicants} projectId={project.id} userId={user.userId} />
+                                    <Typography> Applicants: </Typography>
+                                    {listsFilled && (
+                                        <ApplicantList applicants={applicants} setApplicants={setApplicants} projectId={project.id} userId={user.userId} />
+                                    )}
                                 </>
                             )}
 
                             {role === 'Member' && (
                                 <Typography color='green'>
-                                    Member
                                     <BadgeIcon />
+                                    Member
                                 </Typography>
                             )}
 
                             {role === 'Applicant' && (
-                                <Typography color='yellow'>
+                                <Typography color='grey'>
                                     <InfoIcon />
                                     Application not yet reviewed
                                 </Typography>
@@ -103,7 +111,9 @@ function ProjectView() {
 
                                     <MessageBoard messageBoard={messageBoard} projectId={project.id} userId={user.userId} openSnackbar={openSnackbar} />
 
-                                    <MemberList members={project.associates} />
+                                    {members && (
+                                        <MemberList members={members} />
+                                    )}
                                 </>
                             )}
                         </>
@@ -117,7 +127,7 @@ function ProjectView() {
                         {project.description}
                     </Typography>
                     <Typography variant="body1">
-                        Needed skills: {project.tags.join(', ')}
+                        Needed skills: {project.neededSkills.join(', ')}
                     </Typography>
                     <Typography variant="body1">
                         Tags: {project.tags.join(', ')}

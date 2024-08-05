@@ -1,11 +1,11 @@
-export default function setUserRole(associates, userId, setRole, setApplicants) {
+export default function setUserRole(
+  associates,
+  userId,
+  setRole
+) {
   let roleSet = false;
-  let applicants = [];
 
   for (const associate of associates) {
-    //Get all applicants
-    if (associate.applicant) applicants.push(associate);
-
     //If associate is this user
     if (associate.userId === userId) {
       if (associate.owner) {
@@ -27,6 +27,4 @@ export default function setUserRole(associates, userId, setRole, setApplicants) 
   if (!roleSet) {
     setRole("Unaffiliated");
   }
-
-  setApplicants(applicants);
 }

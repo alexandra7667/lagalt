@@ -27,5 +27,7 @@ export default async function createApplication(application, openSnackbar, onClo
     onClose();
 
     //Add to state variable list in MyProjects called 'applications'
+
+    //Uppdatera project view så den är dependent på state variable för direkt uppdatering efter man skickat ansökan
   }
 }

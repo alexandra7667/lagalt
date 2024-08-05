@@ -1,5 +1,6 @@
 import { Box, Button, TextField, Typography } from "@mui/material"
 import createMessage from "../CreateMessage";
+import { useState } from "react";
 
 function ProjectUpdates({ role, projectUpdates, projectId, userId, openSnackbar }) {
     const [newUpdate, setNewUpdate] = useState({
@@ -21,6 +22,11 @@ function ProjectUpdates({ role, projectUpdates, projectId, userId, openSnackbar 
         console.log("Sending update: ", newUpdate);
         createMessage(newUpdate, openSnackbar);
         //Add newUpdate to state variable projectUpdates
+
+        setNewUpdate({
+            ...newUpdate,
+            message: ''
+        })
     }
 
     return (

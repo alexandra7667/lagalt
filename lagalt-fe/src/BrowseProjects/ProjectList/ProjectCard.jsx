@@ -5,10 +5,14 @@ import flowers from '../../assets/img/flowers.jpg';
 import tree from '../../assets/img/tree.jpg';
 import beach from '../../assets/img/beach.jpg';
 import { useNavigate } from "react-router-dom";
+import makeVisitor from '../MakeVisitor';
+import { UserContext } from "../../App";
+import { useContext } from 'react'
 
 function ProjectCard({ project }) {
     const navigate = useNavigate();
-    
+    const { user } = useContext(UserContext);
+
     let image;
     switch (project.category) {
         case 'Films':
@@ -25,16 +29,26 @@ function ProjectCard({ project }) {
             break;
     }
 
+    const goToProject = () => {
+        //Make user a visitor by request to backend if they are logged in
+        if (user) {
+            console.log("going to post method with pr id: " + project.id + " and user id: " + user.userId);
+            makeVisitor(project.id, user.userId);
+        }
+
+        navigate(`/projectview/${project.id}`);
+    }
+
     return (
         <Card variant="outlined" sx={{ borderColor: project.matchingSkill ? 'lightgreen' : 'lightgrey', m: '10px' }}>
-            <CardActionArea onClick={() => navigate(`/projectview/${project.id}`)}>
-                
+            <CardActionArea onClick={goToProject}>
+
                 {project.matchingSkill ? (
                     <Typography sx={{ color: 'green', textAlign: 'right', mr: '5px', mt: '5px' }}>
                         - Skill match -
                     </Typography>
                 ) : (
-                    <br style={{marginTop: '10px'}}/>
+                    <br style={{ marginTop: '10px' }} />
                 )}
 
                 <Typography sx={{ textAlign: 'center', my: '5px' }} color="text.secondary" gutterBottom>
@@ -49,7 +63,7 @@ function ProjectCard({ project }) {
                 />
 
                 <CardContent>
-                    <Typography variant="h5" sx={{ color: project.visited ? 'grey' : 'black'}}>
+                    <Typography variant="h5" sx={{ color: project.visited ? 'grey' : 'black' }}>
                         {project.title}
                     </Typography>
                     <Typography color="text.secondary">
