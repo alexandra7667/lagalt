@@ -50,7 +50,7 @@ function ProjectView() {
             }
         }
         setProjectData();
-    }, [user])
+    }, [user, role])
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -101,15 +101,15 @@ function ProjectView() {
                             {role === 'Unaffiliated' && (
                                 <>
                                     <Button onClick={openModal} variant="outlined" sx={{ mb: 1 }}>Join</Button>
-                                    <JoinModal isOpen={isModalOpen} onClose={closeModal} userId={user.userId} projectId={project.id} />
+                                    <JoinModal isOpen={isModalOpen} onClose={closeModal} userId={user.userId} projectId={project.id} setRole={setRole}/>
                                 </>
                             )}
 
                             {(role === 'Owner' || role === 'Member') && (
                                 <>
-                                    <ProjectUpdates role={role} projectUpdates={projectUpdates} projectId={project.id} userId={user.userId} openSnackbar={openSnackbar} />
+                                    <ProjectUpdates role={role} projectUpdates={projectUpdates} setProjectUpdates={setProjectUpdates} projectId={project.id} userId={user.userId} openSnackbar={openSnackbar} />
 
-                                    <MessageBoard messageBoard={messageBoard} projectId={project.id} userId={user.userId} openSnackbar={openSnackbar} />
+                                    <MessageBoard messageBoard={messageBoard} setMessageBoard={setMessageBoard} projectId={project.id} userId={user.userId} openSnackbar={openSnackbar} />
 
                                     {members && (
                                         <MemberList members={members} />

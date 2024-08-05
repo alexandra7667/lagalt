@@ -1,6 +1,6 @@
 import { urlBackendBasePath } from "../assets/urls";
 
-export default async function createMessage(message, openSnackbar) {
+export default async function createMessage(message, openSnackbar, setMessages) {
   const token = localStorage.getItem("token");
 
   const headers = {
@@ -22,4 +22,7 @@ export default async function createMessage(message, openSnackbar) {
   console.log("Created message: ", postResponse);
 
   openSnackbar("Message posted", "success");
+
+  //Add to state variable MessageBoard/ProjectUpdates
+  setMessages(prevItems => [...prevItems, message]);
 }

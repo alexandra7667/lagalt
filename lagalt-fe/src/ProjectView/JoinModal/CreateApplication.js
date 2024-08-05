@@ -1,6 +1,6 @@
 import { urlBackendBasePath } from "../../assets/urls";
 
-export default async function createApplication(application, openSnackbar, onClose ) {
+export default async function createApplication(application, openSnackbar, onClose, setRole ) {
   console.log("new application to post: ", application);
 
   const token = localStorage.getItem("token");
@@ -26,8 +26,7 @@ export default async function createApplication(application, openSnackbar, onClo
     console.log("new association: ", postResponse);
     onClose();
 
-    //Add to state variable list in MyProjects called 'applications'
-
-    //Uppdatera project view så den är dependent på state variable för direkt uppdatering efter man skickat ansökan
+    //Change state variable user's role to applicant
+    setRole('Applicant');
   }
 }

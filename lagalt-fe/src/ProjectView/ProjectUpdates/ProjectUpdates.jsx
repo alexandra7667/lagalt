@@ -2,7 +2,7 @@ import { Box, Button, TextField, Typography } from "@mui/material"
 import createMessage from "../CreateMessage";
 import { useState } from "react";
 
-function ProjectUpdates({ role, projectUpdates, projectId, userId, openSnackbar }) {
+function ProjectUpdates({ role, projectUpdates, setProjectUpdates, projectId, userId, openSnackbar }) {
     const [newUpdate, setNewUpdate] = useState({
         projectId: projectId,
         userId: userId,
@@ -20,8 +20,7 @@ function ProjectUpdates({ role, projectUpdates, projectId, userId, openSnackbar 
     const sendUpdate = () => {
         //post request
         console.log("Sending update: ", newUpdate);
-        createMessage(newUpdate, openSnackbar);
-        //Add newUpdate to state variable projectUpdates
+        createMessage(newUpdate, openSnackbar, setProjectUpdates);
 
         setNewUpdate({
             ...newUpdate,

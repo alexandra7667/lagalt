@@ -2,7 +2,7 @@ import { Box, Button, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import createMessage from "../CreateMessage";
 
-function MessageBoard({ messageBoard, projectId, userId, openSnackbar }) {
+function MessageBoard({ messageBoard, setMessageBoard, projectId, userId, openSnackbar }) {
     const [newMessage, setNewMessage] = useState({
         projectId: projectId,
         userId: userId,
@@ -18,10 +18,8 @@ function MessageBoard({ messageBoard, projectId, userId, openSnackbar }) {
     }
 
     const sendMessage = () => {
-        //post request
         console.log("Sending message: ", newMessage);
-        createMessage(newMessage, openSnackbar);
-        //Add newMessage to state variable messageBoard
+        createMessage(newMessage, openSnackbar, setMessageBoard);
 
         setNewMessage({
             ...newMessage,

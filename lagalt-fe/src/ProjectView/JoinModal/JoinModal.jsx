@@ -24,7 +24,7 @@ const overlayStyle = {
     alignItems: 'center',
 };
 
-function JoinModal({ isOpen, onClose, userId, projectId }) {
+function JoinModal({ isOpen, onClose, userId, projectId, setRole }) {
     const { openSnackbar } = useSnackbar();
     const [application, setApplication] = useState({});
     const [checked, setChecked] = useState(false);
@@ -48,7 +48,7 @@ function JoinModal({ isOpen, onClose, userId, projectId }) {
     };
 
     const apply = () => {
-        if(checked && application.motivationalLetter != '') createApplication(application, openSnackbar, onClose);
+        if(checked && application.motivationalLetter != '') createApplication(application, openSnackbar, onClose, setRole);
         else return;
     }
 
