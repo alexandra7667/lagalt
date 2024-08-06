@@ -7,8 +7,10 @@ import { UserContext } from "../App";
 import { useContext } from 'react'
 import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
+import ContrastIcon from '@mui/icons-material/Contrast';
 
-function Header() {
+
+function Header({ theme, setTheme, darkTheme, lightTheme }) {
     const { user, setUser } = useContext(UserContext);
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState(null);
@@ -26,6 +28,11 @@ function Header() {
         setUser(null);
         closeMenu();
         navigate("/login");
+    }
+
+    const changeTheme = () => {
+        if(theme === darkTheme) setTheme(lightTheme) 
+        else setTheme(darkTheme)
     }
 
     return (
@@ -46,6 +53,10 @@ function Header() {
                     <Typography variant="h6" component="h1" sx={{ flexGrow: 1 }} >
                         Lagalt
                     </Typography>
+
+                    <IconButton onClick={changeTheme}>
+                        <ContrastIcon />
+                    </IconButton>
 
                     {user ? (
                         <>
