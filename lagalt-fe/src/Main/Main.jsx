@@ -1,11 +1,10 @@
-import { useEffect, useState, createContext } from "react";
+import { useState, createContext } from "react";
 import BrowseProjects from "../BrowseProjects/BrowseProjects.jsx";
 import { Box } from "@mui/material";
 import NewProject from "../NewProject/NewProject";
 import MyProjects from "../MyProjects/MyProjects";
 import Profile from "../Profile/Profile";
 import { Route, Routes } from "react-router-dom";
-import fetchProjects from "./FetchProjects.js"
 import Login from "../Login/Login";
 import { UserContext } from "../App";
 import { useContext } from 'react'
@@ -21,9 +20,6 @@ function Main() {
   const { user } = useContext(UserContext);
   const [projects, setProjects] = useState(null);
 
-  useEffect(() => {
-    fetchProjects(setProjects);
-  }, [])
 
   return (
     <ProjectContext.Provider value={{ projects, setProjects }}>
@@ -31,10 +27,7 @@ function Main() {
         <Routes>
 
           {projects && (
-            <>
-              <Route path="/" element={<BrowseProjects />} />
-              <Route path="/projectview/:projectId" element={<ProjectView />} />
-            </>
+            <Route path="/projectview/:projectId" element={<ProjectView />} />
           )}
 
           {!user ? (
@@ -51,6 +44,7 @@ function Main() {
             </>
           )}
 
+          <Route path="/" element={<BrowseProjects />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="*" element={<NotFound />} />
 

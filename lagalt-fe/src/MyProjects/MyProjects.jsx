@@ -32,7 +32,6 @@ function MyProjects() {
 
     useEffect(() => {
         if (user.associations) {
-            console.log("User has associations in MyProjects")
             const setProjectsData = async () => {
                 setProjectLists(user.associations, setOwnedAssociations, setMemberAssociations, setApplications, setDeniedApplications, setListsFilled);
             };

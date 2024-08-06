@@ -39,22 +39,22 @@ public class SecurityConfig {
                 .exceptionHandling((exception) -> exception.authenticationEntryPoint(this.unauthorisedHandler))
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/auth/**", "/projects/getAllProjects", "/swagger-ui/**", "/v3/api-docs", "/api-docs", "/webjars/**").permitAll()
+//                        .requestMatchers("/auth/**", "/projects/getAllProjects", "/swagger-ui/**", "/v3/api-docs", "/api-docs", "/webjars/**").permitAll()
+//
+//                         //Allow signed-in users to perform GET, POST, and PUT requests on specified endpoints
+//                        .requestMatchers(HttpMethod.GET, "/projects/**", "/users/**", "/messages/**", "/associations/**").hasRole("USER")
+//                        .requestMatchers(HttpMethod.POST, "/projects/**", "/users/**", "/messages/**", "/associations/**").hasRole("USER")
+//                        .requestMatchers(HttpMethod.PUT, "/projects/**", "/users/**", "/messages/**", "/associations/**").hasRole("USER")
+//
+//                        // Allow only admin to perform DELETE requests on specified endpoints
+//                        .requestMatchers(HttpMethod.DELETE, "/projects/**", "/users/**", "/messages/**", "/associations/**").hasRole("ADMIN")
+//
+//                         //Any other request needs to be authenticated
+//                        .anyRequest().authenticated()
 
-                         //Allow signed-in users to perform GET, POST, and PUT requests on specified endpoints
-                        .requestMatchers(HttpMethod.GET, "/projects/**", "/users/**", "/messages/**", "/associations/**").hasRole("USER")
-                        .requestMatchers(HttpMethod.POST, "/projects/**", "/users/**", "/messages/**", "/associations/**").hasRole("USER")
-                        .requestMatchers(HttpMethod.PUT, "/projects/**", "/users/**", "/messages/**", "/associations/**").hasRole("USER")
 
-                        // Allow only admin to perform DELETE requests on specified endpoints
-                        .requestMatchers(HttpMethod.DELETE, "/projects/**", "/users/**", "/messages/**", "/associations/**").hasRole("ADMIN")
-
-                         //Any other request needs to be authenticated
-                        .anyRequest().authenticated()
-
-
-                        //For development with Swagger
-//                        .anyRequest().permitAll()
+                        //For test development with Swagger
+                        .anyRequest().permitAll()
                 );
 
         http.authenticationProvider(this.authenticationProvider());
