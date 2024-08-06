@@ -1,6 +1,7 @@
 package com.lagaltcase.lagalt_be.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.lagaltcase.lagalt_be.associate.Associate;
 import com.lagaltcase.lagalt_be.user.User;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,6 +25,7 @@ public class UserDetailsImpl implements UserDetails {
     private String description;
     private boolean hidden;
     private List<String> skills;
+    private List<Associate> associatedProjects;
 
     private Collection<? extends GrantedAuthority> authorities;
 
@@ -34,6 +36,7 @@ public class UserDetailsImpl implements UserDetails {
                            String description,
                            boolean hidden,
                            List<String> skills,
+                           List<Associate> associatedProjects,
                            Collection<? extends GrantedAuthority> authorities)
     {
         this.id = id;
@@ -43,6 +46,7 @@ public class UserDetailsImpl implements UserDetails {
         this.description = description;
         this.hidden = hidden;
         this.skills = skills;
+        this.associatedProjects = associatedProjects;
         this.authorities = authorities;
     }
 
@@ -59,6 +63,7 @@ public class UserDetailsImpl implements UserDetails {
                 user.getDescription(),
                 user.isHidden(),
                 user.getSkills(),
+                user.getAssociatedProjects(),
                 authorities);
     }
 

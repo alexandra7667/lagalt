@@ -45,7 +45,8 @@ function ApplicantCard({ applicant, applicants, setApplicants, projectId, userId
         handleApplication(applicationAdmittance);
 
         //Remove applicant from state list
-        setApplicants(applicants.filter(a => a.id !== applicant.userId));
+        const updatedApplicants = applicants.filter(a => a.userId !== applicant.userId);
+        setApplicants(updatedApplicants);
     }
 
     return (
@@ -62,6 +63,7 @@ function ApplicantCard({ applicant, applicants, setApplicants, projectId, userId
 
             <Button onClick={accept}>Accept</Button>
             <Button onClick={deny}>Deny</Button>
+            <Button onClick={() => console.log(applicants)}>Applicants show</Button>
         </>
     )
 }

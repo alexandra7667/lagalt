@@ -55,18 +55,6 @@ public class ProjectController {
                 projectRequest.getTags()
         );
 
-//        if(projectRequest.getNeededSkills() != null) {
-//            for(String skill : projectRequest.getNeededSkills()) {
-//                newProject.getNeededSkills().add(skill);
-//            }
-//        }
-//
-//        if(projectRequest.getTags() != null) {
-//            for(String tag : projectRequest.getTags()) {
-//                newProject.getTags().add(tag);
-//            }
-//        }
-
         projectRepository.save(newProject);
 
         //Set associate
@@ -111,8 +99,8 @@ public class ProjectController {
         return ResponseEntity.ok(projectListResponse);
     }
 
-    @GetMapping("/{projectId}")
-    public ResponseEntity<?> getProject(@PathVariable int projectId) {
+    @GetMapping("/getOneProject/{projectId}")
+    public ResponseEntity<?> getOneProject(@PathVariable int projectId) {
         Project project = projectRepository.findById(projectId).orElse(null);
 
         if (project == null) {

@@ -27,4 +27,6 @@ export default function setUserRole(
   if (!roleSet) {
     setRole("Unaffiliated");
   }
+
+  
 }

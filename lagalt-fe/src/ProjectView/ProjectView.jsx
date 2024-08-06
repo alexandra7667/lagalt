@@ -1,5 +1,4 @@
 import { useParams } from "react-router-dom";
-import { ProjectContext } from "../Main/Main.jsx";
 import { UserContext } from "../App";
 import { useContext, useEffect, useState } from 'react'
 import { Button, Typography } from "@mui/material";
@@ -16,11 +15,11 @@ import setUserRole from "./SetUserRole.js";
 import { useSnackbar } from '../SnackbarContext.jsx';
 import ApplicantList from "./ApplicantList/ApplicantList.jsx";
 import setMembersAndApplicants from "./SetMembersAndApplicants.js";
+import fetchOneProject from "./FetchOneProject.js";
 
 
 function ProjectView() {
     const { projectId } = useParams();
-    const { projects } = useContext(ProjectContext);
     const { user } = useContext(UserContext);
     const { openSnackbar } = useSnackbar();
     const [project, setProject] = useState(null);
@@ -34,23 +33,24 @@ function ProjectView() {
 
     useEffect(() => {
         const setProjectData = async () => {
-            const foundProject = await projects.find(p => p.id === Number(projectId));
-
-            if (foundProject) {
-                setProject(foundProject);
-
-                //Set message board and updates
-                fetchMessages(foundProject.id, setMessageBoard, setProjectUpdates);
-
-                //Set user's role in project
-                setUserRole(foundProject.associates, user.userId, setRole);
-
-                //Set members and applicants
-                setMembersAndApplicants(project.associates, setMembers, setApplicants, setListsFilled);
-            }
+            await fetchOneProject(projectId, setProject);
         }
         setProjectData();
-    }, [user, role])
+
+    }, [projectId])
+
+    useEffect(() => {
+        if (project) {
+            //Set message board and updates
+            fetchMessages(project.id, setMessageBoard, setProjectUpdates);
+
+            //Set user's role in project
+            setUserRole(project.associates, user.id, setRole);
+
+            //Set members and applicants
+            setMembersAndApplicants(project.associates, setMembers, setApplicants, setListsFilled);
+        }
+    }, [project])
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -78,7 +78,7 @@ function ProjectView() {
 
                                     <Typography> Applicants: </Typography>
                                     {listsFilled && (
-                                        <ApplicantList applicants={applicants} setApplicants={setApplicants} projectId={project.id} userId={user.userId} />
+                                        <ApplicantList applicants={applicants} setApplicants={setApplicants} projectId={project.id} userId={user.id} />
                                     )}
                                 </>
                             )}
@@ -101,15 +101,15 @@ function ProjectView() {
                             {role === 'Unaffiliated' && (
                                 <>
                                     <Button onClick={openModal} variant="outlined" sx={{ mb: 1 }}>Join</Button>
-                                    <JoinModal isOpen={isModalOpen} onClose={closeModal} userId={user.userId} projectId={project.id} setRole={setRole}/>
+                                    <JoinModal isOpen={isModalOpen} onClose={closeModal} userId={user.id} projectId={project.id} setRole={setRole}/>
                                 </>
                             )}
 
                             {(role === 'Owner' || role === 'Member') && (
                                 <>
-                                    <ProjectUpdates role={role} projectUpdates={projectUpdates} setProjectUpdates={setProjectUpdates} projectId={project.id} userId={user.userId} openSnackbar={openSnackbar} />
+                                    <ProjectUpdates role={role} projectUpdates={projectUpdates} setProjectUpdates={setProjectUpdates} projectId={project.id} userId={user.id} openSnackbar={openSnackbar} />
 
-                                    <MessageBoard messageBoard={messageBoard} setMessageBoard={setMessageBoard} projectId={project.id} userId={user.userId} openSnackbar={openSnackbar} />
+                                    <MessageBoard messageBoard={messageBoard} setMessageBoard={setMessageBoard} projectId={project.id} userId={user.id} openSnackbar={openSnackbar} />
 
                                     {members && (
                                         <MemberList members={members} />

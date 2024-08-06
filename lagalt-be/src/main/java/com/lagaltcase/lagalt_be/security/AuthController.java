@@ -67,7 +67,8 @@ public class AuthController {
                 userDetailsImpl.getUsername(),
                 userDetailsImpl.getDescription(),
                 userDetailsImpl.isHidden(),
-                userDetailsImpl.getSkills()
+                userDetailsImpl.getSkills(),
+                userDetailsImpl.getAssociatedProjects()
         );
 
         return ResponseEntity.ok(jwtResponse);
