@@ -1,4 +1,4 @@
-import { urlBackendBasePath } from "../assets/urls";
+import { urlBackendBasePath } from "../../assets/urls";
 
 export default async function createMessage(message, openSnackbar, setMessages) {
   const token = localStorage.getItem("token");

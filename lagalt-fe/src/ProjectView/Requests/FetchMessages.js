@@ -1,4 +1,4 @@
-import { urlBackendBasePath } from "../assets/urls";
+import { urlBackendBasePath } from "../../assets/urls";
 
 export default async function fetchMessages(projectId, setMessageBoard, setProjectUpdates) {
     const token = localStorage.getItem('token');
