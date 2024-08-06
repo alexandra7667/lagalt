@@ -1,6 +1,6 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { useState } from "react";
-import createMessage from "../CreateMessage";
+import createMessage from "../Requests/CreateMessage";
 
 function MessageBoard({ messageBoard, setMessageBoard, projectId, userId, openSnackbar }) {
     const [newMessage, setNewMessage] = useState({

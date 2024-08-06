@@ -1,5 +1,5 @@
 import { Box, Button, TextField, Typography } from "@mui/material"
-import createMessage from "../CreateMessage";
+import createMessage from "../Requests/CreateMessage";
 import { useState } from "react";
 
 function ProjectUpdates({ role, projectUpdates, setProjectUpdates, projectId, userId, openSnackbar }) {

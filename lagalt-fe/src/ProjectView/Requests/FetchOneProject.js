@@ -1,4 +1,4 @@
-import { urlBackendBasePath } from "../assets/urls";
+import { urlBackendBasePath } from "../../assets/urls";
 
 export default async function fetchOneProject(projectId, setProject) {
 
