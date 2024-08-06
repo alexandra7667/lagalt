@@ -11,6 +11,9 @@ import com.lagaltcase.lagalt_be.response.ProjectResponse;
 import com.lagaltcase.lagalt_be.user.User;
 import com.lagaltcase.lagalt_be.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -88,15 +91,22 @@ public class ProjectController {
     }
 
     @GetMapping("/getAllProjects")
-    public ResponseEntity<ProjectListResponse> getAllProjects() {
-        List<Project> allProjects = this.projectRepository.findAll();
+    public ResponseEntity<ProjectListResponse> getAllProjects(@RequestParam int pageSize, @RequestParam int pageNo) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<Project> pagedProjects = projectRepository.findAll(pageable);
+        List<Project> projects = pagedProjects.getContent();
 
-        List<ProjectDTO> projectDTOS = allProjects.stream()
+        List<ProjectDTO> projectDTOS = projects.stream()
                 .map(ProjectDTO::new) //"method reference" same functionality as .map(project -> new ProjectDTO(project))
                 .collect(Collectors.toList());
 
         ProjectListResponse projectListResponse = new ProjectListResponse();
         projectListResponse.set(projectDTOS);
+        projectListResponse.setTotalElements(pagedProjects.getTotalElements());
+        projectListResponse.setTotalPages(pagedProjects.getTotalPages());
+        projectListResponse.setLast(pagedProjects.isLast());
+
+        System.out.println("Project List Response total elements: " + projectListResponse.getTotalElements());
 
         return ResponseEntity.ok(projectListResponse);
     }

@@ -1,26 +1,37 @@
 import { useEffect, useState } from "react";
-import { Autocomplete, Box, FormControl, IconButton, InputAdornment, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { Autocomplete, Box, Button, FormControl, IconButton, InputAdornment, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import ProjectList from './ProjectList/ProjectList.jsx'
 import { UserContext } from "../App.jsx";
 import { useContext } from 'react'
 import { ProjectContext } from "../Main/Main.jsx";
-import PageTitle from "../PageTitle/PageTitle.jsx";
+import PageTitle from "../PageTitle/PageTitle.jsx"
+import fetchProjects from "./FetchProjects.js";
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+
+const pageSize = 2;
 
 function ProjectsView() {
     const { user } = useContext(UserContext);
-    const { projects } = useContext(ProjectContext);
+    const { projects, setProjects } = useContext(ProjectContext);
     const [filteredProjects, setFilteredProjects] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState("All");
     const [keywords, setKeywords] = useState([]);
     const [selectedKeyword, setSelectedKeyword] = useState("");
+    const [currentPage, setCurrentPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
+
+    useEffect(() => {
+        fetchProjects(setProjects, pageSize, currentPage, setCurrentPage, setTotalPages);
+    }, [])
 
     useEffect(() => {
         if (projects) {
             setFilteredProjects(projects);
             addTagsToKeywords();
         }
-    }, [projects, user]);
+    }, [projects]);
 
     useEffect(() => {
         if (user) {
@@ -125,7 +136,7 @@ function ProjectsView() {
     return (
         <>
             <PageTitle title={"Browse Projects"} />
-            
+
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: '20px' }}>
                 {keywords && (
                     <Autocomplete
@@ -173,6 +184,24 @@ function ProjectsView() {
             </Box>
 
             {filteredProjects && <ProjectList projects={filteredProjects} />}
+
+            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', mb: '20px' }}>
+                {currentPage > 0 && (
+                    <Button onClick={() => fetchProjects(setProjects, pageSize, currentPage - 1, setCurrentPage)} startIcon={<ArrowLeftIcon />}>Previous</Button>
+                )}
+
+                {projects && (
+                    <>
+                    <Typography>{currentPage + 1}</Typography>
+                    <Typography>/</Typography>
+                    <Typography>{totalPages}</Typography>
+                    </>
+                )}
+
+                {currentPage < totalPages - 1 && (
+                    <Button onClick={() => fetchProjects(setProjects, pageSize, currentPage + 1, setCurrentPage)} endIcon={<ArrowRightIcon />}>Next</Button>
+                )}
+            </Box>
         </>
     )
 }
