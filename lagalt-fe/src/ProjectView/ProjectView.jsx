@@ -76,6 +76,10 @@ function ProjectView() {
                                         Owner
                                     </Typography>
 
+                                    <Typography variant="h6" color="text.secondary">
+                                        Project status: {project.status}
+                                    </Typography>
+
                                     <Typography> Applicants: </Typography>
                                     {listsFilled && (
                                         <ApplicantList applicants={applicants} setApplicants={setApplicants} projectId={project.id} userId={user.id} />
@@ -101,7 +105,7 @@ function ProjectView() {
                             {role === 'Unaffiliated' && (
                                 <>
                                     <Button onClick={openModal} variant="outlined" sx={{ mb: 1 }}>Join</Button>
-                                    <JoinModal isOpen={isModalOpen} onClose={closeModal} userId={user.id} projectId={project.id} setRole={setRole}/>
+                                    <JoinModal isOpen={isModalOpen} onClose={closeModal} userId={user.id} projectId={project.id} setRole={setRole} />
                                 </>
                             )}
 

@@ -1,9 +1,10 @@
 
-export default function setAssociationLists(allUsersAssociations, setOwnedAssociations, setMemberAssociations, setApplications, setDeniedApplications, setListsFilled) {
+export default function setAssociationLists(allUsersAssociations, setOwnedAssociations, setMemberAssociations, setApplications, setDeniedApplications, setPortfolioAssociations, setListsFilled) {
     const owned = [];
     const members = [];
     const apps = [];
     const denied = [];
+    const portfolio = [];
 
     allUsersAssociations.forEach((association) => {
         if (association.owner) {
@@ -18,12 +19,16 @@ export default function setAssociationLists(allUsersAssociations, setOwnedAssoci
         else if (association.applicationDenied) {
             denied.push(association);
         }
+        else if(association.portfolioProject) {
+            portfolio.push(association);
+        }
     });
 
     setOwnedAssociations(owned);
     setMemberAssociations(members);
     setApplications(apps);
     setDeniedApplications(denied);
+    setPortfolioAssociations(portfolio);
 
     setListsFilled(true);
 }
