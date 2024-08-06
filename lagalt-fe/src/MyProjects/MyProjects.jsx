@@ -31,6 +31,7 @@ function MyProjects() {
     const [listsFilled, setListsFilled] = useState(false);
 
     useEffect(() => {
+        console.log("In my projects with user ", user)
         if (user.associations) {
             const setProjectsData = async () => {
                 setProjectLists(user.associations, setOwnedAssociations, setMemberAssociations, setApplications, setDeniedApplications, setListsFilled);
@@ -38,7 +39,8 @@ function MyProjects() {
 
             setProjectsData();
         }
-    }, [user]);
+    }, []);
+
 
     const toggleOpen = (setter) => {
         setter(open => !open);

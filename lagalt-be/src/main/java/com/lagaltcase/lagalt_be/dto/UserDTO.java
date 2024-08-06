@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 public class UserDTO {
-    private int userId;
+    private int id;
     private String username;
     private String email;
     private String description;
@@ -24,7 +24,7 @@ public class UserDTO {
                 .map(AssociateDTO::new)
                 .collect(Collectors.toList());
 
-        this.userId = user.getId();
+        this.id = user.getId();
         this.username = user.getUsername();
         this.email = user.getEmail();
         this.description = user.getDescription();

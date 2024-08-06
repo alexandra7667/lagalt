@@ -25,11 +25,7 @@ function Main() {
     <ProjectContext.Provider value={{ projects, setProjects }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: '20px', }}>
         <Routes>
-
-          {projects && (
-            <Route path="/projectview/:projectId" element={<ProjectView />} />
-          )}
-
+          
           {!user ? (
             <>
               <Route path="/login" element={<Login />} />
@@ -45,6 +41,7 @@ function Main() {
           )}
 
           <Route path="/" element={<BrowseProjects />} />
+          <Route path="/projectview/:projectId" element={<ProjectView />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="*" element={<NotFound />} />
 

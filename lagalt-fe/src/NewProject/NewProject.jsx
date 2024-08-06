@@ -31,7 +31,7 @@ function NewProject() {
         if (user) {
             setNewProject({
                 ...newProject,
-                userId: user.userId
+                userId: user.id
             })
         }
     }, [])

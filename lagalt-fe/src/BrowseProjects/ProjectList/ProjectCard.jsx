@@ -30,10 +30,11 @@ function ProjectCard({ project }) {
     }
 
     const goToProject = () => {
-        //Make user a visitor by request to backend if they are logged in
         if (user) {
-            console.log("going to post method with pr id: " + project.id + " and user id: " + user.userId);
-            makeVisitor(project.id, user.userId);
+            //Only make visitor if the user is logged in and they are not already a visitor
+            const association = user.associations.find(assoc => assoc.projectId === project.id && assoc.visitor);
+            if (association) console.log("already visited: " + association.projectTitle);
+            else makeVisitor(project.id, user.id);
         }
 
         navigate(`/projectview/${project.id}`);

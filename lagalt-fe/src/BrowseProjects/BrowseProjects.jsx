@@ -28,16 +28,12 @@ function ProjectsView() {
 
     useEffect(() => {
         if (projects) {
-            setFilteredProjects(projects);
             addTagsToKeywords();
-        }
-    }, [projects]);
-
-    useEffect(() => {
-        if (user) {
+            setFilteredProjects(projects);
             matchSkillsAndVisitedProjects();
+            console.log("Setting filtered projects with user ", user)
         }
-    }, [user]);
+    }, [projects, user]);
 
 
     const matchSkillsAndVisitedProjects = () => {
@@ -183,7 +179,9 @@ function ProjectsView() {
                 </FormControl>
             </Box>
 
-            {filteredProjects && <ProjectList projects={filteredProjects} />}
+            {filteredProjects && (
+                <ProjectList projects={filteredProjects} />
+            )}
 
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', mb: '20px' }}>
                 {currentPage > 0 && (

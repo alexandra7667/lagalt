@@ -4,7 +4,6 @@ export default async function makeVisitor(projectId, userId) {
   console.log("making visitor projectid: ", projectId, " and user id: ", userId);
 
   const token = localStorage.getItem("token");
-  console.log("Token:", token);
 
   const headers = {
     "Content-Type": "application/json",
@@ -22,7 +21,5 @@ export default async function makeVisitor(projectId, userId) {
   } 
   else {
     console.log("new association: ", postResponse);
-
-    //Add to state variable list in MyProjects called 'visited'
   }
 }
