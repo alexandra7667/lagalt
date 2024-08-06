@@ -11,7 +11,7 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import LocalPoliceIcon from '@mui/icons-material/LocalPolice';
 import SdCardAlertIcon from '@mui/icons-material/SdCardAlert';
 import { useEffect, useState } from 'react';
-import setProjectLists from './SetAssociationsLists.js';
+import setAssociationsLists from './SetAssociationsLists.js';
 import { UserContext } from "../App";
 import { useContext } from 'react'
 import { useNavigate } from "react-router-dom";
@@ -24,20 +24,22 @@ function MyProjects() {
     const [openMember, setOpenMember] = useState(false);
     const [openApplications, setOpenApplications] = useState(false);
     const [openDeniedApplications, setOpenDeniedApplications] = useState(false);
+    const [openPortfolio, setOpenPortfolio] = useState(false);
     const [ownedAssociations, setOwnedAssociations] = useState([]);
     const [memberAssociations, setMemberAssociations] = useState([]);
     const [applications, setApplications] = useState([]);
     const [deniedApplications, setDeniedApplications] = useState([]);
+    const [portfolioAssociations, setPortfolioAssociations] = useState([]);
     const [listsFilled, setListsFilled] = useState(false);
 
     useEffect(() => {
         console.log("In my projects with user ", user)
         if (user.associations) {
-            const setProjectsData = async () => {
-                setProjectLists(user.associations, setOwnedAssociations, setMemberAssociations, setApplications, setDeniedApplications, setListsFilled);
+            const setAssociations = async () => {
+                setAssociationsLists(user.associations, setOwnedAssociations, setMemberAssociations, setApplications, setDeniedApplications, setPortfolioAssociations, setListsFilled);
             };
 
-            setProjectsData();
+            setAssociations();
         }
     }, []);
 
@@ -77,9 +79,9 @@ function MyProjects() {
                 </ListItemButton>
                 <Collapse in={openMember} timeout="auto" unmountOnExit>
                     <List disablePadding>
-                        {listsFilled && memberAssociations.map(memberProject => (
-                            <ListItemButton onClick={() => navigate(`/projectview/${memberProject.projectId}`)} key={memberProject.id} sx={{ pl: 4 }}>
-                                <ListItemText primary={memberProject.projectTitle} />
+                        {listsFilled && memberAssociations.map(portfolioProject => (
+                            <ListItemButton onClick={() => navigate(`/projectview/${portfolioProject.projectId}`)} key={portfolioProject.id} sx={{ pl: 4 }}>
+                                <ListItemText primary={portfolioProject.projectTitle} />
                             </ListItemButton>
                         ))}
                     </List>
@@ -116,6 +118,23 @@ function MyProjects() {
                             <ListItemButton onClick={() => navigate(`/projectview/${deniedApplication.projectId}`)} key={deniedApplication.id} sx={{ pl: 4 }}>
                                 <ListItemText primary={deniedApplication.projectTitle} />
                                 <ListItemText secondary={"Application was denied by project owner. It's possible to re-apply."} />
+                            </ListItemButton>
+                        ))}
+                    </List>
+                </Collapse>
+
+                <ListItemButton onClick={() => toggleOpen(setOpenPortfolio)}>
+                    <ListItemIcon>
+                        <BadgeIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Portfolio" />
+                    {openPortfolio ? <ExpandLess /> : <ExpandMore />}
+                </ListItemButton>
+                <Collapse in={openPortfolio} timeout="auto" unmountOnExit>
+                    <List disablePadding>
+                        {listsFilled && portfolioAssociations.map(portfolioProject => (
+                            <ListItemButton onClick={() => navigate(`/projectview/${portfolioProject.projectId}`)} key={portfolioProject.id} sx={{ pl: 4 }}>
+                                <ListItemText primary={portfolioProject.projectTitle} />
                             </ListItemButton>
                         ))}
                     </List>
