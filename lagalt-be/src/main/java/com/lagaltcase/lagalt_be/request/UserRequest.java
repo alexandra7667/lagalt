@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 public class UserRequest {
-    private int userId;
+    private int id;
     private String username;
     private String description;
     private boolean isHidden;

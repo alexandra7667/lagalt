@@ -51,7 +51,7 @@ public class UserController {
 
     @PutMapping
     public ResponseEntity<?> updateUser(@RequestBody UserRequest userRequest) {
-        User user = this.userRepository.findById(userRequest.getUserId()).orElse(null);
+        User user = this.userRepository.findById(userRequest.getId()).orElse(null);
 
         if (user == null) {
             ErrorResponse errorResponse = new ErrorResponse();

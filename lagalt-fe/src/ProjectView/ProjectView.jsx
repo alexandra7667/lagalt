@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { UserContext } from "../App";
 import { useContext, useEffect, useState } from 'react'
-import { Button, FormControl, InputLabel, MenuItem, Select, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import BadgeIcon from '@mui/icons-material/Badge';
 import LocalPoliceIcon from '@mui/icons-material/LocalPolice';
 import fetchMessages from "./Requests/FetchMessages.js";
@@ -16,7 +16,7 @@ import { useSnackbar } from '../SnackbarContext.jsx';
 import ApplicantList from "./ApplicantList/ApplicantList.jsx";
 import setMembersAndApplicants from "./SetMembersAndApplicants.js";
 import fetchOneProject from "./Requests/FetchOneProject.js";
-import setProjectStatus from "./Requests/SetProjectStatus.js";
+import ProjectStatus from "./ProjectStatus/ProjectStatus.jsx";
 
 
 function ProjectView() {
@@ -31,7 +31,7 @@ function ProjectView() {
     const [members, setMembers] = useState([]);
     const [applicants, setApplicants] = useState([]);
     const [listsFilled, setListsFilled] = useState(false);
-    const [selectedStatus, setSelectedStatus] = useState('In Progress')
+    const [selectedStatus, setSelectedStatus] = useState('In Progress');
 
     useEffect(() => {
         const setProjectData = async () => {
@@ -66,12 +66,6 @@ function ProjectView() {
         setIsModalOpen(false);
     };
 
-    const changeStatus = (e) => {
-        setSelectedStatus(e.target.value);
-        //Change project status in db
-        setProjectStatus(projectId, e.target.value);
-    }
-
 
     return (
         <>
@@ -88,20 +82,7 @@ function ProjectView() {
                                         Owner
                                     </Typography>
 
-                                    <FormControl sx={{ width: { xs: '300px', sm: '400px' }, marginBottom: '20px' }} >
-                                        <InputLabel id="label-project-status">Project status</InputLabel>
-                                        <Select
-                                            labelId="label-project-status"
-                                            id="select-project-status"
-                                            value={selectedStatus}
-                                            label="ProjectStatus"
-                                            onChange={changeStatus}
-                                        >
-                                            <MenuItem value={"In Progess"}>In Progess</MenuItem>
-                                            <MenuItem value={"Paused"}>Paused</MenuItem>
-                                            <MenuItem value={"Completed"}>Completed</MenuItem>
-                                        </Select>
-                                    </FormControl>
+                                    <ProjectStatus selectedStatus={selectedStatus} setSelectedStatus={setSelectedStatus} projectId={projectId} />
 
                                     <Typography> Applicants: </Typography>
                                     {listsFilled && (

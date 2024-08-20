@@ -21,6 +21,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
@@ -46,7 +48,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/projects/**", "/users/**", "/messages/**", "/associations/**").hasRole("USER")
                         .requestMatchers(HttpMethod.PUT, "/projects/**", "/users/**", "/messages/**", "/associations/**").hasRole("USER")
 
-                        // Allow only admin to perform DELETE requests on specified endpoints
+                        //Allow only admin to perform DELETE requests on specified endpoints
                         .requestMatchers(HttpMethod.DELETE, "/projects/**", "/users/**", "/messages/**", "/associations/**").hasRole("ADMIN")
 
                          //Any other request needs to be authenticated
@@ -65,6 +67,7 @@ public class SecurityConfig {
 
         return http.build();
     }
+
 
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
