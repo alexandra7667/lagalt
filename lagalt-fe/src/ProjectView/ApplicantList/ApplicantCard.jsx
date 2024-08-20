@@ -63,7 +63,6 @@ function ApplicantCard({ applicant, applicants, setApplicants, projectId, userId
 
             <Button onClick={accept}>Accept</Button>
             <Button onClick={deny}>Deny</Button>
-            <Button onClick={() => console.log(applicants)}>Applicants show</Button>
         </>
     )
 }

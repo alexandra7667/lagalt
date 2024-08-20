@@ -43,19 +43,20 @@ function ProjectView() {
 
     useEffect(() => {
         if (project) {
-            //Set message board and updates
-            fetchMessages(project.id, setMessageBoard, setProjectUpdates);
+            if (user) {
+                //Set message board and updates
+                fetchMessages(project.id, setMessageBoard, setProjectUpdates);
+                //Set user's role in project
+                setUserRole(project.associates, user.id, setRole);
 
-            //Set user's role in project
-            setUserRole(project.associates, user.id, setRole);
-
-            //Set members and applicants
-            setMembersAndApplicants(project.associates, setMembers, setApplicants, setListsFilled);
+                //Set members and applicants
+                setMembersAndApplicants(project.associates, setMembers, setApplicants, setListsFilled);
+            }
 
             //Set project status
             setSelectedStatus(project.status);
         }
-    }, [project])
+    }, [project, user])
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -87,7 +88,7 @@ function ProjectView() {
                                         Owner
                                     </Typography>
 
-                                    <FormControl sx={{ width: { xs: '300px', sm: '400px' } }} >
+                                    <FormControl sx={{ width: { xs: '300px', sm: '400px' }, marginBottom: '20px' }} >
                                         <InputLabel id="label-project-status">Project status</InputLabel>
                                         <Select
                                             labelId="label-project-status"

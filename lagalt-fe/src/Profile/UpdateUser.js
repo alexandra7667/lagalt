@@ -1,6 +1,6 @@
 import { urlBackendBasePath } from "../assets/urls";
 
-export default async function updateUser( user, openSnackbar ) {
+export default async function updateUser(user, openSnackbar) {
   const token = localStorage.getItem("token");
 
   const headers = {
@@ -14,12 +14,13 @@ export default async function updateUser( user, openSnackbar ) {
     body: JSON.stringify(user),
   });
 
-  if (putResponse.status !== 201) {
+  if (putResponse.status !== 200) {
     console.log("Failed to update user");
+    console.log("Response: ", putResponse);
     openSnackbar("Could not update profile", "error");
+    console.log("User: ", user)
+  } else {
+    console.log("Updated user: ", putResponse);
+    openSnackbar("User updated", "success");
   }
-
-  console.log("Updated user: ", putResponse);
-
-  openSnackbar("User updated", "success");
 }

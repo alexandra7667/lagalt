@@ -22,7 +22,7 @@ function UserView() {
 
           <p>About: {profileUser.description}</p>
 
-          {!profileUser.hidden (
+          {!profileUser.hidden && (
             <p>Skills: {profileUser.skills}</p>
           )}
 

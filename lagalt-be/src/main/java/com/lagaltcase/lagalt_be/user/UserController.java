@@ -73,7 +73,7 @@ public class UserController {
         UserResponse userResponse = new UserResponse();
         userResponse.set(userDTO);
 
-        return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
+        return new ResponseEntity<>(userResponse, HttpStatus.OK);
     }
 
     @GetMapping("/{userId}")

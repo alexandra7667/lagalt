@@ -30,8 +30,8 @@ function ProjectsView() {
         if (projects) {
             addTagsToKeywords();
             setFilteredProjects(projects);
-            matchSkillsAndVisitedProjects();
-            console.log("Setting filtered projects with user ", user)
+            if(user) matchSkillsAndVisitedProjects();
+            // console.log("Setting filtered projects with user ", user)
         }
     }, [projects, user]);
 
