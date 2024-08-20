@@ -42,7 +42,7 @@ Backenden är gjord i Java med Spring Boot enligt MVC-mönstret och kan testas v
 ### Run with Docker
 Start Docker Engine
 #### Backend
-Navigate to lagalt-be/build/libs  
+Navigate to lagalt-be/build/libs or where the jar file and Dockerfile is located    
 docker build -t lagalt-be .  
 docker run -p 4000:4000 lagalt-be  
 #### Frontend
