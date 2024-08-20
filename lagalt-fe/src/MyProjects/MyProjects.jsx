@@ -33,7 +33,6 @@ function MyProjects() {
     const [listsFilled, setListsFilled] = useState(false);
 
     useEffect(() => {
-        console.log("In my projects with user ", user)
         if (user.associations) {
             const setAssociations = async () => {
                 setAssociationsLists(user.associations, setOwnedAssociations, setMemberAssociations, setApplications, setDeniedApplications, setPortfolioAssociations, setListsFilled);
@@ -64,7 +63,7 @@ function MyProjects() {
                     <List disablePadding>
                         {listsFilled && ownedAssociations.map(ownerProject => (
                             <ListItemButton onClick={() => navigate(`/projectview/${ownerProject.projectId}`)} key={ownerProject.projectId} sx={{ pl: 4 }}>
-                                <ListItemText primary={ownerProject.projectTitle} />
+                                <ListItemText primary={ownerProject.projectTitle} sx={{ color: ownerProject.portfolioProject ? 'rosybrown' : 'black' }}/>
                             </ListItemButton>
                         ))}
                     </List>
@@ -79,9 +78,9 @@ function MyProjects() {
                 </ListItemButton>
                 <Collapse in={openMember} timeout="auto" unmountOnExit>
                     <List disablePadding>
-                        {listsFilled && memberAssociations.map(portfolioProject => (
-                            <ListItemButton onClick={() => navigate(`/projectview/${portfolioProject.projectId}`)} key={portfolioProject.id} sx={{ pl: 4 }}>
-                                <ListItemText primary={portfolioProject.projectTitle} />
+                        {listsFilled && memberAssociations.map(memberProject => (
+                            <ListItemButton onClick={() => navigate(`/projectview/${memberProject.projectId}`)} key={memberProject.id} sx={{ pl: 4 }}>
+                                <ListItemText primary={memberProject.projectTitle} sx={{ color: memberProject.portfolioProject ? 'rosybrown' : 'black' }} />
                             </ListItemButton>
                         ))}
                     </List>

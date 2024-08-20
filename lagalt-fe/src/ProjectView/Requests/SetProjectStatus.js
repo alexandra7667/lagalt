@@ -8,12 +8,12 @@ export default async function setProjectStatus(projectId, status) {
     "Authorization": `Bearer ${token}`,
   };
 
-  const putResponse = await fetch(`${urlBackendBasePath}/projects/${projectId}`, {
+  const putResponse = await fetch(`${urlBackendBasePath}/projects`, {
     method: "PUT",
     headers: headers,
-    body: JSON.stringify({ status })
+    body: JSON.stringify({ status, projectId })
   });
 
   if (!putResponse.status === 200) console.log("Failed to update status");
-  else console.log("Changed status: ", putResponse);
+  else console.log("Successful update. New status: ", putResponse);
 }

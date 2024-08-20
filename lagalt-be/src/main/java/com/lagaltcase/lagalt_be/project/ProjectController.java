@@ -129,6 +129,8 @@ public class ProjectController {
             return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
         }
 
+        System.out.println("IN PROJECT CONTROLLER with status: " + projectRequest.getStatus());
+
         if(projectRequest.getDescription() != null) project.setDescription(projectRequest.getDescription());
         if(projectRequest.getWebsiteUrl() != null) project.setWebsiteUrl(projectRequest.getWebsiteUrl());
         if(projectRequest.getNeededSkills() != null) project.getNeededSkills().add(projectRequest.getNeededSkills().get(0));
@@ -156,6 +158,6 @@ public class ProjectController {
         ProjectResponse projectResponse = new ProjectResponse();
         projectResponse.set(projectDTO);
 
-        return new ResponseEntity<>(projectResponse, HttpStatus.CREATED);
+        return new ResponseEntity<>(projectResponse, HttpStatus.OK);
     }
 }

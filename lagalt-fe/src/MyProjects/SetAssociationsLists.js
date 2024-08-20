@@ -19,7 +19,7 @@ export default function setAssociationLists(allUsersAssociations, setOwnedAssoci
         else if (association.applicationDenied) {
             denied.push(association);
         }
-        else if(association.portfolioProject) {
+        if(association.portfolioProject) {
             portfolio.push(association);
         }
     });
