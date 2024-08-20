@@ -37,3 +37,15 @@ Användare med rollen admin har möjlighet att logga in och radera projekt/anvä
 Projektets frontend är gjord i JavaScript med React och Vite. Det är baserat på Googles Material UI komponentbibliotek med en responsiv mobile-first design.
 
 Backenden är gjord i Java med Spring Boot enligt MVC-mönstret och kan testas via Swagger i browsern. Projektet använder JWT för sessionshantering och PostgreSQL som databas.
+
+
+### Run with Docker
+Start Docker Engine
+#### Backend
+Navigate to lagalt-be/build/libs  
+docker build -t lagalt-be .  
+docker run -p 4000:4000 lagalt-be  
+#### Frontend
+Navigate to lagalt-fe  
+docker build -t lagalt-fe .  
+docker run -p 5173:5173 lagalt-fe  
