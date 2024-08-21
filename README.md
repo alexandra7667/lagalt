@@ -11,7 +11,7 @@ Lagalt is a web app with the purpose to match users with projects that fit their
 
 The fetching of projects from the backend is done with pagination. When searching for projects, there are autocomplete and filtering functions. 
 
-Users with the admin role have the ability to log in and delete projects/other users. As a guest (not logged in) user, one can view all projects and get limited information about them as well as information about the Lagalt web app.
+Users with the admin role have the ability to log in and delete projects/other users. As a guest (not logged in) user, one can view all projects and get limited information about them as well as view the About us page.  
 
 The project's frontend is made in JavaScript with React and Vite. It is based on Google's Material UI component library with a responsive mobile-first design.
 
