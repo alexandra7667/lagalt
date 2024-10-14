@@ -3,7 +3,7 @@ import { Snackbar, Alert } from '@mui/material';
 
 const SnackbarContext = createContext();
 
-//When you wrap your App component with the SnackbarProvider, all the nested components inside App will be passed as children to the SnackbarProvider.
+//When you wrap your App component with the SnackbarProvider, all the nested components inside App will be passed as children to the SnackbarProvider
 export const SnackbarProvider = ({ children }) => {
   const [snackbarState, setSnackbarState] = useState({
     open: false,
