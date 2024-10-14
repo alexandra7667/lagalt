@@ -20,7 +20,7 @@ The project's frontend is made in JavaScript with React and Vite. It is based on
 Start Docker Engine
 ### Backend 
 (Instructions on how to create jar file is in build.gradle)  
-Navigate to lagalt-be/build/libs or where the jar file and Dockerfile is located   
+Navigate to lagalt-be/build/libs or where the jar file and Dockerfile are located   
 docker build -t lagalt-be .  
 docker run -p 4000:4000 lagalt-be  
 ### Frontend
