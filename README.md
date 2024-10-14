@@ -13,9 +13,7 @@ The fetching of projects from the backend is done with pagination. When searchin
 
 Users with the admin role have the ability to log in and delete projects/other users. As a guest (not logged in) user, one can view all projects and get limited information about them as well as view the About us page.  
 
-The project's frontend is made in JavaScript with React and Vite. It is based on Google's Material UI component library with a responsive mobile-first design.
-
-The backend is made in Java with Spring Boot according to the MVC pattern and can be tested via Swagger in the browser. The project uses JWT for session management and PostgreSQL as the database.
+The project's frontend is made in JavaScript with React and Vite. It is based on Google's Material UI component library with a responsive mobile-first design. The backend is made in Java with Spring Boot according to the MVC pattern and can be tested via Swagger in the browser. The project uses JWT for session management and PostgreSQL as the database.
 
 
 ## Run with Docker
