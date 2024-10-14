@@ -1,10 +1,10 @@
 
-import Header from './Header/Header';
+import Header from './components/Header/Header.jsx';
 import CssBaseline from '@mui/material/CssBaseline'; //Resets browser css
 import { useEffect, useState, createContext } from 'react';
-import { Main } from './Main/Main.jsx';
+import { Main } from './components/Main/Main.jsx';
 import { restoreUser } from './RestoreUser.js';
-import Footer from './Footer/Footer.jsx';
+import Footer from './components/Footer/Footer.jsx';
 import { Box } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
