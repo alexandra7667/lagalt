@@ -9,7 +9,7 @@ function UserView() {
 
   useEffect(() => {
     fetchUserById(userId, setProfileUser);
-  }, [])
+  }, [userId])
 
   async function fetchUserById() {
     const response = await fetchData(
@@ -21,10 +21,9 @@ function UserView() {
     if (response.status === "error") {
       console.error(response.message);
     } else {
-      setProfileUser(response.data);
+      setProfileUser(response.data.data);
     }
   }
-
 
   return (
     <>

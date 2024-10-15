@@ -1,11 +1,16 @@
 import { Box, Button, TextField, Typography } from "@mui/material"
-import { useState } from "react";
+import { useContext, useState } from "react";
 import fetchData from "../../../functions/fetchData";
+import { useSnackbar } from '../../../SnackbarContext.jsx';
+import { UserContext } from "../../../App.jsx";
 
-function ProjectUpdates({ role, projectUpdates, setProjectUpdates, projectId, userId, openSnackbar }) {
+
+function ProjectUpdates({ role, projectUpdates, setProjectUpdates, projectId }) {
+    const { openSnackbar } = useSnackbar();
+    const { user } = useContext(UserContext);
     const [newUpdate, setNewUpdate] = useState({
         projectId: projectId,
-        userId: userId,
+        userId: user.id,
         message: '',
         type: 'update',
     });
@@ -73,7 +78,7 @@ function ProjectUpdates({ role, projectUpdates, setProjectUpdates, projectId, us
                         onChange={handleChange}
                     />
 
-                    <Button onClick={sendUpdate}>OK</Button>
+                    <Button onClick={sendUpdate}>Send</Button>
                 </>
             )}
         </Box>

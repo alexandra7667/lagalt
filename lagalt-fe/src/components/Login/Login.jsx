@@ -36,7 +36,8 @@ function Login() {
         if (response.status === "error") {
             console.error(response.message);
         } else {
-            localStorage.setItem("token", response.token);
+            localStorage.setItem("token", response.data.token);
+            console.log("setting user as ", response.data)
             setUser(response.data);
             navigate("/");
         }

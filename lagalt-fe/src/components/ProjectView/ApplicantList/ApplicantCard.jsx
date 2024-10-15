@@ -1,11 +1,13 @@
 import { Button, Typography } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import fetchData from "../../../functions/fetchData";
+import { UserContext } from "../../../App";
 
-function ApplicantCard({ applicant, applicants, setApplicants, projectId, userId }) {
+function ApplicantCard({ applicant, applicants, setApplicants, projectId }) {
+    const { user } = useContext(UserContext);
     const [applicationAdmittance, setApplicationAdmittance] = useState({
         projectId: projectId,
-        userId: userId,
+        userId: user.id,
         applicantId: applicant.userId,
     });
     const [permitHandle, setPermitHandle] = useState(false);
@@ -75,8 +77,8 @@ function ApplicantCard({ applicant, applicants, setApplicants, projectId, userId
                 Motivational letter: {applicant.motivationalLetter}
             </Typography>
 
-            <Button onClick={accept}>Accept</Button>
-            <Button onClick={deny}>Deny</Button>
+            <Button onClick={() => accept}>Accept</Button>
+            <Button onClick={() => deny}>Deny</Button>
         </>
     )
 }
