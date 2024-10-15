@@ -1,6 +1,6 @@
 import { AppBar, Avatar, Box, Button, IconButton, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { blueGrey } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../App.jsx";
@@ -14,6 +14,10 @@ function Header({ theme, setTheme, darkTheme, lightTheme }) {
     const { user, setUser } = useContext(UserContext);
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState(null);
+
+    // useEffect(() => {
+    //     console.log("user in header= ", user)
+    // }, [user])
 
     const toggleMenu = (event) => {
         setAnchorEl(event.currentTarget);

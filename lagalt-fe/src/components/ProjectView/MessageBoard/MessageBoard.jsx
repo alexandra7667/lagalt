@@ -1,11 +1,16 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import fetchData from "../../../functions/fetchData";
+import { useSnackbar } from '../../../SnackbarContext.jsx';
+import { UserContext } from "../../../App.jsx";
 
-function MessageBoard({ messageBoard, setMessageBoard, projectId, userId, openSnackbar }) {
+function MessageBoard({ messageBoard, setMessageBoard, projectId }) {
+    const { openSnackbar } = useSnackbar();
+    const { user } = useContext(UserContext);
+
     const [newMessage, setNewMessage] = useState({
         projectId: projectId,
-        userId: userId,
+        userId: user.id,
         message: '',
         type: 'message',
     });
@@ -43,7 +48,6 @@ function MessageBoard({ messageBoard, setMessageBoard, projectId, userId, openSn
         }
     }
 
-
     return (
         <Box sx={{
             border: '1px solid',
@@ -54,6 +58,7 @@ function MessageBoard({ messageBoard, setMessageBoard, projectId, userId, openSn
             <Typography variant="h6" sx={{ textAlign: 'center' }}>
                 Message Board
             </Typography>
+
             {messageBoard && messageBoard.map((message, index) => (
                 <Typography key={index}>
                     {message.username} : {message.message}
@@ -71,7 +76,7 @@ function MessageBoard({ messageBoard, setMessageBoard, projectId, userId, openSn
                 onChange={handleChange}
             />
 
-            <Button onClick={sendMessage}>OK</Button>
+            <Button onClick={sendMessage}>Send</Button>
         </Box>
     )
 }

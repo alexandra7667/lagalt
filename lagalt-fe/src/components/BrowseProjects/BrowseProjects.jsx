@@ -30,7 +30,7 @@ function ProjectsView() {
         if (projects) {
             addTagsToKeywords(projects, setKeywords);
             setFilteredProjects(projects);
-            if(user) matchSkillsAndVisitedProjects();
+            if(user) matchSkillsAndVisitedProjects(projects, user);
         }
     }, [projects, user]);
 
